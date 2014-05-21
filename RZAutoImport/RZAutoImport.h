@@ -36,7 +36,7 @@
 @interface NSObject (RZAutoImport)
 
 /**
- *  Return an instance of the object initialized with the values in the dictionary.
+ *  Return an instance of the calling class initialized with the values in the dictionary.
  *
  *  If the calling class implements RZImportable, it is given the opportunity
  *  to return an existing unique instance of the object that is represented by
@@ -48,9 +48,21 @@
  */
 + (instancetype)rz_objectFromDictionary:(NSDictionary *)dict;
 
-/*
+/**
+ *  Return an array of instances of the calling class initialized with the
+ *  values in the dicitonaries in the provided array.
+ *
+ *  The array parameter should contain only @p NSDictionary instances.
+ *
+ *  If the calling class implements RZImportable, it is given the opportunity
+ *  to return an existing unique instance of an object that is represented by
+ *  each dictionary.
+ *
+ *  @param array An array of @p NSDictionary instances objects to import.
+ *
+ *  @return An array of objects initiailized with the respective values in each dictionary in the array.
+ */
 + (NSArray *)rz_objectsFromArray:(NSArray *)array;
-*/
  
 /**
  *  Import the values from the provided dictionary into this object.

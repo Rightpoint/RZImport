@@ -52,7 +52,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 - (void)test_basicImport
 {
     NSError      *err = nil;
-    NSDictionary *d   = [self loadTestJson:@"test_basic" error:&err];
+    NSDictionary *d   = [self loadTestJson:@"test_person" error:&err];
     XCTAssertNil(err, @"Error reading json: %@", err);
     XCTAssertNotNil(d, @"Could not deserialize json");
     
@@ -85,7 +85,10 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 - (void)test_typeConversion
 {
-    
+    // convert string to number
+    NSDictionary *d = @{ @"id" : @"666" };
+    XCTAssertNoThrow([self.testPerson rz_importValuesFromDict:d], @"Null value should not cause exception");
+    XCTAssertEqualObjects(self.testPerson.ID, @666, @"Failed to convert string to number during import");
 }
 
 - (void)test_dateConversion
