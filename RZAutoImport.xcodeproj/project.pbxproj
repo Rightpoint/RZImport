@@ -6,14 +6,106 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9A90D23E192CF9F000ED28F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
+		9A90D240192CF9F000ED28F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23F192CF9F000ED28F6 /* Foundation.framework */; };
+		9A90D242192CF9F000ED28F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D241192CF9F000ED28F6 /* UIKit.framework */; };
+		9A90D248192CF9F000ED28F6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A90D246192CF9F000ED28F6 /* InfoPlist.strings */; };
+		9A90D24A192CF9F000ED28F6 /* RZAutoImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZAutoImportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A90D23D192CF9F000ED28F6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		9A90D23F192CF9F000ED28F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		9A90D241192CF9F000ED28F6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		9A90D245192CF9F000ED28F6 /* RZAutoImportTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZAutoImportTests-Info.plist"; sourceTree = "<group>"; };
+		9A90D247192CF9F000ED28F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RZAutoImportTests.m; sourceTree = "<group>"; };
+		9A90D24B192CF9F000ED28F6 /* RZAutoImportTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZAutoImportTests-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9A90D237192CF9F000ED28F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A90D23E192CF9F000ED28F6 /* XCTest.framework in Frameworks */,
+				9A90D242192CF9F000ED28F6 /* UIKit.framework in Frameworks */,
+				9A90D240192CF9F000ED28F6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		9A90D22F192CF9CB00ED28F6 = {
 			isa = PBXGroup;
 			children = (
+				9A90D243192CF9F000ED28F6 /* RZAutoImportTests */,
+				9A90D23C192CF9F000ED28F6 /* Frameworks */,
+				9A90D23B192CF9F000ED28F6 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		9A90D23B192CF9F000ED28F6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9A90D23C192CF9F000ED28F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9A90D23D192CF9F000ED28F6 /* XCTest.framework */,
+				9A90D23F192CF9F000ED28F6 /* Foundation.framework */,
+				9A90D241192CF9F000ED28F6 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9A90D243192CF9F000ED28F6 /* RZAutoImportTests */ = {
+			isa = PBXGroup;
+			children = (
+				9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */,
+				9A90D244192CF9F000ED28F6 /* Supporting Files */,
+			);
+			path = RZAutoImportTests;
+			sourceTree = "<group>";
+		};
+		9A90D244192CF9F000ED28F6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9A90D245192CF9F000ED28F6 /* RZAutoImportTests-Info.plist */,
+				9A90D246192CF9F000ED28F6 /* InfoPlist.strings */,
+				9A90D24B192CF9F000ED28F6 /* RZAutoImportTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9A90D239192CF9F000ED28F6 /* RZAutoImportTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests" */;
+			buildPhases = (
+				9A90D236192CF9F000ED28F6 /* Sources */,
+				9A90D237192CF9F000ED28F6 /* Frameworks */,
+				9A90D238192CF9F000ED28F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RZAutoImportTests;
+			productName = RZAutoImportTests;
+			productReference = 9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		9A90D230192CF9CB00ED28F6 /* Project object */ = {
@@ -29,12 +121,47 @@
 				en,
 			);
 			mainGroup = 9A90D22F192CF9CB00ED28F6;
+			productRefGroup = 9A90D23B192CF9F000ED28F6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				9A90D239192CF9F000ED28F6 /* RZAutoImportTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9A90D238192CF9F000ED28F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A90D248192CF9F000ED28F6 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9A90D236192CF9F000ED28F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A90D24A192CF9F000ED28F6 /* RZAutoImportTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9A90D246192CF9F000ED28F6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9A90D247192CF9F000ED28F6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		9A90D234192CF9CB00ED28F6 /* Debug */ = {
@@ -49,6 +176,94 @@
 			};
 			name = Release;
 		};
+		9A90D24D192CF9F000ED28F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZAutoImportTests/RZAutoImportTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "RZAutoImportTests/RZAutoImportTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9A90D24E192CF9F000ED28F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZAutoImportTests/RZAutoImportTests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "RZAutoImportTests/RZAutoImportTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -60,6 +275,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A90D24D192CF9F000ED28F6 /* Debug */,
+				9A90D24E192CF9F000ED28F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
