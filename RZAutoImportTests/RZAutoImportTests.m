@@ -15,9 +15,24 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 @interface RZAutoImportTests : XCTestCase
 
+@property (nonatomic, strong) Person *testPerson;
+
 @end
 
 @implementation RZAutoImportTests
+
+#pragma mark - Setup
+
+- (void)setUp
+{
+    [super setUp];
+    Person *johndoe = [Person new];
+    johndoe.ID = @100;
+    johndoe.lastUpdated = [NSDate date];
+    johndoe.firstName = @"John";
+    johndoe.lastName = @"Doe";
+    self.testPerson = johndoe;
+}
 
 #pragma mark - Utility
 
@@ -52,19 +67,20 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 - (void)test_keyPermutations
 {
+    NSArray *keyPermutations = @[@"firstname", @"FirstName", @"first_name", @"First_Name"];
     
+    for ( NSString *key in keyPermutations ) {
+        NSDictionary *d = @{ key : key };
+        XCTAssertNoThrow([self.testPerson rz_importValuesFromDict:d], @"Import should not throw exception");
+        XCTAssertEqualObjects(self.testPerson.firstName, key, @"Permutation failed: %@", key);
+    }
 }
 
 - (void)test_setNil
 {
     NSDictionary *d = @{ @"firstName" : [NSNull null] };
-    
-    Person *johndoe = [Person new];
-    johndoe.firstName = @"John";
-    johndoe.lastName = @"Doe";
-    
-    XCTAssertNoThrow([johndoe rz_importValuesFromDict:d], @"Null value should not cause exception");
-    XCTAssertNil(johndoe.firstName, @"Failed to set firstname to nil");
+    XCTAssertNoThrow([self.testPerson rz_importValuesFromDict:d], @"Null value should not cause exception");
+    XCTAssertNil(self.testPerson.firstName, @"Failed to set firstname to nil");
 }
 
 - (void)test_typeConversion
