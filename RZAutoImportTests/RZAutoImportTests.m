@@ -57,7 +57,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertNotNil(d, @"Could not deserialize json");
     
     Person *johndoe = nil;
-    XCTAssertNoThrow(johndoe = [Person rz_objectFromDictionary:d], @"Import should not throw exception");
+    XCTAssertNoThrow(johndoe = [Person rzai_objectFromDictionary:d], @"Import should not throw exception");
     XCTAssertNotNil(johndoe, @"Failed to create object");
     XCTAssertNotNil(johndoe.lastUpdated, @"Failed to import last updated");
     XCTAssertEqualObjects(johndoe.ID, @100, @"Failed to import ID");
@@ -71,7 +71,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     
     for ( NSString *key in keyPermutations ) {
         NSDictionary *d = @{ key : key };
-        XCTAssertNoThrow([self.testPerson rz_importValuesFromDict:d], @"Import should not throw exception");
+        XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception");
         XCTAssertEqualObjects(self.testPerson.firstName, key, @"Permutation failed: %@", key);
     }
 }
@@ -79,7 +79,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 - (void)test_setNil
 {
     NSDictionary *d = @{ @"firstName" : [NSNull null] };
-    XCTAssertNoThrow([self.testPerson rz_importValuesFromDict:d], @"Null value should not cause exception");
+    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Null value should not cause exception");
     XCTAssertNil(self.testPerson.firstName, @"Failed to set firstname to nil");
 }
 
@@ -87,7 +87,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 {
     // convert string to number
     NSDictionary *d = @{ @"id" : @"666" };
-    XCTAssertNoThrow([self.testPerson rz_importValuesFromDict:d], @"Null value should not cause exception");
+    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Null value should not cause exception");
     XCTAssertEqualObjects(self.testPerson.ID, @666, @"Failed to convert string to number during import");
 }
 

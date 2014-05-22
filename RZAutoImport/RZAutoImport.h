@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RZImportable.h"
+#import "RZAutoImportable.h"
 
 /**
  *  Automatically map key/value pairs from dictionary to properties
@@ -26,19 +26,19 @@
  *  @"last_name" 
  *  @endcode
  *
- *  Optionally implement @p RZImportable on the object class to manage
+ *  Optionally implement @p RZAutoImportable on the object class to manage
  *  object uniqueness, relationships, and other configuration options.
  *
  *  Inferred mappings are cached for performance when repeatedly importing the
  *  same type of object. If performance is a major concern, you can always implement
- *  the RZImportable protocol and provide a pre-defined mapping.
+ *  the RZAutoImportable protocol and provide a pre-defined mapping.
  */
 @interface NSObject (RZAutoImport)
 
 /**
  *  Return an instance of the calling class initialized with the values in the dictionary.
  *
- *  If the calling class implements RZImportable, it is given the opportunity
+ *  If the calling class implements RZAutoImportable, it is given the opportunity
  *  to return an existing unique instance of the object that is represented by
  *  the dictionary.
  *
@@ -46,7 +46,7 @@
  *
  *  @return An object instance initialized with the values in the dictionary.
  */
-+ (instancetype)rz_objectFromDictionary:(NSDictionary *)dict;
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict;
 
 /**
  *  Return an array of instances of the calling class initialized with the
@@ -54,7 +54,7 @@
  *
  *  The array parameter should contain only @p NSDictionary instances.
  *
- *  If the calling class implements RZImportable, it is given the opportunity
+ *  If the calling class implements RZAutoImportable, it is given the opportunity
  *  to return an existing unique instance of an object that is represented by
  *  each dictionary.
  *
@@ -62,16 +62,16 @@
  *
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
-+ (NSArray *)rz_objectsFromArray:(NSArray *)array;
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array;
  
 /**
  *  Import the values from the provided dictionary into this object.
  *  Uses the implicit key/property mapping and the optional mapping overrides
- *  provided by RZImportable.
+ *  provided by RZAutoImportable.
  *
  *  @param dict Dictionary of values to import.
  */
-- (void)rz_importValuesFromDict:(NSDictionary *)dict;
+- (void)rzai_importValuesFromDict:(NSDictionary *)dict;
 
 
 @end

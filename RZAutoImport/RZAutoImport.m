@@ -271,34 +271,34 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 
 #pragma mark - Public
 
-+ (instancetype)rz_objectFromDictionary:(NSDictionary *)dict
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict
 {
     NSParameterAssert(dict);
     
     id object = nil;
     
-    if ( [self instancesRespondToSelector:@selector(rz_existingObjectForDict:)] ) {
-        object = [[self class] rz_existingObjectForDict:dict];
+    if ( [self instancesRespondToSelector:@selector( rzai_existingObjectForDict: )] ) {
+        object = [[self class] rzai_existingObjectForDict:dict];
     }
     
     if ( object == nil ) {
         object = [[self alloc] init];
     }
-    
-    [object rz_importValuesFromDict:dict];
+
+    [object rzai_importValuesFromDict:dict];
     
     return object;
 }
 
-+ (NSArray *)rz_objectsFromArray:(NSArray *)array
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array
 {
     NSParameterAssert(array);
     
     NSMutableArray *objects = [NSMutableArray array];
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSAssert([obj isKindOfClass:[NSDictionary class]], @"Array passed to rz_objectsFromArray: must only contain NSDictionary instances");
+        NSAssert([obj isKindOfClass:[NSDictionary class]], @"Array passed to rzai_objectsFromArray: must only contain NSDictionary instances");
         if ( [obj isKindOfClass:[NSDictionary class]] ) {
-            id importedObj = [self rz_objectFromDictionary:obj];
+            id importedObj = [self rzai_objectFromDictionary:obj];
             if ( importedObj ) {
                 [objects addObject:importedObj];
             }
@@ -308,16 +308,16 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     return [NSArray arrayWithArray:objects];
 }
 
-- (void)rz_importValuesFromDict:(NSDictionary *)dict
+- (void)rzai_importValuesFromDict:(NSDictionary *)dict
 {
-    BOOL hasCustomImportBlocks = [self respondsToSelector:@selector(rz_customImportBlockForKey:)];
+    BOOL hasCustomImportBlocks = [self respondsToSelector:@selector( rzai_customImportBlockForKey: )];
     
-    NSDictionary *importMapping = [[self class] rz_importMapping];
+    NSDictionary *importMapping = [[self class] rzai_importMapping];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         
         if ( hasCustomImportBlocks ) {
-            RZImportableCustomImportBlock block = [(id<RZImportable>)self rz_customImportBlockForKey:key];
+            RZAutoImportableCustomImportBlock block = [(id <RZAutoImportable>)self rzai_customImportBlockForKey:key];
             if ( block ) {
                 block( key );
                 return;
@@ -328,7 +328,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
         value = RZAINSNullToNil(value);
         
         if ( propDescriptor ) {
-            [self rz_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
+            [self rzai_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
         }
         else {
             RZAILogDebug(@"No property found in class %@ for key %@. Create a custom mapping to import a value for this key.", NSStringFromClass([self class]), key);
@@ -339,7 +339,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 #pragma mark - Private
 
 
-+ (NSDictionary *)rz_importMapping
++ (NSDictionary *)rzai_importMapping
 {
     __block NSDictionary *returnMapping = nil;
     
@@ -353,11 +353,11 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
             mapping = [NSMutableDictionary dictionary];
             
             // Get mappings from the normalized property names
-            [mapping addEntriesFromDictionary:[self rz_normalizedPropertyMappings]];
+            [mapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
             
-            // Get any mappings from the RZImportable protocol
-            if ( [[self class] instancesRespondToSelector:@selector(rz_customKeyMappings)] ) {
-                NSDictionary *customMappings = [[self class] rz_customKeyMappings];
+            // Get any mappings from the RZAutoImportable protocol
+            if ( [[self class] instancesRespondToSelector:@selector( rzai_customKeyMappings )] ) {
+                NSDictionary *customMappings = [[self class] rzai_customKeyMappings];
                 [customMappings enumerateKeysAndObjectsUsingBlock:^(NSString *keyname, NSString *propName, BOOL *stop) {
                     RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
                     propDescriptor.propertyName = propName;
@@ -376,7 +376,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     return returnMapping;
 }
 
-+ (NSDictionary *)rz_normalizedPropertyMappings
++ (NSDictionary *)rzai_normalizedPropertyMappings
 {
     NSMutableDictionary *mappings = [NSMutableDictionary dictionary];
     
@@ -408,7 +408,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     return [NSDictionary dictionaryWithDictionary:mappings];
 }
 
-- (void)rz_setNilForPropertyNamed:(NSString *)propName
+- (void)rzai_setNilForPropertyNamed:(NSString *)propName
 {
     SEL setter = RZAISetterForProperty([self class], propName);
     if ( setter == nil ) {
@@ -428,11 +428,11 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     [invocation invoke];
 }
 
-- (void)rz_setValue:(id)value fromKey:(NSString *)originalKey forPropertyDescriptor:(RZAIPropertyDescriptor *)propDescriptor
+- (void)rzai_setValue:(id)value fromKey:(NSString *)originalKey forPropertyDescriptor:(RZAIPropertyDescriptor *)propDescriptor
 {
     @try {
         if ( value == nil ) {
-            [self rz_setNilForPropertyNamed:propDescriptor.propertyName];
+            [self rzai_setNilForPropertyNamed:propDescriptor.propertyName];
         }
         else {
             

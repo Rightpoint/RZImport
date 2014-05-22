@@ -1,5 +1,5 @@
 //
-//  RZImportable.h
+//  RZAutoImportable.h
 //  RZAutoImport
 //
 //  Created by Nick Donaldson on 5/21/14.
@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^RZImportableCustomImportBlock)(id value);
+typedef void (^RZAutoImportableCustomImportBlock)(id value);
 
-@protocol RZImportable <NSObject>
+@protocol RZAutoImportable <NSObject>
 
 @optional
 
@@ -19,7 +19,7 @@ typedef void (^RZImportableCustomImportBlock)(id value);
  *
  *  @return A dictionary containing mappings from dictionary keys to property names.
  */
-+ (NSDictionary *)rz_customKeyMappings;
++ (NSDictionary *)rzai_customKeyMappings;
 
 /**
  *  Implement to return an existing object for the provided dictionary representation. 
@@ -29,7 +29,7 @@ typedef void (^RZImportableCustomImportBlock)(id value);
  *
  *  @return An existing object instance represented by the dict, or nil if one does not exist.
  */
-+ (instancetype)rz_existingObjectForDict:(NSDictionary *)dict;
++ (instancetype)rzai_existingObjectForDict:(NSDictionary *)dict;
 
 /**
  *  Implement to optionally provide a custom import block for a given key in the dictionary
@@ -42,6 +42,6 @@ typedef void (^RZImportableCustomImportBlock)(id value);
  *  @return An import block that will be used to import the value for the given key, or nil
  *          if the given key does not need a custom import block.
  */
-- (RZImportableCustomImportBlock)rz_customImportBlockForKey:(NSString *)key;
+- (RZAutoImportableCustomImportBlock)rzai_customImportBlockForKey:(NSString *)key;
 
 @end

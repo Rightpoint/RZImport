@@ -10,8 +10,10 @@
 		9A90D23E192CF9F000ED28F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
 		9A90D240192CF9F000ED28F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23F192CF9F000ED28F6 /* Foundation.framework */; };
 		9A90D242192CF9F000ED28F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D241192CF9F000ED28F6 /* UIKit.framework */; };
-		9A90D248192CF9F000ED28F6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A90D246192CF9F000ED28F6 /* InfoPlist.strings */; };
 		9A90D24A192CF9F000ED28F6 /* RZAutoImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */; };
+		9A90D252192CFA5400ED28F6 /* RZAutoImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A90D251192CFA5400ED28F6 /* RZAutoImport.m */; };
+		9A90D258192D00FA00ED28F6 /* test_person.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A90D257192D00FA00ED28F6 /* test_person.json */; };
+		9A90D25C192D1C0900ED28F6 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A90D25B192D1C0900ED28F6 /* Person.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,9 +22,14 @@
 		9A90D23F192CF9F000ED28F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		9A90D241192CF9F000ED28F6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		9A90D245192CF9F000ED28F6 /* RZAutoImportTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZAutoImportTests-Info.plist"; sourceTree = "<group>"; };
-		9A90D247192CF9F000ED28F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RZAutoImportTests.m; sourceTree = "<group>"; };
 		9A90D24B192CF9F000ED28F6 /* RZAutoImportTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZAutoImportTests-Prefix.pch"; sourceTree = "<group>"; };
+		9A90D250192CFA5400ED28F6 /* RZAutoImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZAutoImport.h; sourceTree = "<group>"; };
+		9A90D251192CFA5400ED28F6 /* RZAutoImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZAutoImport.m; sourceTree = "<group>"; };
+		9A90D253192CFFDE00ED28F6 /* RZAutoImportable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZAutoImportable.h; sourceTree = "<group>"; };
+		9A90D257192D00FA00ED28F6 /* test_person.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_person.json; sourceTree = "<group>"; };
+		9A90D25A192D1C0900ED28F6 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		9A90D25B192D1C0900ED28F6 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +49,7 @@
 		9A90D22F192CF9CB00ED28F6 = {
 			isa = PBXGroup;
 			children = (
+				9A90D24F192CFA3900ED28F6 /* RZAutoImport */,
 				9A90D243192CF9F000ED28F6 /* RZAutoImportTests */,
 				9A90D23C192CF9F000ED28F6 /* Frameworks */,
 				9A90D23B192CF9F000ED28F6 /* Products */,
@@ -70,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */,
+				9A90D259192D1BED00ED28F6 /* Model */,
+				9A90D256192D00FA00ED28F6 /* JSON */,
 				9A90D244192CF9F000ED28F6 /* Supporting Files */,
 			);
 			path = RZAutoImportTests;
@@ -79,10 +89,37 @@
 			isa = PBXGroup;
 			children = (
 				9A90D245192CF9F000ED28F6 /* RZAutoImportTests-Info.plist */,
-				9A90D246192CF9F000ED28F6 /* InfoPlist.strings */,
 				9A90D24B192CF9F000ED28F6 /* RZAutoImportTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9A90D24F192CFA3900ED28F6 /* RZAutoImport */ = {
+			isa = PBXGroup;
+			children = (
+				9A90D250192CFA5400ED28F6 /* RZAutoImport.h */,
+				9A90D251192CFA5400ED28F6 /* RZAutoImport.m */,
+				9A90D253192CFFDE00ED28F6 /* RZAutoImportable.h */,
+			);
+			path = RZAutoImport;
+			sourceTree = "<group>";
+		};
+		9A90D256192D00FA00ED28F6 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				9A90D257192D00FA00ED28F6 /* test_person.json */,
+			);
+			name = JSON;
+			path = json;
+			sourceTree = "<group>";
+		};
+		9A90D259192D1BED00ED28F6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9A90D25A192D1C0900ED28F6 /* Person.h */,
+				9A90D25B192D1C0900ED28F6 /* Person.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A90D248192CF9F000ED28F6 /* InfoPlist.strings in Resources */,
+				9A90D258192D00FA00ED28F6 /* test_person.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,22 +183,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A90D25C192D1C0900ED28F6 /* Person.m in Sources */,
 				9A90D24A192CF9F000ED28F6 /* RZAutoImportTests.m in Sources */,
+				9A90D252192CFA5400ED28F6 /* RZAutoImport.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		9A90D246192CF9F000ED28F6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9A90D247192CF9F000ED28F6 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		9A90D234192CF9CB00ED28F6 /* Debug */ = {
