@@ -10,6 +10,7 @@
 
 #import "RZAutoImport.h"
 #import "Person.h"
+#import "Address.h"
 
 extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
@@ -26,6 +27,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 - (void)setUp
 {
     [super setUp];
+    
     Person *johndoe = [Person new];
     johndoe.ID = @100;
     johndoe.lastUpdated = [NSDate date];
@@ -93,7 +95,33 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 - (void)test_dateConversion
 {
+    // Test standard ISO
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+    dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
     
+    NSDate *now = [NSDate date];
+    
+    NSString *dateString = [dateFormatter stringFromDate:now];
+    XCTAssertNotNil( dateString, @"Failed to format date" );
+
+    NSDictionary *d = @{ @"last_updated" : dateString };
+    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Null value should not cause exception");
+    
+    NSString *resultDateString = [dateFormatter stringFromDate:self.testPerson.lastUpdated];
+    XCTAssertEqualObjects(dateString, resultDateString, @"Failed to import date correctly" );
+    
+    // Test custom format
+    dateFormatter.dateFormat = kAddressLastUpdatedFormat;
+    
+    Address *address = [Address new];
+    dateString = [dateFormatter stringFromDate:now];
+    d = @{ @"last_updated" : dateString };
+    
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception");
+
+    resultDateString = [dateFormatter stringFromDate:address.lastUpdated];
+    XCTAssertEqualObjects(dateString, resultDateString, @"Failed to import date correctly" );
 }
 
 @end

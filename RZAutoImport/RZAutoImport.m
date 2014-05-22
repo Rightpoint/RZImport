@@ -501,7 +501,17 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                         __block NSDate *date = nil;
                         [[self class] rzai_performBlockAtomically:^{
                             // TODO: check object protocol for date format
+                            NSString *dateFormat = nil;
                             NSDateFormatter *dateFormatter = [[self class] s_rzai_dateFormatter];
+                            if ( [[self class] respondsToSelector:@selector(rzai_dateFormatForKey:)] ) {
+                                Class <RZAutoImportable> thisClass = [self class];
+                                dateFormat = [thisClass rzai_dateFormatForKey:originalKey];
+                            }
+                            if ( dateFormat == nil ) {
+                                dateFormat = kRZAutoImportISO8601DateFormat;
+                            }
+                            
+                            dateFormatter.dateFormat = dateFormat;
                             date = [dateFormatter dateFromString:value];
                         }];
                         convertedValue = date;

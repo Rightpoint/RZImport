@@ -22,6 +22,16 @@ typedef void (^RZAutoImportableCustomImportBlock)(id value);
 + (NSDictionary *)rzai_customKeyMappings;
 
 /**
+ *  Implement to provide a custom date format string for a particular key or keys.
+ *  Will only be called if the inferred property is an NSDate type and the dict value is a string.
+ *
+ *  @param key Original key from the dictionary being imported.
+ *
+ *  @return A date format to use for importing this key, otherwise nil to use the default (ISO-8601).
+ */
++ (NSString *)rzai_dateFormatForKey:(NSString *)key;
+
+/**
  *  Implement to return an existing object for the provided dictionary representation. 
  *  Use this method to enforce object uniqueness.
  *
@@ -37,7 +47,7 @@ typedef void (^RZAutoImportableCustomImportBlock)(id value);
  *
  *  The returned block is NOT retained - it is totally safe to use @p self within the block.
  *
- *  @param key Key in dictionary being imported.
+ *  @param key Original key from the dictionary being imported.
  *
  *  @return An import block that will be used to import the value for the given key, or nil
  *          if the given key does not need a custom import block.
