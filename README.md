@@ -23,7 +23,7 @@ RZAutoImport automatically performs case-insensitive matches between property na
 
 #### Flexible
 
-Can't name your properties the same as the keys in the dictionary? Need to perform extra validation or import logic? No problem! The `RZAutoImportable` protocol has hooks for specifying custom mappings, custom import blocks per-key, and more!
+Can't name your properties the same as the keys in the dictionary? Need to perform extra validation or import logic? No problem! The `RZAutoImportable` protocol has hooks for specifying custom mappings, custom import logic and validation on a per-key basis, and more!
 
 #### Performant
 
