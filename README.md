@@ -174,7 +174,7 @@ You can also prevent RZAutoImport from importing a value for a particular key, o
 
 ### Uniquing Objects
 
-RZAutoImportable also has a handy method that you can implement to prevent duplicate objects from being created when using `rzai_objectFromDictionary:` or `rzai_objectsFromArray:`.
+`RZAutoImportable` also has a handy method that you can implement on your classes to prevent duplicate objects from being created when using `rzai_objectFromDictionary:` or `rzai_objectsFromArray:`.
 
 ```obj-c
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict
