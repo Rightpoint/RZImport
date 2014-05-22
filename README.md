@@ -51,7 +51,7 @@ NSDictionary *myDictionary = @{
 
 // Create a new Person instance by automatically inferring key/property mappings
 Person *newPerson = [Person rzai_objectFromDictionary:myDictionary];
-
+NSLog(@"ID: %@ Name: %@ %@", newPerson.ID, newPerson.firstName, newPerson.lastName);
 ```
 
 ##### Console Output:
