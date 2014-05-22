@@ -22,12 +22,13 @@
     return nil;
 }
 
-- (RZAutoImportableCustomImportBlock)rzai_customImportBlockForKey:(NSString *)key value:(id)value
+- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key
 {
     if ( [key isEqualToString:@"address"] && [value isKindOfClass:[NSDictionary class]] ) {
         self.address = [Address rzai_objectFromDictionary:value];
+        return NO;
     }
-    return nil;
+    return YES;
 }
 
 @end

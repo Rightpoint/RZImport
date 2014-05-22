@@ -313,16 +313,14 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 
 - (void)rzai_importValuesFromDict:(NSDictionary *)dict
 {
-    BOOL hasCustomImportBlocks = [self respondsToSelector:@selector( rzai_customImportBlockForKey:value: )];
+    BOOL canOverrideImports = [self respondsToSelector:@selector( rzai_shouldImportValue:forKey: )];
     
     NSDictionary *importMapping = [[self class] rzai_importMapping];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         
-        if ( hasCustomImportBlocks ) {
-            RZAutoImportableCustomImportBlock block = [(id <RZAutoImportable>)self rzai_customImportBlockForKey:key value:value];
-            if ( block ) {
-                block( key );
+        if ( canOverrideImports ) {
+            if ( ![(id<RZAutoImportable>)self rzai_shouldImportValue:value forKey:key] ) {
                 return;
             }
         }

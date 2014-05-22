@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^RZAutoImportableCustomImportBlock)(id value);
-
 @protocol RZAutoImportable <NSObject>
 
 @optional
@@ -42,17 +40,15 @@ typedef void (^RZAutoImportableCustomImportBlock)(id value);
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict;
 
 /**
- *  Implement to optionally provide a custom import block for a given key in the dictionary
- *  being imported.
+ *  Implement to optionally prevent import for particular key/value pairs.
+ *  Can be used to validate imported value or override automatic import to perform custom logic.
  *
- *  The returned block is NOT retained - it is totally safe to use @p self within the block.
+ *  @param value Unmodified value from dictionary being imported
+ *  @param key   Unmodified key from dictionary being imported
  *
- *  @param key      Unmodified key from the dictionary being imported.
- *  @param value    Unmodified value from the dictionary being imported.
- *
- *  @return An import block that will be used to import the value for the given key, or nil
- *          if the given key does not need a custom import block.
+ *  @return YES if RZAutoImport should proceed with automatic import for the key/value pair
+            NO if the key/value pair should not be imported or will be handled within this method.
  */
-- (RZAutoImportableCustomImportBlock)rzai_customImportBlockForKey:(NSString *)key value:(id)value;
+- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key;
 
 @end
