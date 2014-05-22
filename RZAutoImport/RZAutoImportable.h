@@ -29,7 +29,7 @@ typedef void (^RZAutoImportableCustomImportBlock)(id value);
  *
  *  @return An existing object instance represented by the dict, or nil if one does not exist.
  */
-+ (instancetype)rzai_existingObjectForDict:(NSDictionary *)dict;
++ (id)rzai_existingObjectForDict:(NSDictionary *)dict;
 
 /**
  *  Implement to optionally provide a custom import block for a given key in the dictionary

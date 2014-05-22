@@ -256,17 +256,19 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 }
 
 /**
- *  This queue is used to synchronize concurrent access when resource contention may be an issue.
- *  DO NOT modify model object state within the sync queue - only manage caches and shared resources.
+ *  Recursive mutex lock used for resource contention.
+ *  Custom import blocks may call into this category so the lock
+ *  must be recursive in order to support recursive accesses on 
+ *  the same thread within the same stack frame.
  */
-+ (dispatch_queue_t)s_rzai_syncQueue
++ (NSRecursiveLock *)s_rzai_mutex
 {
-    static dispatch_queue_t s_syncQueue = nil;
+    static NSRecursiveLock *s_mutex = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_syncQueue = dispatch_queue_create("com.raizlabs.autoImportSync", DISPATCH_QUEUE_SERIAL);
+        s_mutex = [[NSRecursiveLock alloc] init];
     });
-    return s_syncQueue;
+    return s_mutex;
 }
 
 #pragma mark - Public
@@ -277,8 +279,9 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     
     id object = nil;
     
-    if ( [self instancesRespondToSelector:@selector( rzai_existingObjectForDict: )] ) {
-        object = [[self class] rzai_existingObjectForDict:dict];
+    if ( [self respondsToSelector:@selector( rzai_existingObjectForDict: )] ) {
+        Class <RZAutoImportable> thisClass = [self class];
+        object = [thisClass rzai_existingObjectForDict:dict];
     }
     
     if ( object == nil ) {
@@ -338,40 +341,48 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 
 #pragma mark - Private
 
++ (void)rzai_performBlockAtomically:(void(^)())block
+{
+    [[self s_rzai_mutex] lock];
+    if ( block ) {
+        block();
+    }
+    [[self s_rzai_mutex] unlock];
+}
 
 + (NSDictionary *)rzai_importMapping
 {
     __block NSDictionary *returnMapping = nil;
-    
-    dispatch_sync([self s_rzai_syncQueue], ^{
-        
-        NSString *className = NSStringFromClass(self);
-        NSMutableDictionary *mapping = [[[self class] s_rzai_importMappingCache] objectForKey:className];
+
+    [self rzai_performBlockAtomically:^{
+
+        NSString            *className = NSStringFromClass( self );
+        NSMutableDictionary *mapping   = [[[self class] s_rzai_importMappingCache] objectForKey:className];
 
         if ( mapping == nil ) {
-            
+
             mapping = [NSMutableDictionary dictionary];
-            
+
             // Get mappings from the normalized property names
             [mapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
-            
+
             // Get any mappings from the RZAutoImportable protocol
             if ( [[self class] instancesRespondToSelector:@selector( rzai_customKeyMappings )] ) {
-                NSDictionary *customMappings = [[self class] rzai_customKeyMappings];
-                [customMappings enumerateKeysAndObjectsUsingBlock:^(NSString *keyname, NSString *propName, BOOL *stop) {
+                Class <RZAutoImportable> thisClass = [self class];
+                NSDictionary *customMappings = [thisClass rzai_customKeyMappings];
+                [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
                     RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
                     propDescriptor.propertyName = propName;
-                    propDescriptor.dataType = RZAIDataTypeForProperty(propName, self);
-                    [mapping setObject:propDescriptor forKey:RZAINormalizedKey(keyname)];
+                    propDescriptor.dataType = RZAIDataTypeForProperty( propName, self );
+                    [mapping setObject:propDescriptor forKey:RZAINormalizedKey( keyname )];
                 }];
             }
-            
+
             [[[self class] s_rzai_importMappingCache] setObject:mapping forKey:className];
         }
-        
+
         returnMapping = [NSDictionary dictionaryWithDictionary:mapping];
-        
-    });
+    }];
     
     return returnMapping;
 }
@@ -474,9 +485,9 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                     case RZAutoImportDataTypePrimitive:
                     case RZAutoImportDataTypeNSNumber: {
                         __block NSNumber *number = nil;
-                        dispatch_sync([[self class] s_rzai_syncQueue], ^{
+                        [[self class] rzai_performBlockAtomically:^{
                             number = [[[self class] s_rzai_numberFormatter] numberFromString:value];
-                        });
+                        }];
                         convertedValue = number;
                     }
                         break;
@@ -488,11 +499,11 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                     case RZAutoImportDataTypeNSDate: {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
-                        dispatch_sync([[self class] s_rzai_syncQueue], ^{
+                        [[self class] rzai_performBlockAtomically:^{
                             // TODO: check object protocol for date format
                             NSDateFormatter *dateFormatter = [[self class] s_rzai_dateFormatter];
                             date = [dateFormatter dateFromString:value];
-                        });
+                        }];
                         convertedValue = date;
                         
                     }
