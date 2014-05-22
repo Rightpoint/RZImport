@@ -10,6 +10,7 @@
 
 #import "RZAutoImport.h"
 #import "Person.h"
+#import "BigObject.h"
 #import "Address.h"
 #import "TestDataStore.h"
 
@@ -198,6 +199,49 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     d = @{ @"street" : theStreet };
     XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using overridden property mapping" );
+}
+
+- (void)test_threadSafety
+{
+    //
+    // Thread safety test
+    //
+    // Force thread contention by having a long (1 second) background import in progress
+    // while a main thread import starts, 0.5 seconds into the background import.
+    //
+    // The mutex should prevent any resource contention during an import.
+    //
+    
+    for ( NSUInteger i = 0; i < 5; i ++ ) {
+        
+        NSLog(@"Testing thread contention iteration %lu", (unsigned long)(i + 1));
+        
+       __block BOOL done = NO;
+        
+        NSDictionary *d = @{ @"doesn't" : @"matter" };
+        
+        dispatch_queue_t bg1 = dispatch_queue_create("com.rzai.bg1", DISPATCH_QUEUE_SERIAL);
+        
+        __block BOOL delayFired = NO;
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            BigObject *big1 = nil;
+            XCTAssertNoThrow( big1 = [BigObject rzai_objectFromDictionary:d], @"Should not cause exception with thread contention");
+            XCTAssertNotNil(big1, @"There should be an object");
+            delayFired = YES;
+        });
+        
+        dispatch_async(bg1, ^{
+            XCTAssertFalse(delayFired, @"Delayed dispatch should not have fired yet");
+            BigObject *big2 = nil;
+            XCTAssertNoThrow( big2 = [BigObject rzai_objectFromDictionary:d], @"Should not cause exception with thread contention");
+            XCTAssertNotNil(big2, @"There should be an object");
+        });
+        
+        while ( !done && !delayFired ) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[[NSDate date] dateByAddingTimeInterval:0.1]];
+        }
+    }
 }
 
 @end

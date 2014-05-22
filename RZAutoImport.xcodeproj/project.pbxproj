@@ -10,6 +10,7 @@
 		9A66BF7D192E6CE800A0E505 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BF7C192E6CE800A0E505 /* ModelObject.m */; };
 		9A66BF7F192E705E00A0E505 /* test_person_address.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A66BF7E192E705E00A0E505 /* test_person_address.json */; };
 		9A66BF83192E761A00A0E505 /* TestDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BF82192E761A00A0E505 /* TestDataStore.m */; };
+		9A66BFC0192E9A2400A0E505 /* BigObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BFBF192E9A2400A0E505 /* BigObject.m */; };
 		9A90D23E192CF9F000ED28F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
 		9A90D240192CF9F000ED28F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23F192CF9F000ED28F6 /* Foundation.framework */; };
 		9A90D242192CF9F000ED28F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D241192CF9F000ED28F6 /* UIKit.framework */; };
@@ -26,6 +27,8 @@
 		9A66BF7E192E705E00A0E505 /* test_person_address.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_person_address.json; path = RZAutoImportTests/JSON/test_person_address.json; sourceTree = SOURCE_ROOT; };
 		9A66BF81192E761A00A0E505 /* TestDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDataStore.h; sourceTree = "<group>"; };
 		9A66BF82192E761A00A0E505 /* TestDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDataStore.m; sourceTree = "<group>"; };
+		9A66BFBE192E9A2400A0E505 /* BigObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigObject.h; sourceTree = "<group>"; };
+		9A66BFBF192E9A2400A0E505 /* BigObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigObject.m; sourceTree = "<group>"; };
 		9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZAutoImportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A90D23D192CF9F000ED28F6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9A90D23F192CF9F000ED28F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -144,6 +147,8 @@
 				9A90D25B192D1C0900ED28F6 /* Person.m */,
 				AF3F81F1946AEF939DCEF999 /* Address.h */,
 				AF3F8C57EEEA84525127A254 /* Address.m */,
+				9A66BFBE192E9A2400A0E505 /* BigObject.h */,
+				9A66BFBF192E9A2400A0E505 /* BigObject.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -212,6 +217,7 @@
 			files = (
 				9A90D25C192D1C0900ED28F6 /* Person.m in Sources */,
 				9A90D24A192CF9F000ED28F6 /* RZAutoImportTests.m in Sources */,
+				9A66BFC0192E9A2400A0E505 /* BigObject.m in Sources */,
 				9A66BF7D192E6CE800A0E505 /* ModelObject.m in Sources */,
 				9A66BF83192E761A00A0E505 /* TestDataStore.m in Sources */,
 				9A90D252192CFA5400ED28F6 /* RZAutoImport.m in Sources */,
