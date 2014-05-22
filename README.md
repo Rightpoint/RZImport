@@ -148,21 +148,47 @@ If you need to provide a custom mapping from a dictionary key to a property name
 
 ```
 
-
-You can also provide a totally custom import block for specific validation or import logic, or nested relationships with other model objects. Custom blocks also take precedence over inferred mappings, but again, both can be used. If nil is returned, no block will be used to import the value for the given key.
+You can also prevent RZAutoImport from importing a value for a particular key, or import your own custom logic. 
 
 ```
-- (RZAutoImportableCustomImportBlock)rzai_customImportBlockForKey:(NSString *)key value:(id)value
+- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key;
 {
-	if ( [key isEqualToString:@"address"] ) {
-		return ^{
-			
-		};
+	if ( [key isEqualToString:@"zip"] ) {
+		// validation - must be a string that only contains numbers
+		if ( [value isKindOfClass:[NSString class]] ) {
+			return ([value rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location == NSNotFound);
+		}
+		return NO;
 	}
-	return nil;
+	else if ( [key isEqualToString:@"address"] ) {
+		if ( [value isKindOfClass:[NSDictionary class]] ) {
+			// custom import logic
+			self.address = [Address rzai_objectFromDictionary:value];
+		}
+		return NO;
+	}
+	return YES;
 }
 
 ```
 
 ### Uniquing Objects
 
+RZAutoImportable also has a handy method that you can implement to prevent duplicate objects from being created when using `rzai_objectFromDictionary:` or `rzai_objectsFromArray:`.
+
+```
++ (id)rzai_existingObjectForDict:(NSDictionary *)dict
+{
+	// If there is already an object in the data store with the same ID, return it.
+	// The existing instance will be updated and returned instead of a new instance.
+    NSNumber *objID = [dict objectForKey:@"id"];
+    if ( objID != nil ) {
+        return [[DataStore sharedInstance] objectWithClassName:@"Person" forId:objID];
+    }
+    return nil;
+}
+```
+
+## License
+
+RZAutoImport is licensed under the MIT license. See the `LICENSE` file for details.
