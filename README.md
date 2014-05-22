@@ -31,7 +31,7 @@ Key/property mappings are created once and cached, so once an object type has be
 
 #### Example
 
-```
+```obj-c
 @interface Person : NSObject
 
 @property (nonatomic, copy) NSNumber *ID;
@@ -77,7 +77,7 @@ For most in-depth and up-to-date documentation, please read the Apple-doc commen
 
 RZAutoImport can be used to create model objects from a either a dictionary or an array of dictionaries.
 
-```
+```obj-c
 #import "NSObject+RZAutoImport.h"
 
 ...
@@ -112,7 +112,7 @@ RZAutoImport can be used to create model objects from a either a dictionary or a
 
 You can also update an existing object instance from a dictionary.
 
-```
+```obj-c
 Person *myPerson = self.person;
 [myPerson rzai_updateFromDictionary:someDictionary];
 ```
@@ -121,7 +121,7 @@ Person *myPerson = self.person;
 
 If you need to provide a custom mapping from a dictionary key to a property name, implement the `RZAutoImportable` protocol on your model class. Custom mappings will take precedence over inferred mappings, but both can be used for the same class.
 
-```
+```obj-c
 #import "RZAutoImportable.h"
 
 @interface MyModelClass : NSObject <RZAutoImportable>
@@ -150,7 +150,7 @@ If you need to provide a custom mapping from a dictionary key to a property name
 
 You can also prevent RZAutoImport from importing a value for a particular key, or import your own custom logic. 
 
-```
+```obj-c
 - (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key;
 {
 	if ( [key isEqualToString:@"zip"] ) {
@@ -176,7 +176,7 @@ You can also prevent RZAutoImport from importing a value for a particular key, o
 
 RZAutoImportable also has a handy method that you can implement to prevent duplicate objects from being created when using `rzai_objectFromDictionary:` or `rzai_objectsFromArray:`.
 
-```
+```obj-c
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict
 {
 	// If there is already an object in the data store with the same ID, return it.
