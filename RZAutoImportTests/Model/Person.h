@@ -8,9 +8,13 @@
 
 #import "ModelObject.h"
 
+@class Address;
+
 @interface Person : ModelObject
 
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
+
+@property (nonatomic, strong) Address *address;
 
 @end

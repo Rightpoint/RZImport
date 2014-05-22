@@ -61,10 +61,32 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     Person *johndoe = nil;
     XCTAssertNoThrow(johndoe = [Person rzai_objectFromDictionary:d], @"Import should not throw exception");
     XCTAssertNotNil(johndoe, @"Failed to create object");
-    XCTAssertNotNil(johndoe.lastUpdated, @"Failed to import last updated");
+    XCTAssert([johndoe.lastUpdated isKindOfClass:[NSDate class]], @"Failed to import last updated"); // accuracy of date import verified in another test
     XCTAssertEqualObjects(johndoe.ID, @100, @"Failed to import ID");
     XCTAssertEqualObjects(johndoe.firstName, @"John", @"Failed to import first name");
     XCTAssertEqualObjects(johndoe.lastName, @"Doe", @"Failed to import last name");
+}
+
+- (void)test_customImportBlock
+{
+    NSError      *err = nil;
+    NSDictionary *d   = [self loadTestJson:@"test_person_address" error:&err];
+    XCTAssertNil(err, @"Error reading json: %@", err);
+    XCTAssertNotNil(d, @"Could not deserialize json");
+    
+    Person *johndoe = nil;
+    XCTAssertNoThrow(johndoe = [Person rzai_objectFromDictionary:d], @"Import should not throw exception");
+    XCTAssertNotNil(johndoe, @"Failed to create object");
+    
+    Address *johnsAddress = johndoe.address;
+    XCTAssertNotNil(johnsAddress, @"Failed to import address using custom block");
+    if ( johnsAddress ) {
+        XCTAssertEqualObjects(johnsAddress.street1, @"101 Main", @"Failed to import street1");
+        XCTAssertEqualObjects(johnsAddress.street2, @"Apt #2", @"Failed to import street2");
+        XCTAssertEqualObjects(johnsAddress.city, @"Boston", @"Failed to import city");
+        XCTAssertEqualObjects(johnsAddress.state, @"MA", @"Failed to import state");
+        XCTAssertEqualObjects(johnsAddress.zipCode, @"02111", @"Failed to import zip code");
+    }
 }
 
 - (void)test_keyPermutations
@@ -89,8 +111,20 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 {
     // convert string to number
     NSDictionary *d = @{ @"id" : @"666" };
-    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Null value should not cause exception");
+    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception");
     XCTAssertEqualObjects(self.testPerson.ID, @666, @"Failed to convert string to number during import");
+    
+    // convert number to string
+    d = @{ @"firstname" : @666 };
+    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception");
+    XCTAssertEqualObjects(self.testPerson.firstName, @"666", @"Failed to convert number to string during import");
+    
+    // convert unix time to date
+    NSDate *now = [NSDate date];
+    NSTimeInterval t_epoch = [now timeIntervalSince1970];
+    d = @{ @"lastupdated" : @(t_epoch) };
+    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception");
+    XCTAssertEqual([self.testPerson.lastUpdated timeIntervalSince1970], t_epoch, @"Failed to import date from unix time");
 }
 
 - (void)test_dateConversion
@@ -122,6 +156,27 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
     resultDateString = [dateFormatter stringFromDate:address.lastUpdated];
     XCTAssertEqualObjects(dateString, resultDateString, @"Failed to import date correctly" );
+}
+
+- (void)test_customMapping
+{
+    Address *address = [Address new];
+
+    // Both custom and inferred mappings should work
+    NSString* const theStreet = @"101 Main St.";
+    NSDictionary *d = @{ @"street1" : theStreet };
+    
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception");
+    XCTAssertEqualObjects(address.street1, theStreet, @"Failed to import using inferred property mapping");
+    
+    d = @{ @"street" : theStreet };
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception");
+    XCTAssertEqualObjects(address.street1, theStreet, @"Failed to import using overridden property mapping");
+}
+
+- (void)test_customImport
+{
+    
 }
 
 @end

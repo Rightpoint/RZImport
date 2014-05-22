@@ -313,14 +313,14 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 
 - (void)rzai_importValuesFromDict:(NSDictionary *)dict
 {
-    BOOL hasCustomImportBlocks = [self respondsToSelector:@selector( rzai_customImportBlockForKey: )];
+    BOOL hasCustomImportBlocks = [self respondsToSelector:@selector( rzai_customImportBlockForKey:value: )];
     
     NSDictionary *importMapping = [[self class] rzai_importMapping];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         
         if ( hasCustomImportBlocks ) {
-            RZAutoImportableCustomImportBlock block = [(id <RZAutoImportable>)self rzai_customImportBlockForKey:key];
+            RZAutoImportableCustomImportBlock block = [(id <RZAutoImportable>)self rzai_customImportBlockForKey:key value:value];
             if ( block ) {
                 block( key );
                 return;
@@ -367,7 +367,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
             [mapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
 
             // Get any mappings from the RZAutoImportable protocol
-            if ( [[self class] instancesRespondToSelector:@selector( rzai_customKeyMappings )] ) {
+            if ( [[self class] respondsToSelector:@selector( rzai_customKeyMappings )] ) {
                 Class <RZAutoImportable> thisClass = [self class];
                 NSDictionary *customMappings = [thisClass rzai_customKeyMappings];
                 [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {

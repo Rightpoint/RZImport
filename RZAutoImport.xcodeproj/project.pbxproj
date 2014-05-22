@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A66BF7D192E6CE800A0E505 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BF7C192E6CE800A0E505 /* ModelObject.m */; };
+		9A66BF7F192E705E00A0E505 /* test_person_address.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A66BF7E192E705E00A0E505 /* test_person_address.json */; };
 		9A90D23E192CF9F000ED28F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
 		9A90D240192CF9F000ED28F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23F192CF9F000ED28F6 /* Foundation.framework */; };
 		9A90D242192CF9F000ED28F6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D241192CF9F000ED28F6 /* UIKit.framework */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		9A66BF7B192E6CE800A0E505 /* ModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelObject.h; sourceTree = "<group>"; };
 		9A66BF7C192E6CE800A0E505 /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelObject.m; sourceTree = "<group>"; };
+		9A66BF7E192E705E00A0E505 /* test_person_address.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_person_address.json; path = RZAutoImportTests/JSON/test_person_address.json; sourceTree = SOURCE_ROOT; };
 		9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZAutoImportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A90D23D192CF9F000ED28F6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9A90D23F192CF9F000ED28F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				9A90D257192D00FA00ED28F6 /* test_person.json */,
+				9A66BF7E192E705E00A0E505 /* test_person_address.json */,
 			);
 			name = JSON;
 			path = json;
@@ -183,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A90D258192D00FA00ED28F6 /* test_person.json in Resources */,
+				9A66BF7F192E705E00A0E505 /* test_person_address.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
