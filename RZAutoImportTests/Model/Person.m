@@ -8,9 +8,19 @@
 
 #import "Person.h"
 #import "Address.h"
+#import "TestDataStore.h"
 #import "RZAutoImport.h"
 
 @implementation Person
+
++ (id)rzai_existingObjectForDict:(NSDictionary *)dict
+{
+    NSNumber *objID = [dict objectForKey:@"id"];
+    if ( objID != nil ) {
+        return [[TestDataStore sharedInstance] objectWithClassName:@"Person" forId:objID];
+    }
+    return nil;
+}
 
 - (RZAutoImportableCustomImportBlock)rzai_customImportBlockForKey:(NSString *)key value:(id)value
 {

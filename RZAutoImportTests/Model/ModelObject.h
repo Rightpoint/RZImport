@@ -10,7 +10,9 @@
 
 @interface ModelObject : NSObject <RZAutoImportable>
 
-@property (nonatomic, copy) NSNumber *ID;
+@property (nonatomic, readonly, copy) NSNumber *ID;
 @property (nonatomic, copy) NSDate   *lastUpdated;
+
+- (instancetype)initWithID:(NSNumber *)theID;
 
 @end

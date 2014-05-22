@@ -10,4 +10,13 @@
 
 @implementation ModelObject
 
+- (instancetype)initWithID:(NSNumber *)theID
+{
+    self = [super init];
+    if (self) {
+        _ID = theID;
+    }
+    return self;
+}
+
 @end
