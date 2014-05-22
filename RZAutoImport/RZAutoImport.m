@@ -10,7 +10,7 @@
 #import <objc/runtime.h>
 
 // ===============================================
-//              Data Type Enumeration
+//            Constants and Enums
 // ===============================================
 
 /**
@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger, RZAutoImportDataType)
     RZAutoImportDataTypeNSString,
     RZAutoImportDataTypeNSDate
 };
+
+static NSString* const kRZAutoImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 // ===============================================
 //          Utility Macros and Functions
@@ -85,16 +87,22 @@ static RZAutoImportDataType RZAIDataTypeForProperty( NSString *propertyName, Cla
             
         // Object class
         case '@': {
-            NSString *typeString = [[NSString stringWithUTF8String:typeEncoding] substringFromIndex:1];
             
-            if ( [typeString isEqualToString:@"NSString"]) {
-                type = RZAutoImportDataTypeNSString;
-            }
-            else if ( [typeString isEqualToString:@"NSNumber"] ) {
-                type = RZAutoImportDataTypeNSNumber;
-            }
-            else if ( [typeString isEqualToString:@"NSDate"] ) {
-                type = RZAutoImportDataTypeNSDate;
+            NSUInteger typeLength = (NSUInteger)strlen(typeEncoding);
+            
+            if ( typeLength > 3 ) {
+                
+                NSString *typeString = [[NSString stringWithUTF8String:typeEncoding] substringWithRange:NSMakeRange(2, typeLength - 3)];
+                
+                if ( [typeString isEqualToString:@"NSString"]) {
+                    type = RZAutoImportDataTypeNSString;
+                }
+                else if ( [typeString isEqualToString:@"NSNumber"] ) {
+                    type = RZAutoImportDataTypeNSNumber;
+                }
+                else if ( [typeString isEqualToString:@"NSDate"] ) {
+                    type = RZAutoImportDataTypeNSDate;
+                }
             }
         }
             break;
@@ -169,6 +177,20 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 }
 
 // ===============================================
+//           Propery Descriptor Class
+// ===============================================
+
+@interface RZAIPropertyDescriptor : NSObject
+
+@property (nonatomic, copy)   NSString *propertyName;
+@property (nonatomic, assign) RZAutoImportDataType dataType;
+
+@end
+
+@implementation RZAIPropertyDescriptor
+@end
+
+// ===============================================
 //           Category Implementation
 // ===============================================
 
@@ -176,7 +198,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 
 #pragma mark - Static
 
-+ (NSMutableDictionary *)s_rz_importMappingCache
++ (NSMutableDictionary *)s_rzai_importMappingCache
 {
     static NSMutableDictionary *s_importMappingCache = nil;
     static dispatch_once_t onceToken;
@@ -186,7 +208,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     return s_importMappingCache;
 }
 
-+ (NSSet *)s_rz_ignoredClasses
++ (NSSet *)s_rzai_ignoredClasses
 {
     static NSSet *s_ignoredClasses = nil;
     static dispatch_once_t onceToken;
@@ -199,15 +221,52 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     return s_ignoredClasses;
 }
 
-+ (NSLock *)s_rz_cacheLock
++ (NSNumberFormatter *)s_rzai_numberFormatter
 {
-    static NSLock *s_cacheLock = nil;
+    static NSNumberFormatter *s_numberFormatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_cacheLock      = [[NSLock alloc] init];
-        s_cacheLock.name = @"com.raizlabs.autoImportCacheLock";
+        s_numberFormatter = [[NSNumberFormatter alloc] init];
+        s_numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+        
+        // !!!: The locale is mandated to be US, so JSON API responses will parse correctly regardless of locality.
+        //      If other localization is required, custom import blocks must be used.
+        s_numberFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
     });
-    return s_cacheLock;
+    return s_numberFormatter;
+}
+
++ (NSDateFormatter *)s_rzai_dateFormatter
+{
+    static NSDateFormatter *s_dateFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_dateFormatter = [[NSDateFormatter alloc] init];
+        s_dateFormatter.dateFormat = kRZAutoImportISO8601DateFormat;
+        
+        // !!!: The time zone is mandated to be GMT for parsing string dates.
+        //      Any timezone offsets should be encoded into the date string or handled on the display level.
+        s_dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+        
+        // !!!: The locale is mandated to be US, so JSON API responses will parse correctly regardless of locality.
+        //      If other localization is required, custom import blocks must be used.
+        s_dateFormatter.locale   = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+    });
+    return s_dateFormatter;
+}
+
+/**
+ *  This queue is used to synchronize concurrent access when resource contention may be an issue.
+ *  DO NOT modify model object state within the sync queue - only manage caches and shared resources.
+ */
++ (dispatch_queue_t)s_rzai_syncQueue
+{
+    static dispatch_queue_t s_syncQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_syncQueue = dispatch_queue_create("com.raizlabs.autoImportSync", DISPATCH_QUEUE_SERIAL);
+    });
+    return s_syncQueue;
 }
 
 #pragma mark - Public
@@ -265,55 +324,56 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
             }
         }
         
-        NSString *propName = [importMapping objectForKey:RZAINormalizedKey(key)];
+        RZAIPropertyDescriptor *propDescriptor = [importMapping objectForKey:RZAINormalizedKey(key)];
         value = RZAINSNullToNil(value);
         
-        if ( propName ) {
-            @try {
-                if ( value == nil ) {
-                    [self rz_setNilForPropertyNamed:propName];
-                }
-                else {
-                    [self setValue:value forKey:propName];
-                }
-            }
-            @catch ( NSException *exception ) {
-                RZAILogError(@"Could not set value %@ for property %@ of class %@", value, propName, NSStringFromClass([self class]));
-            }
+        if ( propDescriptor ) {
+            [self rz_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
         }
         else {
-            RZAILogDebug(@"No property found in class %@ for key %@", NSStringFromClass([self class]), key);
+            RZAILogDebug(@"No property found in class %@ for key %@. Create a custom mapping to import a value for this key.", NSStringFromClass([self class]), key);
         }
     }];
 }
 
 #pragma mark - Private
 
+
 + (NSDictionary *)rz_importMapping
 {
-    [[[self class] s_rz_cacheLock] lock];
+    __block NSDictionary *returnMapping = nil;
     
-    NSString *className = NSStringFromClass(self);
-    
-    NSMutableDictionary *mapping = [[[self class] s_rz_importMappingCache] objectForKey:className];
-    if ( mapping == nil ) {
+    dispatch_sync([self s_rzai_syncQueue], ^{
         
-        mapping = [NSMutableDictionary dictionary];
-        
-        // Get mappings from the normalized property names
-        [mapping addEntriesFromDictionary:[self rz_normalizedPropertyMappings]];
-        
-        // Get any mappings from the RZImportable protocol
-        if ( [[self class] instancesRespondToSelector:@selector(rz_customKeyMappings)] ) {
-            [mapping addEntriesFromDictionary:[[self class] rz_customKeyMappings]];
+        NSString *className = NSStringFromClass(self);
+        NSMutableDictionary *mapping = [[[self class] s_rzai_importMappingCache] objectForKey:className];
+
+        if ( mapping == nil ) {
+            
+            mapping = [NSMutableDictionary dictionary];
+            
+            // Get mappings from the normalized property names
+            [mapping addEntriesFromDictionary:[self rz_normalizedPropertyMappings]];
+            
+            // Get any mappings from the RZImportable protocol
+            if ( [[self class] instancesRespondToSelector:@selector(rz_customKeyMappings)] ) {
+                NSDictionary *customMappings = [[self class] rz_customKeyMappings];
+                [customMappings enumerateKeysAndObjectsUsingBlock:^(NSString *keyname, NSString *propName, BOOL *stop) {
+                    RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
+                    propDescriptor.propertyName = propName;
+                    propDescriptor.dataType = RZAIDataTypeForProperty(propName, self);
+                    [mapping setObject:propDescriptor forKey:RZAINormalizedKey(keyname)];
+                }];
+            }
+            
+            [[[self class] s_rzai_importMappingCache] setObject:mapping forKey:className];
         }
         
-        [[[self class] s_rz_importMappingCache] setObject:mapping forKey:className];
-    }
-
-    [[[self class] s_rz_cacheLock] unlock];
+        returnMapping = [NSDictionary dictionaryWithDictionary:mapping];
+        
+    });
     
-    return [NSDictionary dictionaryWithDictionary:mapping];
+    return returnMapping;
 }
 
 + (NSDictionary *)rz_normalizedPropertyMappings
@@ -321,19 +381,28 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     NSMutableDictionary *mappings = [NSMutableDictionary dictionary];
     
     // Get property names from this class and all inherited classes
-    NSMutableArray *propNames = [NSMutableArray array];
+    NSMutableArray *propDescriptors = [NSMutableArray array];
+
     Class currentClass = [self class];
     while ( currentClass != Nil ) {
         
         NSString *className = NSStringFromClass(currentClass);
-        if ( ![[[self class] s_rz_ignoredClasses] containsObject:className] ) {
-            [propNames addObjectsFromArray:RZAIPropertyNamesForClass(currentClass)];
+        
+        if ( ![[[self class] s_rzai_ignoredClasses] containsObject:className] ) {
+            NSArray *classPropNames = RZAIPropertyNamesForClass(currentClass);
+            [classPropNames enumerateObjectsUsingBlock:^(NSString *classPropName, NSUInteger idx, BOOL *stop) {
+                RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
+                propDescriptor.propertyName = classPropName;
+                propDescriptor.dataType = RZAIDataTypeForProperty(classPropName, self);
+                [propDescriptors addObject:propDescriptor];
+            }];
         }
+        
         currentClass = class_getSuperclass( currentClass );
     }
     
-    [propNames enumerateObjectsUsingBlock:^(NSString *propName, NSUInteger idx, BOOL *stop) {
-        [mappings setObject:propName forKey:RZAINormalizedKey(propName)];
+    [propDescriptors enumerateObjectsUsingBlock:^(RZAIPropertyDescriptor *propDescriptor, NSUInteger idx, BOOL *stop) {
+        [mappings setObject:propDescriptor forKey:RZAINormalizedKey(propDescriptor.propertyName)];
     }];
     
     return [NSDictionary dictionaryWithDictionary:mappings];
@@ -357,6 +426,109 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     id nilValue = nil;
     [invocation setArgument:&nilValue atIndex:2];
     [invocation invoke];
+}
+
+- (void)rz_setValue:(id)value fromKey:(NSString *)originalKey forPropertyDescriptor:(RZAIPropertyDescriptor *)propDescriptor
+{
+    @try {
+        if ( value == nil ) {
+            [self rz_setNilForPropertyNamed:propDescriptor.propertyName];
+        }
+        else {
+            
+            id convertedValue = nil;
+            
+            if ( [value isKindOfClass:[NSNumber class]] ) {
+              
+                switch (propDescriptor.dataType) {
+
+                    case RZAutoImportDataTypeNSNumber:
+                    case RZAutoImportDataTypePrimitive:
+                        convertedValue = value;
+                        break;
+
+                    case RZAutoImportDataTypeNSString:
+                        convertedValue = [value stringValue];
+                        break;
+                        
+                    case RZAutoImportDataTypeNSDate: {
+                        // Assume it's a unix timestamp
+                        convertedValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
+                        
+                        RZAILogDebug(@"Received a number for key [%@] matching property [%@] of class [%@]. Assuming unix timestamp.",
+                                     originalKey,
+                                     propDescriptor.propertyName,
+                                     NSStringFromClass([self class]));
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+            }
+            else if ( [value isKindOfClass:[NSString class]] ) {
+                
+                switch (propDescriptor.dataType) {
+
+                    case RZAutoImportDataTypePrimitive:
+                    case RZAutoImportDataTypeNSNumber: {
+                        __block NSNumber *number = nil;
+                        dispatch_sync([[self class] s_rzai_syncQueue], ^{
+                            number = [[[self class] s_rzai_numberFormatter] numberFromString:value];
+                        });
+                        convertedValue = number;
+                    }
+                        break;
+                        
+                    case RZAutoImportDataTypeNSString:
+                        convertedValue = value;
+                        break;
+                        
+                    case RZAutoImportDataTypeNSDate: {
+                        // Check for a date format from the object. If not provided, use ISO-8601.
+                        __block NSDate *date = nil;
+                        dispatch_sync([[self class] s_rzai_syncQueue], ^{
+                            // TODO: check object protocol for date format
+                            NSDateFormatter *dateFormatter = [[self class] s_rzai_dateFormatter];
+                            date = [dateFormatter dateFromString:value];
+                        });
+                        convertedValue = date;
+                        
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+            }
+            else if ( [value isKindOfClass:[NSDate class]] ) {
+                
+                // This will not occur in raw JSON deserialization,
+                // but the conversion may have already happened in an external method.
+                if ( propDescriptor.dataType == RZAutoImportDataTypeNSDate ) {
+                    convertedValue = value;
+                }
+                
+            }
+            
+            if ( convertedValue ) {
+                [self setValue:convertedValue forKey:propDescriptor.propertyName];
+            }
+            else {
+                RZAILogError(@"Could not convert value of type [%@] from key [%@] to correct type for property [%@] of class [%@]",
+                             NSStringFromClass([value class]),
+                             originalKey,
+                             propDescriptor.propertyName,
+                             NSStringFromClass([self class]));
+            }
+            
+        }
+    }
+    @catch ( NSException *exception ) {
+        RZAILogError(@"Could not set value %@ for property %@ of class %@", value, propDescriptor.propertyName, NSStringFromClass([self class]));
+    }
 }
 
 @end
