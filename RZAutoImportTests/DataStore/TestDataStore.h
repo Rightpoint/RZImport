@@ -13,6 +13,8 @@
 + (instancetype)sharedInstance;
 
 - (void)addObject:(ModelObject *)modelObject;
+- (void)removeObject:(ModelObject *)modelObject;
+
 - (id)objectWithClassName:(NSString *)className forId:(NSNumber *)objectID;
 
 @end

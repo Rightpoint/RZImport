@@ -35,7 +35,14 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     johndoe.lastName = @"Doe";
     self.testPerson = johndoe;
     
-    [[TestDataStore sharedInstance] addObject:johndoe];
+    [[TestDataStore sharedInstance] addObject:self.testPerson];
+}
+
+- (void)tearDown
+{
+    [super tearDown];
+    
+    [[TestDataStore sharedInstance] removeObject:self.testPerson];
 }
 
 #pragma mark - Utility
@@ -94,7 +101,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 - (void)test_existingObject
 {
     // Make sure john is already in the data store
-    XCTAssertNil( [[TestDataStore sharedInstance] objectWithClassName:@"Person" forId:@100], @"Test person should already be in data store" );
+    XCTAssertNotNil( [[TestDataStore sharedInstance] objectWithClassName:@"Person" forId:@100], @"Test person should already be in data store" );
     
     NSDictionary *d = @{
         @"id" : @100,
@@ -102,7 +109,10 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
         @"lastname" : @"Dole"
     };
 
-    
+    Person *samePerson = [Person rzai_objectFromDictionary:d];
+    XCTAssertEqual( samePerson, self.testPerson, @"Should be same object from data store" );
+    XCTAssertEqualObjects( self.testPerson.firstName, @"Bob", @"Failed to set new first name" );
+    XCTAssertEqualObjects( self.testPerson.lastName, @"Dole", @"Failed to set new last name" );
 }
 
 - (void)test_keyPermutations
@@ -188,11 +198,6 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     d = @{ @"street" : theStreet };
     XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using overridden property mapping" );
-}
-
-- (void)test_customImport
-{
-    
 }
 
 @end

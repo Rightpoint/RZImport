@@ -46,6 +46,15 @@
     [[self objectCacheForClassName:className] setObject:modelObject forKey:modelObject.ID];
 }
 
+- (void)removeObject:(ModelObject *)modelObject
+{
+    NSParameterAssert(modelObject);
+    NSAssert(modelObject.ID != nil, @"Objects must have an ID to be removed from the database");
+    
+    NSString *className = NSStringFromClass([modelObject class]);
+    [[self objectCacheForClassName:className] removeObjectForKey:modelObject.ID];
+}
+
 - (id)objectWithClassName:(NSString *)className forId:(NSNumber *)objectID
 {
     NSParameterAssert(className);
