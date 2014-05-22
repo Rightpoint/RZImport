@@ -189,6 +189,10 @@ RZAutoImportable also has a handy method that you can implement to prevent dupli
 }
 ```
 
+## Known Issues
+
+RZAutoImport cannot currently be used to create instances of subclasses of `NSManagedObject`. However, there is no reason it will not work for *updating* instances of subclasses of `NSManagedObject` dictionary if they have already been allocated from an entity description.
+
 ## License
 
 RZAutoImport is licensed under the MIT license. See the `LICENSE` file for details.
