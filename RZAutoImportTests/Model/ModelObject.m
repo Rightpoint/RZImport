@@ -13,7 +13,7 @@
 - (instancetype)initWithID:(NSNumber *)theID
 {
     self = [super init];
-    if (self) {
+    if ( self ) {
         _ID = theID;
     }
     return self;

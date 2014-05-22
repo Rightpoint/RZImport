@@ -29,7 +29,7 @@
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
+    if ( self ) {
         _objectCache = [NSMutableDictionary dictionary];
     }
     return self;
