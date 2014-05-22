@@ -368,8 +368,10 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 
             // Get any mappings from the RZAutoImportable protocol
             if ( [[self class] respondsToSelector:@selector( rzai_customKeyMappings )] ) {
+                
                 Class <RZAutoImportable> thisClass = [self class];
                 NSDictionary *customMappings = [thisClass rzai_customKeyMappings];
+                
                 [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
                     RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
                     propDescriptor.propertyName = propName;
@@ -500,13 +502,15 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
                         [[self class] rzai_performBlockAtomically:^{
-                            // TODO: check object protocol for date format
-                            NSString *dateFormat = nil;
-                            NSDateFormatter *dateFormatter = [[self class] s_rzai_dateFormatter];
+
+                            NSString        *dateFormat     = nil;
+                            NSDateFormatter *dateFormatter  = [[self class] s_rzai_dateFormatter];
+                            
                             if ( [[self class] respondsToSelector:@selector(rzai_dateFormatForKey:)] ) {
                                 Class <RZAutoImportable> thisClass = [self class];
                                 dateFormat = [thisClass rzai_dateFormatForKey:originalKey];
                             }
+                            
                             if ( dateFormat == nil ) {
                                 dateFormat = kRZAutoImportISO8601DateFormat;
                             }
@@ -531,7 +535,6 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                 if ( propDescriptor.dataType == RZAutoImportDataTypeNSDate ) {
                     convertedValue = value;
                 }
-                
             }
             
             if ( convertedValue ) {
@@ -544,7 +547,6 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                              propDescriptor.propertyName,
                              NSStringFromClass([self class]));
             }
-            
         }
     }
     @catch ( NSException *exception ) {
