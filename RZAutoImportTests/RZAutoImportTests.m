@@ -214,11 +214,11 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     
     for ( NSUInteger i = 0; i < 5; i ++ ) {
         
-        NSLog(@"Testing thread contention iteration %lu", (unsigned long)(i + 1));
+        NSLog(@"Testing thread contention - iteration %lu", (unsigned long)(i + 1));
         
        __block BOOL done = NO;
         
-        NSDictionary *d = @{ @"doesn't" : @"matter" };
+        NSDictionary *d = @{ @"id" : @100 };
         
         dispatch_queue_t bg1 = dispatch_queue_create("com.rzai.bg1", DISPATCH_QUEUE_SERIAL);
         

@@ -10,12 +10,11 @@
 
 @implementation BigObject
 
-- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key
++ (NSDictionary *)rzai_customKeyMappings
 {
-    // emulate a long (1 second) import for thread contention testing
+    // test thread contention by having this take awhile
     sleep(1);
-    self.lotsOfData = [NSData data];
-    return NO;
+    return @{};
 }
 
 @end
