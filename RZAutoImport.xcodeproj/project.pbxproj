@@ -231,6 +231,7 @@
 		9A90D234192CF9CB00ED28F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
