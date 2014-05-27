@@ -11,9 +11,8 @@ xcode_scheme: RZAutoImportTests
 #
 
 notifications:
-	email:
-		recipients:
-			- nick.donaldson@raizlabs.com
-		on_success: change
-		on_failure: always
-		
+    email:
+        recipients:
+         - nick.donaldson@raizlabs.com
+        on_success: change
+        on_failure: always
