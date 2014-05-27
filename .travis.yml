@@ -3,9 +3,6 @@
 #
 
 language: objective-c
-before_install:
-    - brew update
-    - brew install xctool --HEAD
 script: run_tests.sh
 
 #
