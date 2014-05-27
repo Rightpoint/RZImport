@@ -1,0 +1,19 @@
+#
+# build
+#
+
+language: objective-c
+xcode_project: Example/RZAutoImport.xcodeproj
+xcode_scheme: RZAutoImportTests
+
+#
+# notifications
+#
+
+notifications:
+	email:
+		recipients:
+			- nick.donaldson@raizlabs.com
+		on_success: change
+		on_failure: always
+		
