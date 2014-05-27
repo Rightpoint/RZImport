@@ -148,7 +148,7 @@ If you need to provide a custom mapping from a dictionary key to a property name
 
 ```
 
-You can also prevent RZAutoImport from importing a value for a particular key, or import your own custom logic. 
+You can also prevent RZAutoImport from importing a value for a particular key, or import the value of a key using your own custom logic. 
 
 ```obj-c
 - (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key;
