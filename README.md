@@ -191,7 +191,7 @@ You can also prevent RZAutoImport from importing a value for a particular key, o
 
 ## Known Issues
 
-RZAutoImport cannot currently be used to create instances of subclasses of `NSManagedObject`. However, there is no reason it will not work for *updating* instances of subclasses of `NSManagedObject` dictionary if they have already been allocated from an entity description.
+RZAutoImport uses the default designated initializer `init` when it creates new object instances, therefore it cannot be used with classes that require another designated initializer. For example, this means that RZAutoImport cannot be used to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary.
 
 ## License
 
