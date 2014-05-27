@@ -24,4 +24,16 @@ NSString* const kAddressLastUpdatedFormat = @"yyyy-MM-dd_HH:mm";
     return nil;
 }
 
+- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key
+{
+    if ( [key isEqualToString:@"zip"] ) {
+        // validation - must be a string that only contains numbers
+        if ( [value isKindOfClass:[NSString class]] ) {
+            return ([value rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location == NSNotFound);
+        }
+        return NO;
+    }
+    return YES;
+}
+
 @end

@@ -167,7 +167,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertNotNil( dateString, @"Failed to format date" );
 
     NSDictionary *d = @{ @"last_updated" : dateString };
-    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Null value should not cause exception" );
+    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception"  );
     
     NSString *resultDateString = [dateFormatter stringFromDate:self.testPerson.lastUpdated];
     XCTAssertEqualObjects( dateString, resultDateString, @"Failed to import date correctly" );
@@ -179,7 +179,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     dateString = [dateFormatter stringFromDate:now];
     d = @{ @"last_updated" : dateString };
     
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception" );
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not cause exception"  );
 
     resultDateString = [dateFormatter stringFromDate:address.lastUpdated];
     XCTAssertEqualObjects( dateString, resultDateString, @"Failed to import date correctly" );
@@ -193,12 +193,35 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     NSString* const theStreet = @"101 Main St.";
     NSDictionary *d = @{ @"street1" : theStreet };
     
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception" );
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
     
     d = @{ @"street" : theStreet };
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Null value should not cause exception" );
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception"  );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using overridden property mapping" );
+}
+
+- (void)test_validation
+{
+    Address *address = [Address new];
+    
+    NSString* const theStreet = @"101 Main St.";
+    NSDictionary *d = @{
+        @"street1" : theStreet,
+        @"zip" : @"01234"
+    };
+    
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
+    
+    // Ensure that the valid zip code imported correctly
+    XCTAssertEqualObjects( address.zipCode, @"01234", @"Failed to import valid zip code");
+    
+    // Import invalid zip code and make sure it fails - should keep previous value
+    d = @{ @"zip" : @"not10202valid" };
+    
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertEqualObjects( address.zipCode, @"01234", @"Failed block import of invalid zip code");
 }
 
 - (void)test_threadSafety
@@ -209,7 +232,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     // Force thread contention by having a long (1 second) background import in progress
     // while a main thread import starts, 0.5 seconds into the background import.
     //
-    // The mutex should prevent any resource contention during an import.
+    // The recursive lock should prevent any resource contention during an import.
     //
     
     for ( NSUInteger i = 0; i < 5; i ++ ) {
