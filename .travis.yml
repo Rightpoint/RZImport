@@ -3,7 +3,11 @@
 #
 
 language: objective-c
-script: run_tests.sh
+before_install:
+    - brew update
+    - brew upgrade xctool
+script: 
+    - ./run_tests.sh
 
 #
 # notifications
