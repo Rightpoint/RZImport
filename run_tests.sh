@@ -1,5 +1,10 @@
 #!/bin/bash
-# Requires xctool
+
+# Requires homebrew and xctool
+# Try to update xctool but eat the error code if it's already up to date
+echo "Attempting to update xctool"
+brew update
+brew upgrade xctool
 
 WORKSPACE_PATH=RZAutoImport.xcworkspace
 SCHEME_NAME=RZAutoImportTests
@@ -11,3 +16,5 @@ for SDK in "${TEST_SDKS[@]}"
 do
 	xctool -workspace "$WORKSPACE_PATH" -scheme "$SCHEME_NAME" -sdk "$SDK" test
 done
+
+exit 0
