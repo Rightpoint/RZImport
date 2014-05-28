@@ -1,0 +1,9 @@
+
+language: objective-c
+script: ./run_tests.sh
+notifications:
+    email:
+        recipients:
+         - nick.donaldson@raizlabs.com
+        on_success: change
+        on_failure: always

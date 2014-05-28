@@ -10,7 +10,7 @@
 
 @implementation BigObject
 
-+ (NSDictionary *)rzai_customKeyMappings
++ (NSDictionary *)rzai_customMappings
 {
     // test thread contention by having this take awhile
     sleep(1);

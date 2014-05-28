@@ -1,13 +1,15 @@
 RZAutoImport
 ============
 
+[![Build Status](https://travis-ci.org/Raizlabs/RZAutoImport.svg)](https://travis-ci.org/Raizlabs/RZAutoImport)
+
 Tired of writing boilerplate to import deserialized API responses to model objects? 
 
 Tired of dealing with dozens and dozens of string keys? 
 
 RZAutoImport is here to help!  
 
-RZAutoImport is a category on `NSObject` and an accompanying optional protocol for creating and updating model objects in your iOS or OSX applications. It's particularly useful for importing objects from deserialized JSON HTTP responses in REST API's, but it works with any `NSDictionary` or array of dictionaries that you need to convert to native model objects.
+RZAutoImport is a category on `NSObject` and an accompanying optional protocol for creating and updating model objects in your iOS applications. It's particularly useful for importing objects from deserialized JSON HTTP responses in REST API's, but it works with any `NSDictionary` or array of dictionaries that you need to convert to native model objects.
 
 #### Convenient
 
@@ -190,6 +192,8 @@ You can also prevent RZAutoImport from importing a value for a particular key, o
 ```
 
 ## Known Issues
+
+Currently only supported on iOS. OSX to come eventually (or feel free to submit a pull request if you want to add support!).
 
 RZAutoImport uses the default designated initializer `init` when it creates new object instances, therefore it cannot be used with classes that require another designated initializer. For example, this means that RZAutoImport cannot be used to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary.
 

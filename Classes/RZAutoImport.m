@@ -251,7 +251,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
         
         // !!!: The locale is mandated to be US, so JSON API responses will parse correctly regardless of locality.
         //      If other localization is required, custom import blocks must be used.
-        s_numberFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+        s_numberFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     });
     return s_numberFormatter;
 }
@@ -270,7 +270,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
         
         // !!!: The locale is mandated to be US, so JSON API responses will parse correctly regardless of locality.
         //      If other localization is required, custom import blocks must be used.
-        s_dateFormatter.locale   = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+        s_dateFormatter.locale   = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     });
     return s_dateFormatter;
 }
@@ -385,10 +385,10 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
             [mapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
 
             // Get any mappings from the RZAutoImportable protocol
-            if ( [[self class] respondsToSelector:@selector( rzai_customKeyMappings )] ) {
+            if ( [[self class] respondsToSelector:@selector( rzai_customMappings )] ) {
                 
                 Class <RZAutoImportable> thisClass = [self class];
-                NSDictionary *customMappings = [thisClass rzai_customKeyMappings];
+                NSDictionary *customMappings = [thisClass rzai_customMappings];
                 
                 [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
                     RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];

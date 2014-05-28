@@ -8,7 +8,7 @@ NSString* const kAddressLastUpdatedFormat = @"yyyy-MM-dd_HH:mm";
 
 @implementation Address
 
-+ (NSDictionary *)rzai_customKeyMappings
++ (NSDictionary *)rzai_customMappings
 {
     return @{
         @"street" : @"street1",

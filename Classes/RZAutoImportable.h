@@ -37,7 +37,7 @@
  *
  *  @return A dictionary containing mappings from dictionary keys to property names.
  */
-+ (NSDictionary *)rzai_customKeyMappings;
++ (NSDictionary *)rzai_customMappings;
 
 /**
  *  Implement to provide a custom date format string for a particular key or keys.
