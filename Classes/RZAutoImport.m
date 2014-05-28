@@ -251,7 +251,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
         
         // !!!: The locale is mandated to be US, so JSON API responses will parse correctly regardless of locality.
         //      If other localization is required, custom import blocks must be used.
-        s_numberFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+        s_numberFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     });
     return s_numberFormatter;
 }
@@ -270,7 +270,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
         
         // !!!: The locale is mandated to be US, so JSON API responses will parse correctly regardless of locality.
         //      If other localization is required, custom import blocks must be used.
-        s_dateFormatter.locale   = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+        s_dateFormatter.locale   = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     });
     return s_dateFormatter;
 }
