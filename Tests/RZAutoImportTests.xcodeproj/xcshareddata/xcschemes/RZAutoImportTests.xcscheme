@@ -19,7 +19,7 @@
                BlueprintIdentifier = "9A90D239192CF9F000ED28F6"
                BuildableName = "RZAutoImportTests.xctest"
                BlueprintName = "RZAutoImportTests"
-               ReferencedContainer = "container:RZAutoImport.xcodeproj">
+               ReferencedContainer = "container:RZAutoImportTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
