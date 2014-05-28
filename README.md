@@ -1,6 +1,8 @@
 RZAutoImport
 ============
 
+[![Build Status](https://travis-ci.org/Raizlabs/RZAutoImport.svg)](https://travis-ci.org/Raizlabs/RZAutoImport)
+
 Tired of writing boilerplate to import deserialized API responses to model objects? 
 
 Tired of dealing with dozens and dozens of string keys? 
