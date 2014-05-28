@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Requires homebrew and xctool
-# Try to update xctool but eat the error code if it's already up to date
-echo "Attempting to update xctool"
+# Ignore the exit code, proceed to run tests whether succeeded or not
+echo "Attempting to update xctool..."
 brew update
 brew upgrade xctool
 
@@ -16,5 +16,3 @@ for SDK in "${TEST_SDKS[@]}"
 do
 	xctool -workspace "$WORKSPACE_PATH" -scheme "$SCHEME_NAME" -sdk "$SDK" test
 done
-
-exit 0
