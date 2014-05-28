@@ -385,10 +385,10 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
             [mapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
 
             // Get any mappings from the RZAutoImportable protocol
-            if ( [[self class] respondsToSelector:@selector( rzai_customKeyMappings )] ) {
+            if ( [[self class] respondsToSelector:@selector( rzai_customMappings )] ) {
                 
                 Class <RZAutoImportable> thisClass = [self class];
-                NSDictionary *customMappings = [thisClass rzai_customKeyMappings];
+                NSDictionary *customMappings = [thisClass rzai_customMappings];
                 
                 [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
                     RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
