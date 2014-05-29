@@ -1,3 +1,5 @@
+# Adapted from AFNetworking rakefile
+include FileUtils::Verbose
 
 namespace :test do
   
@@ -8,7 +10,6 @@ namespace :test do
   task :iOS do
     run_tests('iOS Tests', 'iphonesimulator')
     tests_failed('OSX') unless $?.success?
-  
   end
   
   task :OSX do
