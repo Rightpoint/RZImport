@@ -7,38 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9A66BF7D192E6CE800A0E505 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BF7C192E6CE800A0E505 /* ModelObject.m */; };
-		9A66BF7F192E705E00A0E505 /* test_person_address.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A66BF7E192E705E00A0E505 /* test_person_address.json */; };
-		9A66BF83192E761A00A0E505 /* TestDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BF82192E761A00A0E505 /* TestDataStore.m */; };
-		9A66BFC0192E9A2400A0E505 /* BigObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A66BFBF192E9A2400A0E505 /* BigObject.m */; };
 		9A90D23E192CF9F000ED28F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
 		9A90D240192CF9F000ED28F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23F192CF9F000ED28F6 /* Foundation.framework */; };
-		9A90D24A192CF9F000ED28F6 /* RZAutoImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */; };
-		9A90D258192D00FA00ED28F6 /* test_person.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A90D257192D00FA00ED28F6 /* test_person.json */; };
-		9A90D25C192D1C0900ED28F6 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A90D25B192D1C0900ED28F6 /* Person.m */; };
-		AF3F838269EF9F3B6BE64E38 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3F8C57EEEA84525127A254 /* Address.m */; };
+		9AF9EF131937946A00F659E2 /* TestDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF051937946A00F659E2 /* TestDataStore.m */; };
+		9AF9EF141937946A00F659E2 /* test_person.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EF071937946A00F659E2 /* test_person.json */; };
+		9AF9EF151937946A00F659E2 /* test_person_address.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EF081937946A00F659E2 /* test_person_address.json */; };
+		9AF9EF161937946A00F659E2 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0B1937946A00F659E2 /* Address.m */; };
+		9AF9EF171937946A00F659E2 /* BigObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0D1937946A00F659E2 /* BigObject.m */; };
+		9AF9EF181937946A00F659E2 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0F1937946A00F659E2 /* ModelObject.m */; };
+		9AF9EF191937946A00F659E2 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF111937946A00F659E2 /* Person.m */; };
+		9AF9EF1A1937946A00F659E2 /* RZAutoImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */; };
+		9AF9EF24193794D000F659E2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
+		9AF9EF31193794DB00F659E2 /* TestDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF051937946A00F659E2 /* TestDataStore.m */; };
+		9AF9EF32193794E000F659E2 /* test_person.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EF071937946A00F659E2 /* test_person.json */; };
+		9AF9EF33193794E000F659E2 /* test_person_address.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EF081937946A00F659E2 /* test_person_address.json */; };
+		9AF9EF34193794E700F659E2 /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0B1937946A00F659E2 /* Address.m */; };
+		9AF9EF35193794E700F659E2 /* BigObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0D1937946A00F659E2 /* BigObject.m */; };
+		9AF9EF36193794E700F659E2 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0F1937946A00F659E2 /* ModelObject.m */; };
+		9AF9EF37193794E700F659E2 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF111937946A00F659E2 /* Person.m */; };
+		9AF9EF38193794E700F659E2 /* RZAutoImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */; };
+		9AF9EF391937954600F659E2 /* RZAutoImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F207C52819356F98005CDA77 /* RZAutoImport.m */; };
 		F207C52A19356F98005CDA77 /* RZAutoImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F207C52819356F98005CDA77 /* RZAutoImport.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9A66BF7B192E6CE800A0E505 /* ModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelObject.h; sourceTree = "<group>"; };
-		9A66BF7C192E6CE800A0E505 /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelObject.m; sourceTree = "<group>"; };
-		9A66BF7E192E705E00A0E505 /* test_person_address.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_person_address.json; path = RZAutoImportTests/JSON/test_person_address.json; sourceTree = SOURCE_ROOT; };
-		9A66BF81192E761A00A0E505 /* TestDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDataStore.h; sourceTree = "<group>"; };
-		9A66BF82192E761A00A0E505 /* TestDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDataStore.m; sourceTree = "<group>"; };
-		9A66BFBE192E9A2400A0E505 /* BigObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigObject.h; sourceTree = "<group>"; };
-		9A66BFBF192E9A2400A0E505 /* BigObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigObject.m; sourceTree = "<group>"; };
 		9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZAutoImportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A90D23D192CF9F000ED28F6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9A90D23F192CF9F000ED28F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		9A90D245192CF9F000ED28F6 /* RZAutoImportTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZAutoImportTests-Info.plist"; sourceTree = "<group>"; };
-		9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RZAutoImportTests.m; sourceTree = "<group>"; };
-		9A90D24B192CF9F000ED28F6 /* RZAutoImportTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZAutoImportTests-Prefix.pch"; sourceTree = "<group>"; };
-		9A90D257192D00FA00ED28F6 /* test_person.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_person.json; sourceTree = "<group>"; };
-		9A90D25A192D1C0900ED28F6 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
-		9A90D25B192D1C0900ED28F6 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
-		AF3F81F1946AEF939DCEF999 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
-		AF3F8C57EEEA84525127A254 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
+		9AF9EF041937946A00F659E2 /* TestDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDataStore.h; sourceTree = "<group>"; };
+		9AF9EF051937946A00F659E2 /* TestDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDataStore.m; sourceTree = "<group>"; };
+		9AF9EF071937946A00F659E2 /* test_person.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_person.json; sourceTree = "<group>"; };
+		9AF9EF081937946A00F659E2 /* test_person_address.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_person_address.json; sourceTree = "<group>"; };
+		9AF9EF0A1937946A00F659E2 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		9AF9EF0B1937946A00F659E2 /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
+		9AF9EF0C1937946A00F659E2 /* BigObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigObject.h; sourceTree = "<group>"; };
+		9AF9EF0D1937946A00F659E2 /* BigObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigObject.m; sourceTree = "<group>"; };
+		9AF9EF0E1937946A00F659E2 /* ModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelObject.h; sourceTree = "<group>"; };
+		9AF9EF0F1937946A00F659E2 /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelObject.m; sourceTree = "<group>"; };
+		9AF9EF101937946A00F659E2 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		9AF9EF111937946A00F659E2 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZAutoImportTests.m; sourceTree = "<group>"; };
+		9AF9EF1C1937947300F659E2 /* RZAutoImportTests-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RZAutoImportTests-iOS-Info.plist"; sourceTree = "<group>"; };
+		9AF9EF1D1937947300F659E2 /* RZAutoImportTests-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZAutoImportTests-iOS-Prefix.pch"; sourceTree = "<group>"; };
+		9AF9EF23193794D000F659E2 /* RZAutoImportTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RZAutoImportTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AF9EF27193794D000F659E2 /* RZAutoImportTests-OSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZAutoImportTests-OSX-Info.plist"; sourceTree = "<group>"; };
+		9AF9EF2D193794D000F659E2 /* RZAutoImportTests-OSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZAutoImportTests-OSX-Prefix.pch"; sourceTree = "<group>"; };
 		F207C52719356F98005CDA77 /* RZAutoImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZAutoImport.h; sourceTree = "<group>"; };
 		F207C52819356F98005CDA77 /* RZAutoImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZAutoImport.m; sourceTree = "<group>"; };
 		F207C52919356F98005CDA77 /* RZAutoImportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZAutoImportable.h; sourceTree = "<group>"; };
@@ -54,23 +67,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9AF9EF20193794D000F659E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AF9EF24193794D000F659E2 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9A66BF80192E760D00A0E505 /* DataStore */ = {
-			isa = PBXGroup;
-			children = (
-				9A66BF81192E761A00A0E505 /* TestDataStore.h */,
-				9A66BF82192E761A00A0E505 /* TestDataStore.m */,
-			);
-			path = DataStore;
-			sourceTree = "<group>";
-		};
 		9A90D22F192CF9CB00ED28F6 = {
 			isa = PBXGroup;
 			children = (
 				F207C52619356F98005CDA77 /* Classes */,
-				9A90D243192CF9F000ED28F6 /* RZAutoImportTests */,
+				9AF9EF021937946A00F659E2 /* Tests */,
+				9AF9EF1B1937947300F659E2 /* RZAutoImportTests-iOS */,
+				9AF9EF25193794D000F659E2 /* RZAutoImportTests-OSX */,
 				9A90D23C192CF9F000ED28F6 /* Frameworks */,
 				9A90D23B192CF9F000ED28F6 /* Products */,
 			);
@@ -80,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */,
+				9AF9EF23193794D000F659E2 /* RZAutoImportTests-OSX.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -93,50 +108,66 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9A90D243192CF9F000ED28F6 /* RZAutoImportTests */ = {
+		9AF9EF021937946A00F659E2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				9A90D249192CF9F000ED28F6 /* RZAutoImportTests.m */,
-				9A66BF80192E760D00A0E505 /* DataStore */,
-				9A90D259192D1BED00ED28F6 /* Model */,
-				9A90D256192D00FA00ED28F6 /* JSON */,
-				9A90D244192CF9F000ED28F6 /* Supporting Files */,
+				9AF9EF031937946A00F659E2 /* DataStore */,
+				9AF9EF061937946A00F659E2 /* json */,
+				9AF9EF091937946A00F659E2 /* Model */,
+				9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */,
 			);
-			path = RZAutoImportTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
-		9A90D244192CF9F000ED28F6 /* Supporting Files */ = {
+		9AF9EF031937946A00F659E2 /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
-				9A90D245192CF9F000ED28F6 /* RZAutoImportTests-Info.plist */,
-				9A90D24B192CF9F000ED28F6 /* RZAutoImportTests-Prefix.pch */,
+				9AF9EF041937946A00F659E2 /* TestDataStore.h */,
+				9AF9EF051937946A00F659E2 /* TestDataStore.m */,
 			);
-			name = "Supporting Files";
+			path = DataStore;
 			sourceTree = "<group>";
 		};
-		9A90D256192D00FA00ED28F6 /* JSON */ = {
+		9AF9EF061937946A00F659E2 /* json */ = {
 			isa = PBXGroup;
 			children = (
-				9A90D257192D00FA00ED28F6 /* test_person.json */,
-				9A66BF7E192E705E00A0E505 /* test_person_address.json */,
+				9AF9EF071937946A00F659E2 /* test_person.json */,
+				9AF9EF081937946A00F659E2 /* test_person_address.json */,
 			);
-			name = JSON;
 			path = json;
 			sourceTree = "<group>";
 		};
-		9A90D259192D1BED00ED28F6 /* Model */ = {
+		9AF9EF091937946A00F659E2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9A66BF7B192E6CE800A0E505 /* ModelObject.h */,
-				9A66BF7C192E6CE800A0E505 /* ModelObject.m */,
-				9A90D25A192D1C0900ED28F6 /* Person.h */,
-				9A90D25B192D1C0900ED28F6 /* Person.m */,
-				AF3F81F1946AEF939DCEF999 /* Address.h */,
-				AF3F8C57EEEA84525127A254 /* Address.m */,
-				9A66BFBE192E9A2400A0E505 /* BigObject.h */,
-				9A66BFBF192E9A2400A0E505 /* BigObject.m */,
+				9AF9EF0A1937946A00F659E2 /* Address.h */,
+				9AF9EF0B1937946A00F659E2 /* Address.m */,
+				9AF9EF0C1937946A00F659E2 /* BigObject.h */,
+				9AF9EF0D1937946A00F659E2 /* BigObject.m */,
+				9AF9EF0E1937946A00F659E2 /* ModelObject.h */,
+				9AF9EF0F1937946A00F659E2 /* ModelObject.m */,
+				9AF9EF101937946A00F659E2 /* Person.h */,
+				9AF9EF111937946A00F659E2 /* Person.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9AF9EF1B1937947300F659E2 /* RZAutoImportTests-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				9AF9EF1C1937947300F659E2 /* RZAutoImportTests-iOS-Info.plist */,
+				9AF9EF1D1937947300F659E2 /* RZAutoImportTests-iOS-Prefix.pch */,
+			);
+			path = "RZAutoImportTests-iOS";
+			sourceTree = "<group>";
+		};
+		9AF9EF25193794D000F659E2 /* RZAutoImportTests-OSX */ = {
+			isa = PBXGroup;
+			children = (
+				9AF9EF27193794D000F659E2 /* RZAutoImportTests-OSX-Info.plist */,
+				9AF9EF2D193794D000F659E2 /* RZAutoImportTests-OSX-Prefix.pch */,
+			);
+			path = "RZAutoImportTests-OSX";
 			sourceTree = "<group>";
 		};
 		F207C52619356F98005CDA77 /* Classes */ = {
@@ -153,9 +184,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9A90D239192CF9F000ED28F6 /* RZAutoImportTests */ = {
+		9A90D239192CF9F000ED28F6 /* RZAutoImportTests-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests" */;
+			buildConfigurationList = 9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-iOS" */;
 			buildPhases = (
 				9A90D236192CF9F000ED28F6 /* Sources */,
 				9A90D237192CF9F000ED28F6 /* Frameworks */,
@@ -165,9 +196,26 @@
 			);
 			dependencies = (
 			);
-			name = RZAutoImportTests;
+			name = "RZAutoImportTests-iOS";
 			productName = RZAutoImportTests;
 			productReference = 9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9AF9EF22193794D000F659E2 /* RZAutoImportTests-OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AF9EF2E193794D000F659E2 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-OSX" */;
+			buildPhases = (
+				9AF9EF1F193794D000F659E2 /* Sources */,
+				9AF9EF20193794D000F659E2 /* Frameworks */,
+				9AF9EF21193794D000F659E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RZAutoImportTests-OSX";
+			productName = "RZAutoImportTests-OSX";
+			productReference = 9AF9EF23193794D000F659E2 /* RZAutoImportTests-OSX.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -190,7 +238,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9A90D239192CF9F000ED28F6 /* RZAutoImportTests */,
+				9A90D239192CF9F000ED28F6 /* RZAutoImportTests-iOS */,
+				9AF9EF22193794D000F659E2 /* RZAutoImportTests-OSX */,
 			);
 		};
 /* End PBXProject section */
@@ -200,8 +249,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A90D258192D00FA00ED28F6 /* test_person.json in Resources */,
-				9A66BF7F192E705E00A0E505 /* test_person_address.json in Resources */,
+				9AF9EF141937946A00F659E2 /* test_person.json in Resources */,
+				9AF9EF151937946A00F659E2 /* test_person_address.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AF9EF21193794D000F659E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AF9EF32193794E000F659E2 /* test_person.json in Resources */,
+				9AF9EF33193794E000F659E2 /* test_person_address.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,13 +270,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AF9EF191937946A00F659E2 /* Person.m in Sources */,
+				9AF9EF161937946A00F659E2 /* Address.m in Sources */,
 				F207C52A19356F98005CDA77 /* RZAutoImport.m in Sources */,
-				9A90D25C192D1C0900ED28F6 /* Person.m in Sources */,
-				9A90D24A192CF9F000ED28F6 /* RZAutoImportTests.m in Sources */,
-				9A66BFC0192E9A2400A0E505 /* BigObject.m in Sources */,
-				9A66BF7D192E6CE800A0E505 /* ModelObject.m in Sources */,
-				9A66BF83192E761A00A0E505 /* TestDataStore.m in Sources */,
-				AF3F838269EF9F3B6BE64E38 /* Address.m in Sources */,
+				9AF9EF181937946A00F659E2 /* ModelObject.m in Sources */,
+				9AF9EF131937946A00F659E2 /* TestDataStore.m in Sources */,
+				9AF9EF171937946A00F659E2 /* BigObject.m in Sources */,
+				9AF9EF1A1937946A00F659E2 /* RZAutoImportTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AF9EF1F193794D000F659E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AF9EF391937954600F659E2 /* RZAutoImport.m in Sources */,
+				9AF9EF37193794E700F659E2 /* Person.m in Sources */,
+				9AF9EF34193794E700F659E2 /* Address.m in Sources */,
+				9AF9EF36193794E700F659E2 /* ModelObject.m in Sources */,
+				9AF9EF31193794DB00F659E2 /* TestDataStore.m in Sources */,
+				9AF9EF35193794E700F659E2 /* BigObject.m in Sources */,
+				9AF9EF38193794E700F659E2 /* RZAutoImportTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +348,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RZAutoImportTests/RZAutoImportTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -293,7 +365,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				INFOPLIST_FILE = "RZAutoImportTests/RZAutoImportTests-Info.plist";
+				INFOPLIST_FILE = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
@@ -333,7 +405,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RZAutoImportTests/RZAutoImportTests-Prefix.pch";
+				GCC_PREFIX_HEADER = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
@@ -345,13 +417,100 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				INFOPLIST_FILE = "RZAutoImportTests/RZAutoImportTests-Info.plist";
+				INFOPLIST_FILE = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				WARNING_CFLAGS = "";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		9AF9EF2F193794D000F659E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9AF9EF30193794D000F659E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -368,7 +527,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests" */ = {
+		9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A90D24D192CF9F000ED28F6 /* Debug */,
@@ -376,6 +535,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		9AF9EF2E193794D000F659E2 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AF9EF2F193794D000F659E2 /* Debug */,
+				9AF9EF30193794D000F659E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

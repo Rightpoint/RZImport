@@ -8,15 +8,15 @@
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9A90D239192CF9F000ED28F6"
-               BuildableName = "RZAutoImportTests.xctest"
-               BlueprintName = "RZAutoImportTests"
+               BlueprintIdentifier = "9AF9EF22193794D000F659E2"
+               BuildableName = "RZAutoImportTests-OSX.xctest"
+               BlueprintName = "RZAutoImportTests-OSX"
                ReferencedContainer = "container:RZAutoImportTests.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9A90D239192CF9F000ED28F6"
-               BuildableName = "RZAutoImportTests.xctest"
-               BlueprintName = "RZAutoImportTests"
+               BlueprintIdentifier = "9AF9EF22193794D000F659E2"
+               BuildableName = "RZAutoImportTests-OSX.xctest"
+               BlueprintName = "RZAutoImportTests-OSX"
                ReferencedContainer = "container:RZAutoImportTests.xcodeproj">
             </BuildableReference>
          </TestableReference>

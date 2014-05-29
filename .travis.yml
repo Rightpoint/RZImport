@@ -1,6 +1,7 @@
 
 language: objective-c
-script: ./run_tests.sh
+before_install: rake test:install
+script: rake test
 notifications:
     email:
         recipients:
