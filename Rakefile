@@ -36,3 +36,7 @@ def tests_failed(platform)
   puts red("#{platform} unit tests failed")
   exit $?.exitstatus
 end
+
+def red(string)
+ "\033[0;31m! #{string}"
+end
