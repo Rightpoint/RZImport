@@ -25,5 +25,5 @@ task :default => 'test'
 private
 
 def run_tests(scheme, sdk)
-  sh("xctool -workspace RZAutoImport.xcworkspace -scheme '#{scheme}' -sdk '#{sdk}' clean test") rescue nil
+  sh("xctool -workspace RZAutoImport.xcworkspace -scheme '#{scheme}' -sdk '#{sdk}' clean test; exit $?") rescue nil
 end
