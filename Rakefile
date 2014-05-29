@@ -9,7 +9,7 @@ namespace :test do
   
   task :iOS do
     run_tests('iOS Tests', 'iphonesimulator')
-    tests_failed('OSX') unless $?.success?
+    tests_failed('iOS') unless $?.success?
   end
   
   task :OSX do
