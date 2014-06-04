@@ -95,5 +95,12 @@
  */
 - (void)rzai_importValuesFromDict:(NSDictionary *)dict;
 
+/**
+ *  The dictionary of inferred and overriden key/property mappings for this class
+ *
+ *  @return A dictionary of key/property mappings.
+ */
++ (NSDictionary *)rzai_importMapping;
+
 
 @end

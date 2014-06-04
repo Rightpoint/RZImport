@@ -357,33 +357,23 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     }];
 }
 
-#pragma mark - Private
-
-+ (void)rzai_performBlockAtomically:(void(^)())block
-{
-    [[self s_rzai_mutex] lock];
-    if ( block ) {
-        block();
-    }
-    [[self s_rzai_mutex] unlock];
-}
 
 + (NSDictionary *)rzai_importMapping
 {
     __block NSDictionary *returnMapping = nil;
-
+    
     [self rzai_performBlockAtomically:^{
-
+        
         NSString            *className = NSStringFromClass( self );
         NSMutableDictionary *mapping   = [[[self class] s_rzai_importMappingCache] objectForKey:className];
-
+        
         if ( mapping == nil ) {
-
+            
             mapping = [NSMutableDictionary dictionary];
-
+            
             // Get mappings from the normalized property names
             [mapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
-
+            
             // Get any mappings from the RZAutoImportable protocol
             if ( [[self class] respondsToSelector:@selector( rzai_customMappings )] ) {
                 
@@ -397,14 +387,25 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                     [mapping setObject:propDescriptor forKey:RZAINormalizedKey( keyname )];
                 }];
             }
-
+            
             [[[self class] s_rzai_importMappingCache] setObject:mapping forKey:className];
         }
-
+        
         returnMapping = [NSDictionary dictionaryWithDictionary:mapping];
     }];
     
     return returnMapping;
+}
+
+#pragma mark - Private
+
++ (void)rzai_performBlockAtomically:(void(^)())block
+{
+    [[self s_rzai_mutex] lock];
+    if ( block ) {
+        block();
+    }
+    [[self s_rzai_mutex] unlock];
 }
 
 + (NSDictionary *)rzai_normalizedPropertyMappings
