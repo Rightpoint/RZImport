@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:RZAutoImport.xcodeproj">
+      location = "group:Tests/RZAutoImportTests.xcodeproj">
    </FileRef>
 </Workspace>

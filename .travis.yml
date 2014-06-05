@@ -1,0 +1,10 @@
+
+language: objective-c
+before_install: rake test:install
+script: rake test
+notifications:
+    email:
+        recipients:
+         - nick.donaldson@raizlabs.com
+        on_success: change
+        on_failure: always
