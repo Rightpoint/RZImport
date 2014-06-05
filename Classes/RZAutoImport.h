@@ -102,8 +102,4 @@
  */
 + (NSDictionary *)rzai_importMapping;
 
-// TODO: properties to keys
-// + (NSDictionary *)rzai_inverseImportMapping;
-
-
 @end
