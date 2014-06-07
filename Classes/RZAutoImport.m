@@ -63,7 +63,7 @@ static NSString* const kRZAutoImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'
 
 #define RZAINSNullToNil(x) ([x isEqual:[NSNull null]] ? nil : x)
 
-static NSString * RZAINormalizedKey(NSString *key)
+NSString * RZAINormalizedKey(NSString *key)
 {
     if ( key == nil ) {
         return nil;
