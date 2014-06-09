@@ -350,7 +350,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 {
     BOOL canOverrideImports = [self respondsToSelector:@selector( rzai_shouldImportValue:forKey: )];
     
-    NSDictionary *importMapping = [[self class] rzai_importMappingWithExtraMappings:mappings];
+    NSDictionary *importMapping = [[self class] rzai_importMappingsWithExtraMappings:mappings];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         
@@ -372,12 +372,12 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     }];
 }
 
-+ (NSDictionary *)rzai_importMapping
++ (NSDictionary *)rzai_importMappings
 {
-    return [self rzai_importMappingWithExtraMappings:nil];
+    return [self rzai_importMappingsWithExtraMappings:nil];
 }
 
-+ (NSDictionary *)rzai_importMappingWithExtraMappings:(NSDictionary *)extraMappings
++ (NSDictionary *)rzai_importMappingsWithExtraMappings:(NSDictionary *)extraMappings
 {
     __block NSDictionary *returnMapping = nil;
     
