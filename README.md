@@ -195,7 +195,8 @@ You can also prevent RZAutoImport from importing a value for a particular key, o
 
 RZAutoImport uses the default designated initializer `init` when it creates new object instances, therefore it cannot be used out-of-the-box with classes that require another designated initializer. However, to get around this, you can override `+rzai_existingObjectForDict:` on any class to *always* return a new object created with the proper initializer (or an existing object).
 
-For example, RZAutoImport cannot be used out-of-the-box to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary, or by overriding `+rzai_existingObjectForDict` to return a new object inserted into the correct managed object context.
+This applies to CoreData model objects, as `NSManagedObject` requires initialization with an entity description. 
+**See [RZVinyl](https://github.com/Raizlabs/RZVinyl) for a CoreData active record solution with extensions for RZAutoImport.**
 
 ## License
 
