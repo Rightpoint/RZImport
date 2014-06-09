@@ -44,8 +44,12 @@ typedef NS_ENUM(NSInteger, RZAutoImportDataType)
     RZAutoImportDataTypePrimitive = 0,
     RZAutoImportDataTypeNSNumber,
     RZAutoImportDataTypeNSString,
-    RZAutoImportDataTypeNSDate
+    RZAutoImportDataTypeNSDate,
+    RZAutoImportDataTypeNSDictionary,
+    RZAutoImportDataTypeNSArray
 };
+
+OBJC_EXTERN RZAutoImportDataType rzai_dataTypeFromString(NSString *string);
 
 /**
  *  Returns a normalized verison of the key argument

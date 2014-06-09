@@ -38,9 +38,9 @@ static NSString* const kRZAutoImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'
 //
 
 #if ( DEBUG )
-    #define RZAILogDebug(msg, ...) NSLog((@"[RZAutoImport : DEBUG] " msg), ##__VA_ARGS__)
+#define RZAILogDebug(msg, ...) NSLog((@"[RZAutoImport : DEBUG] " msg), ##__VA_ARGS__)
 #else
-    #define RZAILogDebug(...)
+#define RZAILogDebug(...)
 #endif
 
 #define RZAILogError(msg, ...) NSLog((@"[RZAutoImport : ERROR] " msg), ##__VA_ARGS__);
@@ -81,29 +81,19 @@ static RZAutoImportDataType rzai_dataTypeForProperty(NSString *propertyName, Cla
     
     switch ( typeEncoding[0] ) {
             
-        // Object class
+            // Object class
         case '@': {
             
             NSUInteger typeLength = (NSUInteger)strlen(typeEncoding);
             
             if ( typeLength > 3 ) {
-                
                 NSString *typeString = [[NSString stringWithUTF8String:typeEncoding] substringWithRange:NSMakeRange(2, typeLength - 3)];
-                
-                if ( [typeString isEqualToString:@"NSString"]) {
-                    type = RZAutoImportDataTypeNSString;
-                }
-                else if ( [typeString isEqualToString:@"NSNumber"] ) {
-                    type = RZAutoImportDataTypeNSNumber;
-                }
-                else if ( [typeString isEqualToString:@"NSDate"] ) {
-                    type = RZAutoImportDataTypeNSDate;
-                }
+                type = rzai_dataTypeFromString(typeString);
             }
         }
             break;
             
-        // Primitive type
+            // Primitive type
         case 'c':
         case 'C':
         case 'i':
@@ -175,13 +165,41 @@ static SEL rzai_setterForProperty(Class aClass, NSString *propertyName) {
 //
 //  Private Header Implementations
 
-
 NSString *rzai_normalizedKey(NSString *key) {
     if ( key == nil ) {
         return nil;
     }
     return [[key lowercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
 }
+
+RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
+{
+    Class objClass = NSClassFromString(string);
+    if ( objClass == Nil ){
+        return RZAutoImportDataTypeUnknown;
+    }
+    
+    RZAutoImportDataType type = RZAutoImportDataTypeUnknown;
+    
+    if ( [objClass isSubclassOfClass:[NSString class]] ){
+        type = RZAutoImportDataTypeNSString;
+    }
+    else if ( [objClass isSubclassOfClass:[NSNumber class]] ){
+        type = RZAutoImportDataTypeNSNumber;
+    }
+    else if ( [objClass isSubclassOfClass:[NSDate class]] ){
+        type = RZAutoImportDataTypeNSDate;
+    }
+    else if ( [objClass isSubclassOfClass:[NSArray class]] ){
+        type = RZAutoImportDataTypeNSArray;
+    }
+    else if ( [objClass isSubclassOfClass:[NSDictionary class]] ){
+        type = RZAutoImportDataTypeNSDictionary;
+    }
+    
+    return type;
+}
+
 
 @implementation RZAIPropertyInfo
 
@@ -213,9 +231,9 @@ NSString *rzai_normalizedKey(NSString *key) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_ignoredClasses = [NSSet setWithArray:@[
-            @"NSObject",
-            @"NSManagedObject"
-        ]];
+                                                 @"NSObject",
+                                                 @"NSManagedObject"
+                                                 ]];
     });
     return s_ignoredClasses;
 }
@@ -257,7 +275,7 @@ NSString *rzai_normalizedKey(NSString *key) {
 /**
  *  Recursive mutex lock used for resource contention.
  *  Custom import blocks may call into this category so the lock
- *  must be recursive in order to support recursive accesses on 
+ *  must be recursive in order to support recursive accesses on
  *  the same thread within the same stack frame.
  */
 + (NSRecursiveLock *)s_rzai_mutex
@@ -286,7 +304,7 @@ NSString *rzai_normalizedKey(NSString *key) {
     if ( object == nil ) {
         object = [[self alloc] init];
     }
-
+    
     [object rzai_importValuesFromDict:dict];
     
     return object;
@@ -393,7 +411,7 @@ NSString *rzai_normalizedKey(NSString *key) {
     
     // Get property names from this class and all inherited classes
     NSMutableArray *propDescriptors = [NSMutableArray array];
-
+    
     Class currentClass = [self class];
     while ( currentClass != Nil ) {
         
@@ -450,14 +468,14 @@ NSString *rzai_normalizedKey(NSString *key) {
             id convertedValue = nil;
             
             if ( [value isKindOfClass:[NSNumber class]] ) {
-              
+                
                 switch (propDescriptor.dataType) {
-
+                        
                     case RZAutoImportDataTypeNSNumber:
                     case RZAutoImportDataTypePrimitive:
                         convertedValue = value;
                         break;
-
+                        
                     case RZAutoImportDataTypeNSString:
                         convertedValue = [value stringValue];
                         break;
@@ -481,7 +499,7 @@ NSString *rzai_normalizedKey(NSString *key) {
             else if ( [value isKindOfClass:[NSString class]] ) {
                 
                 switch (propDescriptor.dataType) {
-
+                        
                     case RZAutoImportDataTypePrimitive:
                     case RZAutoImportDataTypeNSNumber: {
                         __block NSNumber *number = nil;
@@ -500,7 +518,7 @@ NSString *rzai_normalizedKey(NSString *key) {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
                         [[self class] rzai_performBlockAtomically:^{
-
+                            
                             NSString        *dateFormat     = nil;
                             NSDateFormatter *dateFormatter  = [[self class] s_rzai_dateFormatter];
                             
