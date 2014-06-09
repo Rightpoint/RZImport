@@ -179,7 +179,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
         return RZAutoImportDataTypeUnknown;
     }
     
-    RZAutoImportDataType type = RZAutoImportDataTypeUnknown;
+    RZAutoImportDataType type = RZAutoImportDataTypeOtherObject;
     
     if ( [objClass isSubclassOfClass:[NSString class]] ){
         type = RZAutoImportDataTypeNSString;

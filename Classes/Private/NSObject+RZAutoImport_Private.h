@@ -47,7 +47,8 @@ typedef NS_ENUM(NSInteger, RZAutoImportDataType)
     RZAutoImportDataTypeNSDate,
     RZAutoImportDataTypeNSDictionary,
     RZAutoImportDataTypeNSArray,
-    RZAutoImportDataTypeNSSet
+    RZAutoImportDataTypeNSSet,
+    RZAutoImportDataTypeOtherObject
 };
 
 OBJC_EXTERN RZAutoImportDataType rzai_dataTypeFromString(NSString *string);
