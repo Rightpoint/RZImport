@@ -201,6 +201,18 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using overridden property mapping" );
 }
 
+- (void)test_extraInlineMapping
+{
+    Address *address = [Address new];
+    
+    // Both custom and inferred mappings should work
+    NSString* const theStreet = @"101 Main St.";
+    NSDictionary *d = @{ @"street_where_I_live" : theStreet };
+    
+    XCTAssertNoThrow( [address rzai_importValuesFromDict:d withMappings:@{ @"street_where_I_live" : @"street1" }], @"Import should not throw exception" );
+    XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using extra inline property mapping" );
+}
+
 - (void)test_validation
 {
     Address *address = [Address new];

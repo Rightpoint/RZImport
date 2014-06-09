@@ -295,6 +295,11 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 
 + (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict
 {
+    return [self rzai_objectFromDictionary:dict withMappings:nil];
+}
+
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
+{
     NSParameterAssert(dict);
     
     id object = nil;
@@ -308,12 +313,17 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
         object = [[self alloc] init];
     }
     
-    [object rzai_importValuesFromDict:dict];
+    [object rzai_importValuesFromDict:dict withMappings:mappings];
     
     return object;
 }
 
 + (NSArray *)rzai_objectsFromArray:(NSArray *)array
+{
+    return [self rzai_objectsFromArray:array withMappings:nil];
+}
+
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
 {
     NSParameterAssert(array);
     
@@ -321,7 +331,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSAssert([obj isKindOfClass:[NSDictionary class]], @"Array passed to rzai_objectsFromArray: must only contain NSDictionary instances");
         if ( [obj isKindOfClass:[NSDictionary class]] ) {
-            id importedObj = [self rzai_objectFromDictionary:obj];
+            id importedObj = [self rzai_objectFromDictionary:obj withMappings:mappings];
             if ( importedObj ) {
                 [objects addObject:importedObj];
             }
@@ -333,9 +343,14 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 
 - (void)rzai_importValuesFromDict:(NSDictionary *)dict
 {
+    [self rzai_importValuesFromDict:dict withMappings:nil];
+}
+
+- (void)rzai_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
+{
     BOOL canOverrideImports = [self respondsToSelector:@selector( rzai_shouldImportValue:forKey: )];
     
-    NSDictionary *importMapping = [[self class] rzai_importMapping];
+    NSDictionary *importMapping = [[self class] rzai_importMappingWithExtraMappings:mappings];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         
@@ -357,8 +372,12 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     }];
 }
 
-
 + (NSDictionary *)rzai_importMapping
+{
+    return [self rzai_importMappingWithExtraMappings:nil];
+}
+
++ (NSDictionary *)rzai_importMappingWithExtraMappings:(NSDictionary *)extraMappings
 {
     __block NSDictionary *returnMapping = nil;
     
@@ -391,7 +410,18 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
             [[[self class] s_rzai_importMappingCache] setObject:mapping forKey:className];
         }
         
-        returnMapping = [NSDictionary dictionaryWithDictionary:mapping];
+        NSMutableDictionary *definedMappings = [mapping mutableCopy];
+        
+        if ( extraMappings ) {
+            [extraMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
+                RZAIPropertyInfo *propDescriptor = [[RZAIPropertyInfo alloc] init];
+                propDescriptor.propertyName = propName;
+                propDescriptor.dataType = rzai_dataTypeForProperty(propName, self);
+                [definedMappings setObject:propDescriptor forKey:rzai_normalizedKey(keyname)];
+            }];
+        }
+        
+        returnMapping = [NSDictionary dictionaryWithDictionary:definedMappings];
     }];
     
     return returnMapping;

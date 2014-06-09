@@ -71,6 +71,23 @@
 + (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict;
 
 /**
+ *  Return an instance of the calling class initialized with the values in the dictionary,
+ *  with optional extra key/property mappings.
+ *
+ *  If the calling class implements RZAutoImportable, it is given the opportunity
+ *  to return an existing unique instance of the object that is represented by
+ *  the dictionary.
+ *
+ *  @param dict     Dictionary from which to create the object instance.
+ *  @param mappings An optional dictionary of extra mappings from keys to property names to
+ *                  use in the import. These will override/supplement implicit mappings and mappings
+ *                  provided by @p RZAutoImportable.
+ *
+ *  @return An object instance initialized with the values in the dictionary.
+ */
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
+
+/**
  *  Return an array of instances of the calling class initialized with the
  *  values in the dicitonaries in the provided array.
  *
@@ -85,6 +102,25 @@
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
 + (NSArray *)rzai_objectsFromArray:(NSArray *)array;
+
+/**
+ *  Return an array of instances of the calling class initialized with the
+ *  values in the dicitonaries in the provided array, with optional extra key/property mappings.
+ *
+ *  The array parameter should contain only @p NSDictionary instances.
+ *
+ *  If the calling class implements RZAutoImportable, it is given the opportunity
+ *  to return an existing unique instance of an object that is represented by
+ *  each dictionary.
+ *
+ *  @param array    An array of @p NSDictionary instances objects to import.
+ *  @param mappings An optional dictionary of extra mappings from keys to property names to
+ *                  use in the import. These will override/supplement implicit mappings and mappings
+ *                  provided by @p RZAutoImportable.
+ *
+ *  @return An array of objects initiailized with the respective values in each dictionary in the array.
+ */
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings;
  
 /**
  *  Import the values from the provided dictionary into this object.
@@ -95,5 +131,15 @@
  */
 - (void)rzai_importValuesFromDict:(NSDictionary *)dict;
 
+/**
+ *  Import the values from the provided dictionary into this object with optional extra
+ *  key/property mappings.
+ *
+ *  @param dict     Dictionary of values to import.
+ *  @param mappings An optional dictionary of extra mappings from keys to property names to
+ *                  use in the import. These will override/supplement implicit mappings and mappings
+ *                  provided by @p RZAutoImportable.
+ */
+- (void)rzai_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
 @end
 
