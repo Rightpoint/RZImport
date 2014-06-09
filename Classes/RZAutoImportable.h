@@ -62,6 +62,9 @@
 /**
  *  Implement to optionally prevent import for particular key/value pairs.
  *  Can be used to validate imported value or override automatic import to perform custom logic.
+ *  In order to support custom import logic for certain attributes, his is called by @p RZAutoImport 
+ *  prior to mapping the dictionary key to a property name, so the key here may not match a property 
+ *  name in this class.
  *
  *  @param value Unmodified value from dictionary being imported
  *  @param key   Unmodified key from dictionary being imported

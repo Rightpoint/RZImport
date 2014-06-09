@@ -95,25 +95,5 @@
  */
 - (void)rzai_importValuesFromDict:(NSDictionary *)dict;
 
-/**
- *  The dictionary of inferred and overriden key/property mappings for this class
- *
- *  @return A dictionary of key/property mappings.
- */
-+ (NSDictionary *)rzai_importMapping;
-
 @end
-
-//
-//  Utility Functions
-
-/**
- *  Return the normalized string value for a key.
- *  Makes entire string lowercase and removes underscores.
- *
- *  @param key The key to normalize.
- *
- *  @return The normalized key.
- */
-OBJC_EXTERN NSString * RZAINormalizedKey(NSString *key);
 
