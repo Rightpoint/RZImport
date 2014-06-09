@@ -1,5 +1,5 @@
 //
-//  RZAutoImport.m
+//  NSObject+RZAutoImport.m
 //  RZAutoImport
 //
 //  Created by Nick Donaldson on 5/21/14.
@@ -26,32 +26,16 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZAutoImport.h"
+#import "NSObject+RZAutoImport.h"
+#import "NSObject+RZAutoImport_Private.h"
 #import <objc/runtime.h>
 
-// ===============================================
-//            Constants and Enums
-// ===============================================
-
-/**
- *  These are merely the data types the importer can manage.
- *  Unknown data types for matching keys will log an error if automatic conversion
- *  is not possible.
- */
-typedef NS_ENUM(NSInteger, RZAutoImportDataType)
-{
-    RZAutoImportDataTypeUnknown = -1,
-    RZAutoImportDataTypePrimitive = 0,
-    RZAutoImportDataTypeNSNumber,
-    RZAutoImportDataTypeNSString,
-    RZAutoImportDataTypeNSDate
-};
 
 static NSString* const kRZAutoImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 
-// ===============================================
-//          Utility Macros and Functions
-// ===============================================
+//
+//  Private Utility Macros/Functions
+//
 
 #if ( DEBUG )
     #define RZAILogDebug(msg, ...) NSLog((@"[RZAutoImport : DEBUG] " msg), ##__VA_ARGS__)
@@ -195,23 +179,16 @@ static SEL rzai_setterForProperty(Class aClass, NSString *propertyName) {
     return setterString ? NSSelectorFromString( setterString ) : nil;
 }
 
-// ===============================================
-//           Propery Info Class
-// ===============================================
-
-@interface RZAIPropertyInfo : NSObject
-
-@property (nonatomic, copy)   NSString *propertyName;
-@property (nonatomic, assign) RZAutoImportDataType dataType;
-
-@end
+//
+//  Private Class Implementation
 
 @implementation RZAIPropertyInfo
+
 @end
 
-// ===============================================
-//           Category Implementation
-// ===============================================
+//
+//  Category Implementation
+//
 
 @implementation NSObject (RZAutoImport)
 

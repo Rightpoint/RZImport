@@ -1,5 +1,5 @@
 //
-//  RZAutoImport.h
+//  NSObject+RZAutoImport.h
 //  RZAutoImport
 //
 //  Created by Nick Donaldson on 5/21/14.
@@ -27,7 +27,7 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "RZAutoImportable.h"
 
 /**
