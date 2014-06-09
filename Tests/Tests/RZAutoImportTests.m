@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "RZAutoImport.h"
+#import "NSObject+RZAutoImport.h"
 #import "Person.h"
 #import "BigObject.h"
 #import "Address.h"

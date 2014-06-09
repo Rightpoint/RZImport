@@ -71,6 +71,8 @@ ID: 100 Name: Bob Smith
 
 Simply copy the files in the `RZAutoImport` directory into your project, add them to your target, and off you go!
 
+**Note**: The `Private` directory contains private headers that are not intended for public usage.
+
 ## Documentation
 
 For most in-depth and up-to-date documentation, please read the Apple-doc commented header files in the source code.

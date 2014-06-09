@@ -9,7 +9,7 @@
 #import "Person.h"
 #import "Address.h"
 #import "TestDataStore.h"
-#import "RZAutoImport.h"
+#import "NSObject+RZAutoImport.h"
 
 @implementation Person
 

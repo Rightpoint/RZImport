@@ -6,7 +6,7 @@
 //
 //
 
-#import "RZAutoImport.h"
+#import "NSObject+RZAutoImport.h"
 
 @interface ModelObject : NSObject <RZAutoImportable>
 
