@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.8"
   
   s.source                = { :git => "https://github.com/Raizlabs/RZAutoImport.git", :tag => "1.0.0" }
-  s.source_files          = "Classes/*.{h,m}"
+  s.source_files          = "Classes/*.{h,m}", "Classes/Private/*.{h,m}"
   s.private_header_files  = "Classes/Private/*.h"
   s.framework             = "Foundation"
   s.requires_arc          = true
