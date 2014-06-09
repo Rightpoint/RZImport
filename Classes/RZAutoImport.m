@@ -63,14 +63,14 @@ static NSString* const kRZAutoImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'
 
 #define RZAINSNullToNil(x) ([x isEqual:[NSNull null]] ? nil : x)
 
-static NSString * RZAINormalizedKey(NSString *key) {
+static NSString *rzai_normalizedKey(NSString *key) {
     if ( key == nil ) {
         return nil;
     }
     return [[key lowercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
 }
 
-static objc_property_t RZAIGetProperty( NSString *name, Class class ) {
+static objc_property_t rzai_getProperty(NSString *name, Class class) {
     
     objc_property_t property = class_getProperty( class, [name UTF8String] );
     
@@ -86,9 +86,9 @@ static objc_property_t RZAIGetProperty( NSString *name, Class class ) {
     return property;
 }
 
-static RZAutoImportDataType RZAIDataTypeForProperty( NSString *propertyName, Class aClass ) {
+static RZAutoImportDataType rzai_dataTypeForProperty(NSString *propertyName, Class aClass) {
     
-    objc_property_t property = RZAIGetProperty( propertyName, aClass );
+    objc_property_t property = rzai_getProperty(propertyName, aClass);
     if ( property == nil ) {
         return RZAutoImportDataTypeUnknown;
     }
@@ -154,7 +154,7 @@ static RZAutoImportDataType RZAIDataTypeForProperty( NSString *propertyName, Cla
     return type;
 }
 
-static NSArray* RZAIPropertyNamesForClass(Class aClass) {
+static NSArray* rzai_propertyNamesForClass(Class aClass) {
     
     unsigned int    count;
     objc_property_t *properties = class_copyPropertyList( aClass, &count );
@@ -176,10 +176,10 @@ static NSArray* RZAIPropertyNamesForClass(Class aClass) {
     return names;
 }
 
-static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
+static SEL rzai_setterForProperty(Class aClass, NSString *propertyName) {
     
     NSString        *setterString = nil;
-    objc_property_t property      = RZAIGetProperty( propertyName, aClass );
+    objc_property_t property      = rzai_getProperty(propertyName, aClass);
     if ( property ) {
         char *setterCString = property_copyAttributeValue( property, "S" );
         
@@ -196,17 +196,17 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 }
 
 // ===============================================
-//           Propery Descriptor Class
+//           Propery Info Class
 // ===============================================
 
-@interface RZAIPropertyDescriptor : NSObject
+@interface RZAIPropertyInfo : NSObject
 
 @property (nonatomic, copy)   NSString *propertyName;
 @property (nonatomic, assign) RZAutoImportDataType dataType;
 
 @end
 
-@implementation RZAIPropertyDescriptor
+@implementation RZAIPropertyInfo
 @end
 
 // ===============================================
@@ -344,7 +344,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
             }
         }
         
-        RZAIPropertyDescriptor *propDescriptor = [importMapping objectForKey:RZAINormalizedKey(key)];
+        RZAIPropertyInfo *propDescriptor = [importMapping objectForKey:rzai_normalizedKey(key)];
         value = RZAINSNullToNil(value);
         
         if ( propDescriptor ) {
@@ -380,10 +380,10 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
                 NSDictionary *customMappings = [thisClass rzai_customMappings];
                 
                 [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
-                    RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
+                    RZAIPropertyInfo *propDescriptor = [[RZAIPropertyInfo alloc] init];
                     propDescriptor.propertyName = propName;
-                    propDescriptor.dataType = RZAIDataTypeForProperty( propName, self );
-                    [mapping setObject:propDescriptor forKey:RZAINormalizedKey( keyname )];
+                    propDescriptor.dataType = rzai_dataTypeForProperty(propName, self);
+                    [mapping setObject:propDescriptor forKey:rzai_normalizedKey(keyname)];
                 }];
             }
             
@@ -420,11 +420,11 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
         NSString *className = NSStringFromClass(currentClass);
         
         if ( ![[[self class] s_rzai_ignoredClasses] containsObject:className] ) {
-            NSArray *classPropNames = RZAIPropertyNamesForClass(currentClass);
+            NSArray *classPropNames = rzai_propertyNamesForClass(currentClass);
             [classPropNames enumerateObjectsUsingBlock:^(NSString *classPropName, NSUInteger idx, BOOL *stop) {
-                RZAIPropertyDescriptor *propDescriptor = [[RZAIPropertyDescriptor alloc] init];
+                RZAIPropertyInfo *propDescriptor = [[RZAIPropertyInfo alloc] init];
                 propDescriptor.propertyName = classPropName;
-                propDescriptor.dataType = RZAIDataTypeForProperty(classPropName, self);
+                propDescriptor.dataType = rzai_dataTypeForProperty(classPropName, self);
                 [propDescriptors addObject:propDescriptor];
             }];
         }
@@ -432,8 +432,8 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
         currentClass = class_getSuperclass( currentClass );
     }
     
-    [propDescriptors enumerateObjectsUsingBlock:^(RZAIPropertyDescriptor *propDescriptor, NSUInteger idx, BOOL *stop) {
-        [mappings setObject:propDescriptor forKey:RZAINormalizedKey(propDescriptor.propertyName)];
+    [propDescriptors enumerateObjectsUsingBlock:^(RZAIPropertyInfo *propDescriptor, NSUInteger idx, BOOL *stop) {
+        [mappings setObject:propDescriptor forKey:rzai_normalizedKey(propDescriptor.propertyName)];
     }];
     
     return [NSDictionary dictionaryWithDictionary:mappings];
@@ -441,7 +441,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
 
 - (void)rzai_setNilForPropertyNamed:(NSString *)propName
 {
-    SEL setter = RZAISetterForProperty([self class], propName);
+    SEL setter = rzai_setterForProperty([self class], propName);
     if ( setter == nil ) {
         RZAILogError(@"Setter not available for property named %@", propName);
         return;
@@ -459,7 +459,7 @@ static SEL RZAISetterForProperty(Class aClass, NSString *propertyName) {
     [invocation invoke];
 }
 
-- (void)rzai_setValue:(id)value fromKey:(NSString *)originalKey forPropertyDescriptor:(RZAIPropertyDescriptor *)propDescriptor
+- (void)rzai_setValue:(id)value fromKey:(NSString *)originalKey forPropertyDescriptor:(RZAIPropertyInfo *)propDescriptor
 {
     @try {
         if ( value == nil ) {
