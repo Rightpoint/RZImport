@@ -196,6 +196,9 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     else if ( [objClass isSubclassOfClass:[NSDictionary class]] ){
         type = RZAutoImportDataTypeNSDictionary;
     }
+    else if ( [objClass isSubclassOfClass:[NSSet class]] ) {
+        type = RZAutoImportDataTypeNSSet;
+    }
     
     return type;
 }
