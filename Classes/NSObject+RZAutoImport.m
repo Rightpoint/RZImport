@@ -47,13 +47,6 @@ static NSString* const kRZAutoImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'
 
 #define RZAINSNullToNil(x) ([x isEqual:[NSNull null]] ? nil : x)
 
-static NSString *rzai_normalizedKey(NSString *key) {
-    if ( key == nil ) {
-        return nil;
-    }
-    return [[key lowercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
-}
-
 static objc_property_t rzai_getProperty(NSString *name, Class class) {
     
     objc_property_t property = class_getProperty( class, [name UTF8String] );
@@ -180,9 +173,19 @@ static SEL rzai_setterForProperty(Class aClass, NSString *propertyName) {
 }
 
 //
-//  Private Class Implementation
+//  Private Header Implementations
+
+
+NSString *rzai_normalizedKey(NSString *key) {
+    if ( key == nil ) {
+        return nil;
+    }
+    return [[key lowercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
+}
 
 @implementation RZAIPropertyInfo
+
+// Implementation is empty on purpose - just a simple POD class.
 
 @end
 

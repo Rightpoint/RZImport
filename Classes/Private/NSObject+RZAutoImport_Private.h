@@ -27,7 +27,8 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /**
- *  Private category methods, enums, and utility classes. Not intended for public usage.
+ *  Private category methods, enums, and utility classes.
+ *  NOT INTENDED FOR PUBLIC USAGE.
  */
 
 @import Foundation;
@@ -45,6 +46,16 @@ typedef NS_ENUM(NSInteger, RZAutoImportDataType)
     RZAutoImportDataTypeNSString,
     RZAutoImportDataTypeNSDate
 };
+
+/**
+ *  Returns a normalized verison of the key argument
+ *  by removing all underscores and making lowercase.
+ *
+ *  @param key Key to normalize.
+ *
+ *  @return Normalized key.
+ */
+OBJC_EXTERN NSString *rzai_normalizedKey(NSString *key);
 
 @interface NSObject (RZAutoImport_Private)
 
