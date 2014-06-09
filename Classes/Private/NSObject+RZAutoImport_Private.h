@@ -66,6 +66,7 @@ OBJC_EXTERN NSString *rzai_normalizedKey(NSString *key);
 @interface NSObject (RZAutoImport_Private)
 
 + (NSDictionary *)rzai_importMapping;
+- (void)rzai_setNilForPropertyNamed:(NSString *)propName;
 
 @end
 
