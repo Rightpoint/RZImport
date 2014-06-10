@@ -33,6 +33,8 @@
 
 @import Foundation;
 
+@class RZAIPropertyInfo;
+
 /**
  *  These are merely the data types the importer can manage.
  *  Unknown data types for matching keys will log an error if automatic conversion
@@ -65,8 +67,7 @@ OBJC_EXTERN NSString *rzai_normalizedKey(NSString *key);
 
 @interface NSObject (RZAutoImport_Private)
 
-+ (NSDictionary *)rzai_importMappings;
-+ (NSDictionary *)rzai_importMappingsWithExtraMappings:(NSDictionary *)extraMappings;
++ (RZAIPropertyInfo *)rzai_propertyInfoForExternalKey:(NSString *)key withMappings:(NSDictionary *)extraMappings;
 - (void)rzai_setNilForPropertyNamed:(NSString *)propName;
 
 @end
