@@ -391,21 +391,22 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
                 }];
             }
             
-            [[[self class] s_rzai_importMappingCache] setObject:mapping forKey:className];
+            [[[self class] s_rzai_importMappingCache] setObject:[NSDictionary dictionaryWithDictionary:mapping] forKey:className];
         }
         
-        NSMutableDictionary *definedMappings = [mapping mutableCopy];
-        
         if ( extraMappings != nil ) {
+            NSMutableDictionary *definedMappings = [mapping mutableCopy];
             [extraMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
                 RZAIPropertyInfo *propDescriptor = [[RZAIPropertyInfo alloc] init];
                 propDescriptor.propertyName = propName;
                 propDescriptor.dataType = rzai_dataTypeForProperty(propName, self);
                 [definedMappings setObject:propDescriptor forKey:rzai_normalizedKey(keyname)];
             }];
+            returnMapping = [NSDictionary dictionaryWithDictionary:definedMappings];
         }
-        
-        returnMapping = [NSDictionary dictionaryWithDictionary:definedMappings];
+        else {
+            returnMapping = mapping;
+        }
     }];
     
     return returnMapping;
