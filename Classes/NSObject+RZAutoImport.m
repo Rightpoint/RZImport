@@ -368,14 +368,14 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     [self rzai_performBlockAtomically:^{
         
         NSString            *className = NSStringFromClass( self );
-        NSMutableDictionary *mapping   = [[[self class] s_rzai_importMappingCache] objectForKey:className];
+        NSDictionary        *mapping   = [[[self class] s_rzai_importMappingCache] objectForKey:className];
         
         if ( mapping == nil ) {
             
-            mapping = [NSMutableDictionary dictionary];
+            NSMutableDictionary *mutableMapping = [NSMutableDictionary dictionary];
             
             // Get mappings from the normalized property names
-            [mapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
+            [mutableMapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
             
             // Get any mappings from the RZAutoImportable protocol
             if ( [[self class] respondsToSelector:@selector( rzai_customMappings )] ) {
@@ -387,11 +387,12 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
                     RZAIPropertyInfo *propDescriptor = [[RZAIPropertyInfo alloc] init];
                     propDescriptor.propertyName = propName;
                     propDescriptor.dataType = rzai_dataTypeForProperty(propName, self);
-                    [mapping setObject:propDescriptor forKey:rzai_normalizedKey(keyname)];
+                    [mutableMapping setObject:propDescriptor forKey:rzai_normalizedKey(keyname)];
                 }];
             }
             
-            [[[self class] s_rzai_importMappingCache] setObject:[NSDictionary dictionaryWithDictionary:mapping] forKey:className];
+            mapping = [NSDictionary dictionaryWithDictionary:mutableMapping];
+            [[[self class] s_rzai_importMappingCache] setObject:mapping forKey:className];
         }
         
         if ( extraMappings != nil ) {
