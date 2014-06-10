@@ -275,22 +275,6 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     return s_dateFormatter;
 }
 
-/**
- *  Recursive mutex lock used for resource contention.
- *  Custom import blocks may call into this category so the lock
- *  must be recursive in order to support recursive accesses on
- *  the same thread within the same stack frame.
- */
-+ (NSRecursiveLock *)s_rzai_mutex
-{
-    static NSRecursiveLock *s_mutex = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_mutex = [[NSRecursiveLock alloc] init];
-    });
-    return s_mutex;
-}
-
 #pragma mark - Public
 
 + (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict
@@ -412,7 +396,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
         
         NSMutableDictionary *definedMappings = [mapping mutableCopy];
         
-        if ( extraMappings ) {
+        if ( extraMappings != nil ) {
             [extraMappings enumerateKeysAndObjectsUsingBlock:^( NSString *keyname, NSString *propName, BOOL *stop ) {
                 RZAIPropertyInfo *propDescriptor = [[RZAIPropertyInfo alloc] init];
                 propDescriptor.propertyName = propName;
@@ -431,11 +415,14 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 
 + (void)rzai_performBlockAtomically:(void(^)())block
 {
-    [[self s_rzai_mutex] lock];
+    static dispatch_queue_t s_serialQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_serialQueue = dispatch_queue_create("com.rzautoimport.syncQueue", DISPATCH_QUEUE_SERIAL);
+    });
     if ( block ) {
-        block();
+        dispatch_sync(s_serialQueue, block);
     }
-    [[self s_rzai_mutex] unlock];
 }
 
 + (NSDictionary *)rzai_normalizedPropertyMappings
