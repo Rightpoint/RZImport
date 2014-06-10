@@ -217,26 +217,26 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 @implementation NSObject (RZAutoImport)
 
 #pragma mark - Static
-
-+ (NSMutableDictionary *)s_rzai_importMappingCache
-{
-    static NSMutableDictionary *s_importMappingCache = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_importMappingCache = [NSMutableDictionary dictionary];
-    });
-    return s_importMappingCache;
-}
-
-+ (NSMutableDictionary *)s_rzai_propertyInfoCache
-{
-    static NSMutableDictionary *s_propertyInfoCache = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_propertyInfoCache = [NSMutableDictionary dictionary];
-    });
-    return s_propertyInfoCache;
-}
+//
+//+ (NSMutableDictionary *)s_rzai_importMappingCache
+//{
+//    static NSMutableDictionary *s_importMappingCache = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        s_importMappingCache = [NSMutableDictionary dictionary];
+//    });
+//    return s_importMappingCache;
+//}
+//
+//+ (NSMutableDictionary *)s_rzai_propertyInfoCache
+//{
+//    static NSMutableDictionary *s_propertyInfoCache = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        s_propertyInfoCache = [NSMutableDictionary dictionary];
+//    });
+//    return s_propertyInfoCache;
+//}
 
 + (NSSet *)s_rzai_ignoredClasses
 {
@@ -412,10 +412,8 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 // !!!: this method is not threadsafe
 + (NSDictionary *)rzai_importMappings
 {
-    __block NSDictionary *mapping = nil;
-    
-    NSString *className = NSStringFromClass( self );
-    mapping = [[[self class] s_rzai_importMappingCache] objectForKey:className];
+    static void * kRZAIImportMappingAssocKey = &kRZAIImportMappingAssocKey;
+    __block NSDictionary *mapping = objc_getAssociatedObject(self, kRZAIImportMappingAssocKey);
     
     if ( mapping == nil ) {
         
@@ -439,7 +437,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
         }
         
         mapping = [NSDictionary dictionaryWithDictionary:mutableMapping];
-        [[[self class] s_rzai_importMappingCache] setObject:mapping forKey:className];
+        objc_setAssociatedObject(self, kRZAIImportMappingAssocKey, mapping, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     
     return mapping;
@@ -475,14 +473,13 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 // !!!: this method is not threadsafe
 + (RZAIPropertyInfo *)rzai_cachedPropertyInfoForPropertyName:(NSString *)propName
 {
-    NSString *className = NSStringFromClass(self);
-    NSMutableDictionary *classPropInfo = [[self s_rzai_propertyInfoCache] objectForKey:className];
-    
+    static void * kRZAIClassPropInfoAssocKey = &kRZAIClassPropInfoAssocKey;
+    NSMutableDictionary *classPropInfo = objc_getAssociatedObject(self, kRZAIClassPropInfoAssocKey);
     if ( classPropInfo == nil ) {
         classPropInfo = [NSMutableDictionary dictionary];
-        [[self s_rzai_propertyInfoCache] setObject:classPropInfo forKey:className];
+        objc_setAssociatedObject(self, kRZAIClassPropInfoAssocKey, classPropInfo, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    
+
     RZAIPropertyInfo *propInfo = [classPropInfo objectForKey:propName];
     if ( propInfo == nil ) {
         propInfo = [[RZAIPropertyInfo alloc] init];
