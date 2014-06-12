@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name                  = "RZAutoImport"
+  s.name                  = "RZImport"
   s.version               = "1.0.0"
   s.summary               = "Automatic model object deserialization from NSDictionary"
 
@@ -8,15 +8,15 @@ Pod::Spec.new do |s|
 
                           Tired of dealing with dozens and dozens of string keys?
 
-                          RZAutoImport is here to help!
+                          RZImport is here to help!
 
-                          RZAutoImport is a category on NSObject and an accompanying optional protocol for creating and updating model objects 
+                          RZImport is a category on NSObject and an accompanying optional protocol for creating and updating model objects 
                           in your iOS applications. It's particularly useful for importing objects from deserialized JSON HTTP responses 
-                          in REST API's, but it works with any NSDictionary or array of dictionaries that you need to convert to native 
+                          in REST APIs, but it works with any NSDictionary or array of dictionaries that you need to convert to native 
                           model objects.
                           DESC
                           
-  s.homepage              = "https://github.com/raizlabs/RZAutoImport"
+  s.homepage              = "https://github.com/raizlabs/RZImport"
   s.license               = { :type => "MIT", :file => "LICENSE" }
   s.author                = { "Nick Donaldson" => "nick.donaldson@raizlabs.com" }
   s.social_media_url      = "http://twitter.com/raizlabs"
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "6.1"
   s.osx.deployment_target = "10.8"
   
-  s.source                = { :git => "https://github.com/Raizlabs/RZAutoImport.git", :branch => "develop" }
+  s.source                = { :git => "https://github.com/Raizlabs/RZImport.git", :branch => "develop" }
   s.source_files          = "Classes/*.{h,m}", "Classes/Private/*.{h,m}"
   s.private_header_files  = "Classes/Private/*.h"
   s.framework             = "Foundation"
