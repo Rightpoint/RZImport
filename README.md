@@ -81,7 +81,7 @@ Simply copy the files in the `Classes` directory into your project, add them to 
 
 ## Documentation
 
-For most in-depth and up-to-date documentation, please read the Apple-doc commented header files in the source code.
+##### For most in-depth and up-to-date documentation, please read the Apple-doc commented header files in the source code, or visit the [documentation page](http://cocoadocs.org/docsets/RZImport) on CocoaDocs.
 
 ### Basic Usage
 
