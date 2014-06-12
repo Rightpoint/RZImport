@@ -82,7 +82,7 @@ static RZImportDataType rzi_dataTypeForProperty(NSString *propertyName, Class aC
     switch ( typeEncoding[0] ) {
             
             // Object class
-        case '@': {
+        case _C_ID: {
             
             NSUInteger typeLength = (NSUInteger)strlen(typeEncoding);
             
@@ -94,19 +94,19 @@ static RZImportDataType rzi_dataTypeForProperty(NSString *propertyName, Class aC
             break;
             
             // Primitive type
-        case 'c':
-        case 'C':
-        case 'i':
-        case 'I':
-        case 's':
-        case 'S':
-        case 'l':
-        case 'L':
-        case 'q':
-        case 'Q':
-        case 'f':
-        case 'd':
-        case 'B':
+        case _C_CHR:
+        case _C_UCHR:
+        case _C_INT:
+        case _C_UINT:
+        case _C_SHT:
+        case _C_USHT:
+        case _C_LNG:
+        case _C_ULNG:
+        case _C_LNG_LNG:
+        case _C_ULNG_LNG:
+        case _C_FLT:
+        case _C_DBL:
+        case _C_BOOL:
             type = RZImportDataTypePrimitive;
             break;
             
