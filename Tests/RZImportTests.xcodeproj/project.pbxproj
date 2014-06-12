@@ -16,7 +16,7 @@
 		9AF9EF171937946A00F659E2 /* BigObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0D1937946A00F659E2 /* BigObject.m */; };
 		9AF9EF181937946A00F659E2 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0F1937946A00F659E2 /* ModelObject.m */; };
 		9AF9EF191937946A00F659E2 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF111937946A00F659E2 /* Person.m */; };
-		9AF9EF1A1937946A00F659E2 /* RZAutoImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */; };
+		9AF9EF1A1937946A00F659E2 /* RZImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF121937946A00F659E2 /* RZImportTests.m */; };
 		9AF9EF24193794D000F659E2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
 		9AF9EF31193794DB00F659E2 /* TestDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF051937946A00F659E2 /* TestDataStore.m */; };
 		9AF9EF32193794E000F659E2 /* test_person.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AF9EF071937946A00F659E2 /* test_person.json */; };
@@ -25,14 +25,18 @@
 		9AF9EF35193794E700F659E2 /* BigObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0D1937946A00F659E2 /* BigObject.m */; };
 		9AF9EF36193794E700F659E2 /* ModelObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF0F1937946A00F659E2 /* ModelObject.m */; };
 		9AF9EF37193794E700F659E2 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF111937946A00F659E2 /* Person.m */; };
-		9AF9EF38193794E700F659E2 /* RZAutoImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */; };
-		9AF9EF391937954600F659E2 /* NSObject+RZAutoImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F207C52819356F98005CDA77 /* NSObject+RZAutoImport.m */; };
-		F207C52A19356F98005CDA77 /* NSObject+RZAutoImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F207C52819356F98005CDA77 /* NSObject+RZAutoImport.m */; };
+		9AF9EF38193794E700F659E2 /* RZImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF121937946A00F659E2 /* RZImportTests.m */; };
+		9AF9EF391937954600F659E2 /* NSObject+RZImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F207C52819356F98005CDA77 /* NSObject+RZImport.m */; };
+		F207C52A19356F98005CDA77 /* NSObject+RZImport.m in Sources */ = {isa = PBXBuildFile; fileRef = F207C52819356F98005CDA77 /* NSObject+RZImport.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9A74A5C01946085700A06937 /* NSObject+RZAutoImport_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RZAutoImport_Private.h"; sourceTree = "<group>"; };
-		9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = RZAutoImportTests.xctest; path = "RZAutoImportTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A0DC9A41949E9DD009A0E32 /* RZImportTests-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RZImportTests-iOS-Info.plist"; sourceTree = "<group>"; };
+		9A0DC9A51949E9DD009A0E32 /* RZImportTests-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZImportTests-iOS-Prefix.pch"; sourceTree = "<group>"; };
+		9A0DC9A81949E9E9009A0E32 /* RZImportTests-OSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZImportTests-OSX-Info.plist"; sourceTree = "<group>"; };
+		9A0DC9A91949E9E9009A0E32 /* RZImportTests-OSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZImportTests-OSX-Prefix.pch"; sourceTree = "<group>"; };
+		9A74A5C01946085700A06937 /* NSObject+RZImport_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RZImport_Private.h"; sourceTree = "<group>"; };
+		9A90D23A192CF9F000ED28F6 /* RZImportTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RZImportTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A90D23D192CF9F000ED28F6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9A90D23F192CF9F000ED28F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		9AF9EF041937946A00F659E2 /* TestDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDataStore.h; sourceTree = "<group>"; };
@@ -47,15 +51,11 @@
 		9AF9EF0F1937946A00F659E2 /* ModelObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelObject.m; sourceTree = "<group>"; };
 		9AF9EF101937946A00F659E2 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		9AF9EF111937946A00F659E2 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
-		9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZAutoImportTests.m; sourceTree = "<group>"; };
-		9AF9EF1C1937947300F659E2 /* RZAutoImportTests-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RZAutoImportTests-iOS-Info.plist"; sourceTree = "<group>"; };
-		9AF9EF1D1937947300F659E2 /* RZAutoImportTests-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZAutoImportTests-iOS-Prefix.pch"; sourceTree = "<group>"; };
-		9AF9EF23193794D000F659E2 /* RZAutoImportTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RZAutoImportTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AF9EF27193794D000F659E2 /* RZAutoImportTests-OSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZAutoImportTests-OSX-Info.plist"; sourceTree = "<group>"; };
-		9AF9EF2D193794D000F659E2 /* RZAutoImportTests-OSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZAutoImportTests-OSX-Prefix.pch"; sourceTree = "<group>"; };
-		F207C52719356F98005CDA77 /* NSObject+RZAutoImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RZAutoImport.h"; sourceTree = "<group>"; };
-		F207C52819356F98005CDA77 /* NSObject+RZAutoImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RZAutoImport.m"; sourceTree = "<group>"; };
-		F207C52919356F98005CDA77 /* RZAutoImportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZAutoImportable.h; sourceTree = "<group>"; };
+		9AF9EF121937946A00F659E2 /* RZImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZImportTests.m; sourceTree = "<group>"; };
+		9AF9EF23193794D000F659E2 /* RZImportTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RZImportTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F207C52719356F98005CDA77 /* NSObject+RZImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RZImport.h"; sourceTree = "<group>"; };
+		F207C52819356F98005CDA77 /* NSObject+RZImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RZImport.m"; sourceTree = "<group>"; };
+		F207C52919356F98005CDA77 /* RZImportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZImportable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +79,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A0DC9A31949E9DD009A0E32 /* RZImportTests-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				9A0DC9A41949E9DD009A0E32 /* RZImportTests-iOS-Info.plist */,
+				9A0DC9A51949E9DD009A0E32 /* RZImportTests-iOS-Prefix.pch */,
+			);
+			path = "RZImportTests-iOS";
+			sourceTree = "<group>";
+		};
+		9A0DC9A71949E9E9009A0E32 /* RZImportTests-OSX */ = {
+			isa = PBXGroup;
+			children = (
+				9A0DC9A81949E9E9009A0E32 /* RZImportTests-OSX-Info.plist */,
+				9A0DC9A91949E9E9009A0E32 /* RZImportTests-OSX-Prefix.pch */,
+			);
+			path = "RZImportTests-OSX";
+			sourceTree = "<group>";
+		};
 		9A74A5BF1946085700A06937 /* Private */ = {
 			isa = PBXGroup;
 			children = (
-				9A74A5C01946085700A06937 /* NSObject+RZAutoImport_Private.h */,
+				9A74A5C01946085700A06937 /* NSObject+RZImport_Private.h */,
 			);
 			path = Private;
 			sourceTree = "<group>";
@@ -92,8 +110,8 @@
 			children = (
 				F207C52619356F98005CDA77 /* Classes */,
 				9AF9EF021937946A00F659E2 /* Tests */,
-				9AF9EF1B1937947300F659E2 /* RZAutoImportTests-iOS */,
-				9AF9EF25193794D000F659E2 /* RZAutoImportTests-OSX */,
+				9A0DC9A31949E9DD009A0E32 /* RZImportTests-iOS */,
+				9A0DC9A71949E9E9009A0E32 /* RZImportTests-OSX */,
 				9A90D23C192CF9F000ED28F6 /* Frameworks */,
 				9A90D23B192CF9F000ED28F6 /* Products */,
 			);
@@ -102,8 +120,8 @@
 		9A90D23B192CF9F000ED28F6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */,
-				9AF9EF23193794D000F659E2 /* RZAutoImportTests-OSX.xctest */,
+				9A90D23A192CF9F000ED28F6 /* RZImportTests-iOS.xctest */,
+				9AF9EF23193794D000F659E2 /* RZImportTests-OSX.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,7 +141,7 @@
 				9AF9EF031937946A00F659E2 /* DataStore */,
 				9AF9EF061937946A00F659E2 /* json */,
 				9AF9EF091937946A00F659E2 /* Model */,
-				9AF9EF121937946A00F659E2 /* RZAutoImportTests.m */,
+				9AF9EF121937946A00F659E2 /* RZImportTests.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -161,31 +179,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		9AF9EF1B1937947300F659E2 /* RZAutoImportTests-iOS */ = {
-			isa = PBXGroup;
-			children = (
-				9AF9EF1C1937947300F659E2 /* RZAutoImportTests-iOS-Info.plist */,
-				9AF9EF1D1937947300F659E2 /* RZAutoImportTests-iOS-Prefix.pch */,
-			);
-			path = "RZAutoImportTests-iOS";
-			sourceTree = "<group>";
-		};
-		9AF9EF25193794D000F659E2 /* RZAutoImportTests-OSX */ = {
-			isa = PBXGroup;
-			children = (
-				9AF9EF27193794D000F659E2 /* RZAutoImportTests-OSX-Info.plist */,
-				9AF9EF2D193794D000F659E2 /* RZAutoImportTests-OSX-Prefix.pch */,
-			);
-			path = "RZAutoImportTests-OSX";
-			sourceTree = "<group>";
-		};
 		F207C52619356F98005CDA77 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				9A74A5BF1946085700A06937 /* Private */,
-				F207C52719356F98005CDA77 /* NSObject+RZAutoImport.h */,
-				F207C52819356F98005CDA77 /* NSObject+RZAutoImport.m */,
-				F207C52919356F98005CDA77 /* RZAutoImportable.h */,
+				F207C52719356F98005CDA77 /* NSObject+RZImport.h */,
+				F207C52819356F98005CDA77 /* NSObject+RZImport.m */,
+				F207C52919356F98005CDA77 /* RZImportable.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -194,9 +194,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9A90D239192CF9F000ED28F6 /* RZAutoImportTests-iOS */ = {
+		9A90D239192CF9F000ED28F6 /* RZImportTests-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-iOS" */;
+			buildConfigurationList = 9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZImportTests-iOS" */;
 			buildPhases = (
 				9A90D236192CF9F000ED28F6 /* Sources */,
 				9A90D237192CF9F000ED28F6 /* Frameworks */,
@@ -206,14 +206,14 @@
 			);
 			dependencies = (
 			);
-			name = "RZAutoImportTests-iOS";
-			productName = RZAutoImportTests;
-			productReference = 9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */;
+			name = "RZImportTests-iOS";
+			productName = RZImportTests;
+			productReference = 9A90D23A192CF9F000ED28F6 /* RZImportTests-iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9AF9EF22193794D000F659E2 /* RZAutoImportTests-OSX */ = {
+		9AF9EF22193794D000F659E2 /* RZImportTests-OSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9AF9EF2E193794D000F659E2 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-OSX" */;
+			buildConfigurationList = 9AF9EF2E193794D000F659E2 /* Build configuration list for PBXNativeTarget "RZImportTests-OSX" */;
 			buildPhases = (
 				9AF9EF1F193794D000F659E2 /* Sources */,
 				9AF9EF20193794D000F659E2 /* Frameworks */,
@@ -223,9 +223,9 @@
 			);
 			dependencies = (
 			);
-			name = "RZAutoImportTests-OSX";
-			productName = "RZAutoImportTests-OSX";
-			productReference = 9AF9EF23193794D000F659E2 /* RZAutoImportTests-OSX.xctest */;
+			name = "RZImportTests-OSX";
+			productName = "RZImportTests-OSX";
+			productReference = 9AF9EF23193794D000F659E2 /* RZImportTests-OSX.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -236,7 +236,7 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 			};
-			buildConfigurationList = 9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZAutoImportTests" */;
+			buildConfigurationList = 9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZImportTests" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -248,8 +248,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9A90D239192CF9F000ED28F6 /* RZAutoImportTests-iOS */,
-				9AF9EF22193794D000F659E2 /* RZAutoImportTests-OSX */,
+				9A90D239192CF9F000ED28F6 /* RZImportTests-iOS */,
+				9AF9EF22193794D000F659E2 /* RZImportTests-OSX */,
 			);
 		};
 /* End PBXProject section */
@@ -282,11 +282,11 @@
 			files = (
 				9AF9EF191937946A00F659E2 /* Person.m in Sources */,
 				9AF9EF161937946A00F659E2 /* Address.m in Sources */,
-				F207C52A19356F98005CDA77 /* NSObject+RZAutoImport.m in Sources */,
+				F207C52A19356F98005CDA77 /* NSObject+RZImport.m in Sources */,
 				9AF9EF181937946A00F659E2 /* ModelObject.m in Sources */,
 				9AF9EF131937946A00F659E2 /* TestDataStore.m in Sources */,
 				9AF9EF171937946A00F659E2 /* BigObject.m in Sources */,
-				9AF9EF1A1937946A00F659E2 /* RZAutoImportTests.m in Sources */,
+				9AF9EF1A1937946A00F659E2 /* RZImportTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,13 +294,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AF9EF391937954600F659E2 /* NSObject+RZAutoImport.m in Sources */,
+				9AF9EF391937954600F659E2 /* NSObject+RZImport.m in Sources */,
 				9AF9EF37193794E700F659E2 /* Person.m in Sources */,
 				9AF9EF34193794E700F659E2 /* Address.m in Sources */,
 				9AF9EF36193794E700F659E2 /* ModelObject.m in Sources */,
 				9AF9EF31193794DB00F659E2 /* TestDataStore.m in Sources */,
 				9AF9EF35193794E700F659E2 /* BigObject.m in Sources */,
-				9AF9EF38193794E700F659E2 /* RZAutoImportTests.m in Sources */,
+				9AF9EF38193794E700F659E2 /* RZImportTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +358,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Prefix.pch";
+				GCC_PREFIX_HEADER = "RZImportTests-iOS/RZImportTests-iOS-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -375,11 +375,11 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				INFOPLIST_FILE = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Info.plist";
+				INFOPLIST_FILE = "RZImportTests-iOS/RZImportTests-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RZImportTests-iOS";
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = xctest;
@@ -415,7 +415,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Prefix.pch";
+				GCC_PREFIX_HEADER = "RZImportTests-iOS/RZImportTests-iOS-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = YES;
@@ -427,10 +427,10 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
-				INFOPLIST_FILE = "RZAutoImportTests-iOS/RZAutoImportTests-iOS-Info.plist";
+				INFOPLIST_FILE = "RZImportTests-iOS/RZImportTests-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_CFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RZImportTests-iOS";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				WARNING_CFLAGS = "";
@@ -464,7 +464,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Prefix.pch";
+				GCC_PREFIX_HEADER = "RZImportTests-OSX/RZImportTests-OSX-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -476,9 +476,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Info.plist";
+				INFOPLIST_FILE = "RZImportTests-OSX/RZImportTests-OSX-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RZImportTests-OSX";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -510,16 +510,16 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Prefix.pch";
+				GCC_PREFIX_HEADER = "RZImportTests-OSX/RZImportTests-OSX-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "RZAutoImportTests-OSX/RZAutoImportTests-OSX-Info.plist";
+				INFOPLIST_FILE = "RZImportTests-OSX/RZImportTests-OSX-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "RZImportTests-OSX";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -528,7 +528,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZAutoImportTests" */ = {
+		9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZImportTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A90D234192CF9CB00ED28F6 /* Debug */,
@@ -537,7 +537,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-iOS" */ = {
+		9A90D24C192CF9F000ED28F6 /* Build configuration list for PBXNativeTarget "RZImportTests-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A90D24D192CF9F000ED28F6 /* Debug */,
@@ -546,7 +546,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9AF9EF2E193794D000F659E2 /* Build configuration list for PBXNativeTarget "RZAutoImportTests-OSX" */ = {
+		9AF9EF2E193794D000F659E2 /* Build configuration list for PBXNativeTarget "RZImportTests-OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9AF9EF2F193794D000F659E2 /* Debug */,

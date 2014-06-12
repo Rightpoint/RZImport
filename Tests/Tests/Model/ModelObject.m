@@ -1,6 +1,6 @@
 //
 //  ModelObject.m
-//  RZAutoImport
+//  RZImport
 //
 //  Created by Nick Donaldson on 5/22/14.
 //

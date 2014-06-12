@@ -1,6 +1,6 @@
 //
-//  NSObject+RZAutoImport_Private.h
-//  RZAutoImportTests
+//  NSObject+RZImport_Private.h
+//  RZImport
 //
 //  Created by Nick Donaldson on 6/9/14.
 //
@@ -33,27 +33,27 @@
 
 @import Foundation;
 
-@class RZAIPropertyInfo;
+@class RZIPropertyInfo;
 
 /**
  *  These are merely the data types the importer can manage.
  *  Unknown data types for matching keys will log an error if automatic conversion
  *  is not possible.
  */
-typedef NS_ENUM(NSInteger, RZAutoImportDataType)
+typedef NS_ENUM(NSInteger, RZImportDataType)
 {
-    RZAutoImportDataTypeUnknown = -1,
-    RZAutoImportDataTypePrimitive = 0,
-    RZAutoImportDataTypeNSNumber,
-    RZAutoImportDataTypeNSString,
-    RZAutoImportDataTypeNSDate,
-    RZAutoImportDataTypeNSDictionary,
-    RZAutoImportDataTypeNSArray,
-    RZAutoImportDataTypeNSSet,
-    RZAutoImportDataTypeOtherObject
+    RZImportDataTypeUnknown = -1,
+    RZImportDataTypePrimitive = 0,
+    RZImportDataTypeNSNumber,
+    RZImportDataTypeNSString,
+    RZImportDataTypeNSDate,
+    RZImportDataTypeNSDictionary,
+    RZImportDataTypeNSArray,
+    RZImportDataTypeNSSet,
+    RZImportDataTypeOtherObject
 };
 
-OBJC_EXTERN RZAutoImportDataType rzai_dataTypeFromString(NSString *string);
+OBJC_EXTERN RZImportDataType rzi_dataTypeFromString(NSString *string);
 
 /**
  *  Returns a normalized verison of the key argument
@@ -63,12 +63,12 @@ OBJC_EXTERN RZAutoImportDataType rzai_dataTypeFromString(NSString *string);
  *
  *  @return Normalized key.
  */
-OBJC_EXTERN NSString *rzai_normalizedKey(NSString *key);
+OBJC_EXTERN NSString *rzi_normalizedKey(NSString *key);
 
-@interface NSObject (RZAutoImport_Private)
+@interface NSObject (RZImport_Private)
 
-+ (RZAIPropertyInfo *)rzai_propertyInfoForExternalKey:(NSString *)key withMappings:(NSDictionary *)extraMappings;
-- (void)rzai_setNilForPropertyNamed:(NSString *)propName;
++ (RZIPropertyInfo *)rzi_propertyInfoForExternalKey:(NSString *)key withMappings:(NSDictionary *)extraMappings;
+- (void)rzi_setNilForPropertyNamed:(NSString *)propName;
 
 @end
 
@@ -76,9 +76,9 @@ OBJC_EXTERN NSString *rzai_normalizedKey(NSString *key);
 //           Propery Info Class
 // ===============================================
 
-@interface RZAIPropertyInfo : NSObject
+@interface RZIPropertyInfo : NSObject
 
 @property (nonatomic, copy)   NSString *propertyName;
-@property (nonatomic, assign) RZAutoImportDataType dataType;
+@property (nonatomic, assign) RZImportDataType dataType;
 
 @end

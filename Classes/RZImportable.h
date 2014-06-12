@@ -1,6 +1,6 @@
 //
-//  RZAutoImportable.h
-//  RZAutoImport
+//  RZImportable.h
+//  RZImport
 //
 //  Created by Nick Donaldson on 5/21/14.
 //
@@ -28,7 +28,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol RZAutoImportable <NSObject>
+@protocol RZImportable <NSObject>
 
 @optional
 
@@ -37,7 +37,7 @@
  *
  *  @return A dictionary containing mappings from dictionary keys to property names.
  */
-+ (NSDictionary *)rzai_customMappings;
++ (NSDictionary *)rzi_customMappings;
 
 /**
  *  Implement to provide a custom date format string for a particular key or keys.
@@ -47,7 +47,7 @@
  *
  *  @return A date format to use for importing this key, otherwise nil to use the default (ISO-8601).
  */
-+ (NSString *)rzai_dateFormatForKey:(NSString *)key;
++ (NSString *)rzi_dateFormatForKey:(NSString *)key;
 
 /**
  *  Implement to return an existing object for the provided dictionary representation. 
@@ -57,21 +57,21 @@
  *
  *  @return An existing object instance represented by the dict, or nil if one does not exist.
  */
-+ (id)rzai_existingObjectForDict:(NSDictionary *)dict;
++ (id)rzi_existingObjectForDict:(NSDictionary *)dict;
 
 /**
  *  Implement to optionally prevent import for particular key/value pairs.
  *  Can be used to validate imported value or override automatic import to perform custom logic.
- *  In order to support custom import logic for certain attributes, his is called by @p RZAutoImport 
+ *  In order to support custom import logic for certain attributes, his is called by @p RZImport
  *  prior to mapping the dictionary key to a property name, so the key here may not match a property 
  *  name in this class.
  *
  *  @param value Unmodified value from dictionary being imported
  *  @param key   Unmodified key from dictionary being imported
  *
- *  @return YES if RZAutoImport should proceed with automatic import for the key/value pair
+ *  @return YES if RZImport should proceed with automatic import for the key/value pair
             NO if the key/value pair should not be imported or will be handled within this method.
  */
-- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key;
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key;
 
 @end
