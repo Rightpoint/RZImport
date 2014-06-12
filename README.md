@@ -63,9 +63,15 @@ ID: 100 Name: Bob Smith
 ```
 ## Installation
 
-#### CocoaPods
+#### CocoaPods (Preferred)
 
-*TODO*
+Add the following to your podfile and run `pod install`:
+
+```
+pod 'RZImport', '~> 1.0'
+```
+
+This project uses semantic versioning, so the version number can be changed to suit your project's needs as future versions are released. See the [CocoaPods guides](http://guides.cocoapods.org/using/the-podfile.html) for more details.
 
 #### Manual Installation
 
