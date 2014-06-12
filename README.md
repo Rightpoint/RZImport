@@ -52,7 +52,7 @@ NSDictionary *myDictionary = @{
 };
 
 // Create a new Person instance by automatically inferring key/property mappings
-Person *newPerson = [Person rzai_objectFromDictionary:myDictionary];
+Person *newPerson = [Person rzi_objectFromDictionary:myDictionary];
 NSLog(@"ID: %@ Name: %@ %@", newPerson.ID, newPerson.firstName, newPerson.lastName);
 ```
 
@@ -100,11 +100,11 @@ RZImport can be used to create model objects from a either a dictionary or an ar
 			
 				// convert to native objects
 				if ( [deserializedResponse isKindOfClass:[NSDictionary class]] ) {
-					Person *newPerson = [Person rzai_objectFromDictionary:deserializedResponse];
+					Person *newPerson = [Person rzi_objectFromDictionary:deserializedResponse];
 					// ... do something with the person ...
 				}
 				else if ( [deserializedResponse isKindOfClass:[NSArray class]] ) {
-					NSArray *people = [Person rzai_objectsFromArray:deserializedResponse];
+					NSArray *people = [Person rzi_objectsFromArray:deserializedResponse];
 					// ... do something with the people ...
 				}
 			}
@@ -118,7 +118,7 @@ You can also update an existing object instance from a dictionary.
 
 ```obj-c
 Person *myPerson = self.person;
-[myPerson rzai_updateFromDictionary:someDictionary];
+[myPerson rzi_updateFromDictionary:someDictionary];
 ```
 
 ### Custom Mappings
@@ -138,7 +138,7 @@ If you need to provide a custom mapping from a dictionary key to a property name
 
 @implementation MyModelClass
 
-+ (NSDictionary *)rzai_customKeyMappings
++ (NSDictionary *)rzi_customKeyMappings
 {
 	// Map dictionary key "zip" to property "zipCode"
 	// and dictionary key "id" to property "objectID"
@@ -155,7 +155,7 @@ If you need to provide a custom mapping from a dictionary key to a property name
 You can also prevent RZImport from importing a value for a particular key, or import the value of a key using your own custom logic. 
 
 ```obj-c
-- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key;
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key;
 {
 	if ( [key isEqualToString:@"zip"] ) {
 		// validation - must be a string that only contains numbers
@@ -167,7 +167,7 @@ You can also prevent RZImport from importing a value for a particular key, or im
 	else if ( [key isEqualToString:@"address"] ) {
 		if ( [value isKindOfClass:[NSDictionary class]] ) {
 			// custom import logic
-			self.address = [Address rzai_objectFromDictionary:value];
+			self.address = [Address rzi_objectFromDictionary:value];
 		}
 		return NO;
 	}
@@ -178,10 +178,10 @@ You can also prevent RZImport from importing a value for a particular key, or im
 
 ### Uniquing Objects
 
-`RZImportable` also has a handy method that you can implement on your classes to prevent duplicate objects from being created when using `rzai_objectFromDictionary:` or `rzai_objectsFromArray:`.
+`RZImportable` also has a handy method that you can implement on your classes to prevent duplicate objects from being created when using `rzi_objectFromDictionary:` or `rzi_objectsFromArray:`.
 
 ```obj-c
-+ (id)rzai_existingObjectForDict:(NSDictionary *)dict
++ (id)rzi_existingObjectForDict:(NSDictionary *)dict
 {
 	// If there is already an object in the data store with the same ID, return it.
 	// The existing instance will be updated and returned instead of a new instance.
@@ -195,9 +195,9 @@ You can also prevent RZImport from importing a value for a particular key, or im
 
 ## Known Issues
 
-RZImport uses the default designated initializer `init` when it creates new object instances, therefore it cannot be used out-of-the-box with classes that require another designated initializer. However, to get around this, you can override `+rzai_existingObjectForDict:` on any class to *always* return a new object created with the proper initializer (or an existing object).
+RZImport uses the default designated initializer `init` when it creates new object instances, therefore it cannot be used out-of-the-box with classes that require another designated initializer. However, to get around this, you can override `+rzi_existingObjectForDict:` on any class to *always* return a new object created with the proper initializer (or an existing object).
 
-For example, RZImport cannot be used out-of-the-box to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary, or by overriding `+rzai_existingObjectForDict` to return a new object inserted into the correct managed object context.
+For example, RZImport cannot be used out-of-the-box to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary, or by overriding `+rzi_existingObjectForDict` to return a new object inserted into the correct managed object context.
 
 ## License
 
