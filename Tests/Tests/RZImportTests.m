@@ -69,7 +69,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertNotNil( d, @"Could not deserialize json" );
     
     Person *johndoe = nil;
-    XCTAssertNoThrow( johndoe = [Person rzai_objectFromDictionary:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( johndoe = [Person rzi_objectFromDictionary:d], @"Import should not throw exception" );
     XCTAssertNotNil( johndoe, @"Failed to create object" );
     XCTAssert( [johndoe.lastUpdated isKindOfClass:[NSDate class]], @"Failed to import last updated" ); // accuracy of date import verified in another test
     XCTAssertEqualObjects( johndoe.ID, @12345, @"Failed to import ID" );
@@ -85,7 +85,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertNotNil( d, @"Could not deserialize json" );
     
     Person *johndoe = nil;
-    XCTAssertNoThrow( johndoe = [Person rzai_objectFromDictionary:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( johndoe = [Person rzi_objectFromDictionary:d], @"Import should not throw exception" );
     XCTAssertNotNil( johndoe, @"Failed to create object" );
     
     Address *johnsAddress = johndoe.address;
@@ -110,7 +110,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
         @"lastname" : @"Dole"
     };
 
-    Person *samePerson = [Person rzai_objectFromDictionary:d];
+    Person *samePerson = [Person rzi_objectFromDictionary:d];
     XCTAssertEqual( samePerson, self.testPerson, @"Should be same object from data store" );
     XCTAssertEqualObjects( self.testPerson.firstName, @"Bob", @"Failed to set new first name" );
     XCTAssertEqualObjects( self.testPerson.lastName, @"Dole", @"Failed to set new last name" );
@@ -122,7 +122,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     
     for ( NSString *key in keyPermutations ) {
         NSDictionary *d = @{ key : key };
-        XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception" );
+        XCTAssertNoThrow( [self.testPerson rzi_importValuesFromDict:d], @"Import should not throw exception" );
         XCTAssertEqualObjects( self.testPerson.firstName, key, @"Permutation failed: %@", key );
     }
 }
@@ -130,7 +130,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 - (void)test_setNil
 {
     NSDictionary *d = @{ @"firstName" : [NSNull null] };
-    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Null value should not cause exception" );
+    XCTAssertNoThrow( [self.testPerson rzi_importValuesFromDict:d], @"Null value should not cause exception" );
     XCTAssertNil( self.testPerson.firstName, @"Failed to set firstname to nil" );
 }
 
@@ -138,19 +138,19 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 {
     // convert string to number
     NSDictionary *d = @{ @"id" : @"666" };
-    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( [self.testPerson rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( self.testPerson.ID, @666, @"Failed to convert string to number during import" );
     
     // convert number to string
     d = @{ @"firstname" : @666 };
-    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( [self.testPerson rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( self.testPerson.firstName, @"666", @"Failed to convert number to string during import" );
     
     // convert unix time to date
     NSDate *now = [NSDate date];
     NSTimeInterval t_epoch = [now timeIntervalSince1970];
     d = @{ @"lastupdated" : @(t_epoch) };
-    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( [self.testPerson rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqual( [self.testPerson.lastUpdated timeIntervalSince1970], t_epoch, @"Failed to import date from unix time" );
 }
 
@@ -167,7 +167,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertNotNil( dateString, @"Failed to format date" );
 
     NSDictionary *d = @{ @"last_updated" : dateString };
-    XCTAssertNoThrow( [self.testPerson rzai_importValuesFromDict:d], @"Import should not throw exception"  );
+    XCTAssertNoThrow( [self.testPerson rzi_importValuesFromDict:d], @"Import should not throw exception"  );
     
     NSString *resultDateString = [dateFormatter stringFromDate:self.testPerson.lastUpdated];
     XCTAssertEqualObjects( dateString, resultDateString, @"Failed to import date correctly" );
@@ -179,7 +179,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     dateString = [dateFormatter stringFromDate:now];
     d = @{ @"last_updated" : dateString };
     
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not cause exception"  );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not cause exception"  );
 
     resultDateString = [dateFormatter stringFromDate:address.lastUpdated];
     XCTAssertEqualObjects( dateString, resultDateString, @"Failed to import date correctly" );
@@ -193,11 +193,11 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     NSString* const theStreet = @"101 Main St.";
     NSDictionary *d = @{ @"street1" : theStreet };
     
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
     
     d = @{ @"street" : theStreet };
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception"  );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception"  );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using overridden property mapping" );
 }
 
@@ -209,7 +209,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     NSString* const theStreet = @"101 Main St.";
     NSDictionary *d = @{ @"street_where_I_live" : theStreet };
     
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d withMappings:@{ @"street_where_I_live" : @"street1" }], @"Import should not throw exception" );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d withMappings:@{ @"street_where_I_live" : @"street1" }], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using extra inline property mapping" );
 }
 
@@ -223,7 +223,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
         @"zip" : @"01234"
     };
     
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
     
     // Ensure that the valid zip code imported correctly
@@ -232,7 +232,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     // Import invalid zip code and make sure it fails - should keep previous value
     d = @{ @"zip" : @"not10202valid" };
     
-    XCTAssertNoThrow( [address rzai_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.zipCode, @"01234", @"Failed block import of invalid zip code");
 }
 
@@ -261,7 +261,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             BigObject *big1 = nil;
-            XCTAssertNoThrow( big1 = [BigObject rzai_objectFromDictionary:d], @"Should not cause exception with thread contention");
+            XCTAssertNoThrow( big1 = [BigObject rzi_objectFromDictionary:d], @"Should not cause exception with thread contention");
             XCTAssertNotNil(big1, @"There should be an object");
             delayFired = YES;
         });
@@ -269,7 +269,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
         dispatch_async(bg1, ^{
             XCTAssertFalse(delayFired, @"Delayed dispatch should not have fired yet");
             BigObject *big2 = nil;
-            XCTAssertNoThrow( big2 = [BigObject rzai_objectFromDictionary:d], @"Should not cause exception with thread contention");
+            XCTAssertNoThrow( big2 = [BigObject rzi_objectFromDictionary:d], @"Should not cause exception with thread contention");
             XCTAssertNotNil(big2, @"There should be an object");
         });
         

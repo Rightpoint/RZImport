@@ -68,7 +68,7 @@
  *
  *  @return An object instance initialized with the values in the dictionary.
  */
-+ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict;
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict;
 
 /**
  *  Return an instance of the calling class initialized with the values in the dictionary,
@@ -85,7 +85,7 @@
  *
  *  @return An object instance initialized with the values in the dictionary.
  */
-+ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
 
 /**
  *  Return an array of instances of the calling class initialized with the
@@ -101,7 +101,7 @@
  *
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
-+ (NSArray *)rzai_objectsFromArray:(NSArray *)array;
++ (NSArray *)rzi_objectsFromArray:(NSArray *)array;
 
 /**
  *  Return an array of instances of the calling class initialized with the
@@ -120,7 +120,7 @@
  *
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
-+ (NSArray *)rzai_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings;
++ (NSArray *)rzi_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings;
  
 /**
  *  Import the values from the provided dictionary into this object.
@@ -129,7 +129,7 @@
  *
  *  @param dict Dictionary of values to import.
  */
-- (void)rzai_importValuesFromDict:(NSDictionary *)dict;
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict;
 
 /**
  *  Import the values from the provided dictionary into this object with optional extra
@@ -140,7 +140,7 @@
  *                  use in the import. These will override/supplement implicit mappings and mappings
  *                  provided by @p RZImportable.
  */
-- (void)rzai_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
 
 @end
 
