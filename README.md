@@ -1,4 +1,4 @@
-RZAutoImport
+RZImport
 ============
 
 [![Build Status](https://travis-ci.org/Raizlabs/RZAutoImport.svg)](https://travis-ci.org/Raizlabs/RZAutoImport)
@@ -7,15 +7,15 @@ Tired of writing boilerplate to import deserialized API responses to model objec
 
 Tired of dealing with dozens and dozens of string keys? 
 
-RZAutoImport is here to help!  
+RZImport is here to help!  
 
-RZAutoImport is a category on `NSObject` and an accompanying optional protocol for creating and updating model objects in your iOS applications. It's particularly useful for importing objects from deserialized JSON HTTP responses in REST API's, but it works with any `NSDictionary` or array of dictionaries that you need to convert to native model objects.
+RZImport is a category on `NSObject` and an accompanying optional protocol for creating and updating model objects in your iOS applications. It's particularly useful for importing objects from deserialized JSON HTTP responses in REST API's, but it works with any `NSDictionary` or array of dictionaries that you need to convert to native model objects.
 
 #### Convenient
 
-Property names are inferred from similarly named string keys in an `NSDictionary` and performs automatic type-conversion whenever possible. No need to reference string constants all over the place, just name your properties in a similar way to the keys in the dictionary and let RZAutoImport handle it for you.
+Property names are inferred from similarly named string keys in an `NSDictionary` and performs automatic type-conversion whenever possible. No need to reference string constants all over the place, just name your properties in a similar way to the keys in the dictionary and let RZImport handle it for you.
 
-RZAutoImport automatically performs case-insensitive matches between property names and key names, ignoring underscores. For example, all of the following keys will map to a property named `firstName`:
+RZImport automatically performs case-insensitive matches between property names and key names, ignoring underscores. For example, all of the following keys will map to a property named `firstName`:
 
 - `firstName`
 - `FirstName`
@@ -25,7 +25,7 @@ RZAutoImport automatically performs case-insensitive matches between property na
 
 #### Flexible
 
-Can't name your properties the same as the keys in the dictionary? Need to perform extra validation or import logic? No problem! The `RZAutoImportable` protocol has hooks for specifying custom mappings, custom import logic and validation on a per-key basis, and more!
+Can't name your properties the same as the keys in the dictionary? Need to perform extra validation or import logic? No problem! The `RZImportable` protocol has hooks for specifying custom mappings, custom import logic and validation on a per-key basis, and more!
 
 #### Performant
 
@@ -69,7 +69,7 @@ ID: 100 Name: Bob Smith
 
 #### Manual Installation
 
-Simply copy the files in the `RZAutoImport` directory into your project, add them to your target, and off you go!
+Simply copy the files in the `Classes` directory into your project, add them to your target, and off you go!
 
 **Note**: The `Private` directory contains private headers that are not intended for public usage.
 
@@ -79,10 +79,10 @@ For most in-depth and up-to-date documentation, please read the Apple-doc commen
 
 ### Basic Usage
 
-RZAutoImport can be used to create model objects from a either a dictionary or an array of dictionaries.
+RZImport can be used to create model objects from a either a dictionary or an array of dictionaries.
 
 ```obj-c
-#import "NSObject+RZAutoImport.h"
+#import "NSObject+RZImport.h"
 
 ...
 
@@ -123,12 +123,12 @@ Person *myPerson = self.person;
 
 ### Custom Mappings
 
-If you need to provide a custom mapping from a dictionary key to a property name, implement the `RZAutoImportable` protocol on your model class. Custom mappings will take precedence over inferred mappings, but both can be used for the same class.
+If you need to provide a custom mapping from a dictionary key to a property name, implement the `RZImportable` protocol on your model class. Custom mappings will take precedence over inferred mappings, but both can be used for the same class.
 
 ```obj-c
-#import "RZAutoImportable.h"
+#import "RZImportable.h"
 
-@interface MyModelClass : NSObject <RZAutoImportable>
+@interface MyModelClass : NSObject <RZImportable>
 
 @property (nonatomic, copy) NSNumber *objectID;
 @property (nonatomic, copy) NSString *zipCode;
@@ -152,7 +152,7 @@ If you need to provide a custom mapping from a dictionary key to a property name
 
 ```
 
-You can also prevent RZAutoImport from importing a value for a particular key, or import the value of a key using your own custom logic. 
+You can also prevent RZImport from importing a value for a particular key, or import the value of a key using your own custom logic. 
 
 ```obj-c
 - (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key;
@@ -178,7 +178,7 @@ You can also prevent RZAutoImport from importing a value for a particular key, o
 
 ### Uniquing Objects
 
-`RZAutoImportable` also has a handy method that you can implement on your classes to prevent duplicate objects from being created when using `rzai_objectFromDictionary:` or `rzai_objectsFromArray:`.
+`RZImportable` also has a handy method that you can implement on your classes to prevent duplicate objects from being created when using `rzai_objectFromDictionary:` or `rzai_objectsFromArray:`.
 
 ```obj-c
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict
@@ -195,10 +195,10 @@ You can also prevent RZAutoImport from importing a value for a particular key, o
 
 ## Known Issues
 
-RZAutoImport uses the default designated initializer `init` when it creates new object instances, therefore it cannot be used out-of-the-box with classes that require another designated initializer. However, to get around this, you can override `+rzai_existingObjectForDict:` on any class to *always* return a new object created with the proper initializer (or an existing object).
+RZImport uses the default designated initializer `init` when it creates new object instances, therefore it cannot be used out-of-the-box with classes that require another designated initializer. However, to get around this, you can override `+rzai_existingObjectForDict:` on any class to *always* return a new object created with the proper initializer (or an existing object).
 
-For example, RZAutoImport cannot be used out-of-the-box to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary, or by overriding `+rzai_existingObjectForDict` to return a new object inserted into the correct managed object context.
+For example, RZImport cannot be used out-of-the-box to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary, or by overriding `+rzai_existingObjectForDict` to return a new object inserted into the correct managed object context.
 
 ## License
 
-RZAutoImport is licensed under the MIT license. See the `LICENSE` file for details.
+RZImport is licensed under the MIT license. See the `LICENSE` file for details.
