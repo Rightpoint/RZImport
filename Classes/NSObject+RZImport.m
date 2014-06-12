@@ -591,7 +591,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
                 [self setValue:convertedValue forKey:propDescriptor.propertyName];
             }
             else {
-                RZILogError(@"Could not convert value of type [%@] from key [%@] to correct type for property [%@] of class [%@]",
+                RZILogError(@"Could not convert value of type %@ for key \"%@\" to correct type for property \"%@\" of class %@",
                              NSStringFromClass([value class]),
                              originalKey,
                              propDescriptor.propertyName,
