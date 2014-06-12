@@ -70,7 +70,7 @@
  *  @param key   Unmodified key from dictionary being imported
  *
  *  @return YES if RZImport should proceed with automatic import for the key/value pair
-            NO if the key/value pair should not be imported or will be handled within this method.
+ *          NO if the key/value pair should not be imported or will be handled within this method.
  */
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key;
 
