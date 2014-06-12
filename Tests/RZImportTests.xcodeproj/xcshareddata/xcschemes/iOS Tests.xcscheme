@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9A90D239192CF9F000ED28F6"
                BuildableName = "RZAutoImportTests-iOS.xctest"
-               BlueprintName = "RZAutoImportTests-iOS"
-               ReferencedContainer = "container:RZAutoImportTests.xcodeproj">
+               BlueprintName = "RZImportTests-iOS"
+               ReferencedContainer = "container:RZImportTests.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9A90D239192CF9F000ED28F6"
                BuildableName = "RZAutoImportTests-iOS.xctest"
-               BlueprintName = "RZAutoImportTests-iOS"
-               ReferencedContainer = "container:RZAutoImportTests.xcodeproj">
+               BlueprintName = "RZImportTests-iOS"
+               ReferencedContainer = "container:RZImportTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

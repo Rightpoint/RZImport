@@ -32,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		9A74A5C01946085700A06937 /* NSObject+RZAutoImport_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RZAutoImport_Private.h"; sourceTree = "<group>"; };
-		9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = RZAutoImportTests.xctest; path = "RZAutoImportTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A90D23A192CF9F000ED28F6 /* RZAutoImportTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RZAutoImportTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A90D23D192CF9F000ED28F6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9A90D23F192CF9F000ED28F6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		9AF9EF041937946A00F659E2 /* TestDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDataStore.h; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 		9A90D23B192CF9F000ED28F6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */,
+				9A90D23A192CF9F000ED28F6 /* RZAutoImportTests-iOS.xctest */,
 				9AF9EF23193794D000F659E2 /* RZAutoImportTests-OSX.xctest */,
 			);
 			name = Products;
@@ -208,7 +208,7 @@
 			);
 			name = "RZAutoImportTests-iOS";
 			productName = RZAutoImportTests;
-			productReference = 9A90D23A192CF9F000ED28F6 /* RZAutoImportTests.xctest */;
+			productReference = 9A90D23A192CF9F000ED28F6 /* RZAutoImportTests-iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		9AF9EF22193794D000F659E2 /* RZAutoImportTests-OSX */ = {
@@ -236,7 +236,7 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 			};
-			buildConfigurationList = 9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZAutoImportTests" */;
+			buildConfigurationList = 9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZImportTests" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -528,7 +528,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZAutoImportTests" */ = {
+		9A90D233192CF9CB00ED28F6 /* Build configuration list for PBXProject "RZImportTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9A90D234192CF9CB00ED28F6 /* Debug */,
