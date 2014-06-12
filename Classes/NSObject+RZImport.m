@@ -1,6 +1,6 @@
 //
-//  NSObject+RZAutoImport.m
-//  RZAutoImport
+//  NSObject+RZImport.m
+//  RZImport
 //
 //  Created by Nick Donaldson on 5/21/14.
 //
@@ -26,24 +26,24 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSObject+RZAutoImport.h"
-#import "NSObject+RZAutoImport_Private.h"
+#import "NSObject+RZImport.h"
+#import "NSObject+RZImport_Private.h"
 #import <objc/runtime.h>
 
 
-static NSString* const kRZAutoImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+static NSString* const kRZImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 //
 //  Private Utility Macros/Functions
 //
 
 #if ( DEBUG )
-#define RZAILogDebug(msg, ...) NSLog((@"[RZAutoImport : DEBUG] " msg), ##__VA_ARGS__)
+#define RZAILogDebug(msg, ...) NSLog((@"[RZImport : DEBUG] " msg), ##__VA_ARGS__)
 #else
 #define RZAILogDebug(...)
 #endif
 
-#define RZAILogError(msg, ...) NSLog((@"[RZAutoImport : ERROR] " msg), ##__VA_ARGS__);
+#define RZAILogError(msg, ...) NSLog((@"[RZImport : ERROR] " msg), ##__VA_ARGS__);
 
 #define RZAINSNullToNil(x) ([x isEqual:[NSNull null]] ? nil : x)
 
@@ -63,21 +63,21 @@ static objc_property_t rzai_getProperty(NSString *name, Class class) {
     return property;
 }
 
-static RZAutoImportDataType rzai_dataTypeForProperty(NSString *propertyName, Class aClass) {
+static RZImportDataType rzai_dataTypeForProperty(NSString *propertyName, Class aClass) {
     
     objc_property_t property = rzai_getProperty(propertyName, aClass);
     if ( property == nil ) {
-        return RZAutoImportDataTypeUnknown;
+        return RZImportDataTypeUnknown;
     }
     
     char *typeEncoding = nil;
     typeEncoding = property_copyAttributeValue(property, "T");
     
     if ( typeEncoding == NULL ) {
-        return RZAutoImportDataTypeUnknown;
+        return RZImportDataTypeUnknown;
     }
     
-    RZAutoImportDataType type = RZAutoImportDataTypeUnknown;
+    RZImportDataType type = RZImportDataTypeUnknown;
     
     switch ( typeEncoding[0] ) {
             
@@ -107,7 +107,7 @@ static RZAutoImportDataType rzai_dataTypeForProperty(NSString *propertyName, Cla
         case 'f':
         case 'd':
         case 'B':
-            type = RZAutoImportDataTypePrimitive;
+            type = RZImportDataTypePrimitive;
             break;
             
         default:
@@ -172,32 +172,32 @@ NSString *rzai_normalizedKey(NSString *key) {
     return [[key lowercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
 }
 
-RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
+RZImportDataType rzai_dataTypeFromString(NSString *string)
 {
     Class objClass = NSClassFromString(string);
     if ( objClass == Nil ){
-        return RZAutoImportDataTypeUnknown;
+        return RZImportDataTypeUnknown;
     }
     
-    RZAutoImportDataType type = RZAutoImportDataTypeOtherObject;
+    RZImportDataType type = RZImportDataTypeOtherObject;
     
     if ( [objClass isSubclassOfClass:[NSString class]] ){
-        type = RZAutoImportDataTypeNSString;
+        type = RZImportDataTypeNSString;
     }
     else if ( [objClass isSubclassOfClass:[NSNumber class]] ){
-        type = RZAutoImportDataTypeNSNumber;
+        type = RZImportDataTypeNSNumber;
     }
     else if ( [objClass isSubclassOfClass:[NSDate class]] ){
-        type = RZAutoImportDataTypeNSDate;
+        type = RZImportDataTypeNSDate;
     }
     else if ( [objClass isSubclassOfClass:[NSArray class]] ){
-        type = RZAutoImportDataTypeNSArray;
+        type = RZImportDataTypeNSArray;
     }
     else if ( [objClass isSubclassOfClass:[NSDictionary class]] ){
-        type = RZAutoImportDataTypeNSDictionary;
+        type = RZImportDataTypeNSDictionary;
     }
     else if ( [objClass isSubclassOfClass:[NSSet class]] ) {
-        type = RZAutoImportDataTypeNSSet;
+        type = RZImportDataTypeNSSet;
     }
     
     return type;
@@ -214,7 +214,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
 //  Category Implementation
 //
 
-@implementation NSObject (RZAutoImport)
+@implementation NSObject (RZImport)
 
 #pragma mark - Static
 //
@@ -272,7 +272,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_dateFormatter = [[NSDateFormatter alloc] init];
-        s_dateFormatter.dateFormat = kRZAutoImportISO8601DateFormat;
+        s_dateFormatter.dateFormat = kRZImportISO8601DateFormat;
         
         // !!!: The time zone is mandated to be GMT for parsing string dates.
         //      Any timezone offsets should be encoded into the date string or handled on the display level.
@@ -299,7 +299,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     id object = nil;
     
     if ( [self respondsToSelector:@selector( rzai_existingObjectForDict: )] ) {
-        Class <RZAutoImportable> thisClass = [self class];
+        Class <RZImportable> thisClass = [self class];
         object = [thisClass rzai_existingObjectForDict:dict];
     }
     
@@ -347,7 +347,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         
         if ( canOverrideImports ) {
-            if ( ![(id<RZAutoImportable>)self rzai_shouldImportValue:value forKey:key] ) {
+            if ( ![(id<RZImportable>)self rzai_shouldImportValue:value forKey:key] ) {
                 return;
             }
         }
@@ -401,7 +401,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
     static dispatch_queue_t s_serialQueue = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_serialQueue = dispatch_queue_create("com.rzautoimport.syncQueue", DISPATCH_QUEUE_SERIAL);
+        s_serialQueue = dispatch_queue_create("com.RZimport.syncQueue", DISPATCH_QUEUE_SERIAL);
     });
     
     if ( block ) {
@@ -422,10 +422,10 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
         // Get mappings from the normalized property names
         [mutableMapping addEntriesFromDictionary:[self rzai_normalizedPropertyMappings]];
         
-        // Get any mappings from the RZAutoImportable protocol
+        // Get any mappings from the RZImportable protocol
         if ( [[self class] respondsToSelector:@selector( rzai_customMappings )] ) {
             
-            Class <RZAutoImportable> thisClass = [self class];
+            Class <RZImportable> thisClass = [self class];
             NSDictionary *customMappings = [thisClass rzai_customMappings];
             
             [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *key, NSString *propName, BOOL *stop ) {
@@ -525,16 +525,16 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
                 
                 switch (propDescriptor.dataType) {
                         
-                    case RZAutoImportDataTypeNSNumber:
-                    case RZAutoImportDataTypePrimitive:
+                    case RZImportDataTypeNSNumber:
+                    case RZImportDataTypePrimitive:
                         convertedValue = value;
                         break;
                         
-                    case RZAutoImportDataTypeNSString:
+                    case RZImportDataTypeNSString:
                         convertedValue = [value stringValue];
                         break;
                         
-                    case RZAutoImportDataTypeNSDate: {
+                    case RZImportDataTypeNSDate: {
                         // Assume it's a unix timestamp
                         convertedValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
                         
@@ -554,8 +554,8 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
                 
                 switch (propDescriptor.dataType) {
                         
-                    case RZAutoImportDataTypePrimitive:
-                    case RZAutoImportDataTypeNSNumber: {
+                    case RZImportDataTypePrimitive:
+                    case RZImportDataTypeNSNumber: {
                         __block NSNumber *number = nil;
                         [[self class] rzai_performBlockAtomically:^{
                             number = [[[self class] s_rzai_numberFormatter] numberFromString:value];
@@ -564,11 +564,11 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
                     }
                         break;
                         
-                    case RZAutoImportDataTypeNSString:
+                    case RZImportDataTypeNSString:
                         convertedValue = value;
                         break;
                         
-                    case RZAutoImportDataTypeNSDate: {
+                    case RZImportDataTypeNSDate: {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
                         [[self class] rzai_performBlockAtomically:^{
@@ -577,12 +577,12 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
                             NSDateFormatter *dateFormatter  = [[self class] s_rzai_dateFormatter];
                             
                             if ( [[self class] respondsToSelector:@selector(rzai_dateFormatForKey:)] ) {
-                                Class <RZAutoImportable> thisClass = [self class];
+                                Class <RZImportable> thisClass = [self class];
                                 dateFormat = [thisClass rzai_dateFormatForKey:originalKey];
                             }
                             
                             if ( dateFormat == nil ) {
-                                dateFormat = kRZAutoImportISO8601DateFormat;
+                                dateFormat = kRZImportISO8601DateFormat;
                             }
                             
                             dateFormatter.dateFormat = dateFormat;
@@ -602,7 +602,7 @@ RZAutoImportDataType rzai_dataTypeFromString(NSString *string)
                 
                 // This will not occur in raw JSON deserialization,
                 // but the conversion may have already happened in an external method.
-                if ( propDescriptor.dataType == RZAutoImportDataTypeNSDate ) {
+                if ( propDescriptor.dataType == RZImportDataTypeNSDate ) {
                     convertedValue = value;
                 }
             }

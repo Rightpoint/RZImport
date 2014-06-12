@@ -1,6 +1,6 @@
 //
-//  RZAutoImportTests.m
-//  RZAutoImportTests
+//  RZImportTests.m
+//  RZImportTests
 //
 //  Created by Nick Donaldson on 5/21/14.
 //
@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "NSObject+RZAutoImport.h"
+#import "NSObject+RZImport.h"
 #import "Person.h"
 #import "BigObject.h"
 #import "Address.h"
@@ -16,13 +16,13 @@
 
 extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
-@interface RZAutoImportTests : XCTestCase
+@interface RZImportTests : XCTestCase
 
 @property (nonatomic, strong) Person *testPerson;
 
 @end
 
-@implementation RZAutoImportTests
+@implementation RZImportTests
 
 #pragma mark - Setup
 

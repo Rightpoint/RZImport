@@ -1,6 +1,6 @@
 //
 //  Person.m
-//  RZAutoImport
+//  RZImport
 //
 //  Created by Nick Donaldson on 5/21/14.
 //
@@ -9,7 +9,7 @@
 #import "Person.h"
 #import "Address.h"
 #import "TestDataStore.h"
-#import "NSObject+RZAutoImport.h"
+#import "NSObject+RZImport.h"
 
 @implementation Person
 

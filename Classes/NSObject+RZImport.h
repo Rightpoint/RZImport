@@ -1,6 +1,6 @@
 //
-//  NSObject+RZAutoImport.h
-//  RZAutoImport
+//  NSObject+RZImport.h
+//  RZImport
 //
 //  Created by Nick Donaldson on 5/21/14.
 //
@@ -28,7 +28,7 @@
 
 
 @import Foundation;
-#import "RZAutoImportable.h"
+#import "RZImportable.h"
 
 /**
  *  Automatically map key/value pairs from dictionary to properties
@@ -48,19 +48,19 @@
  *  @"last_name" 
  *  @endcode
  *
- *  Optionally implement @p RZAutoImportable on the object class to manage
+ *  Optionally implement @p RZImportable on the object class to manage
  *  object uniqueness, relationships, and other configuration options.
  *
  *  Inferred mappings are cached for performance when repeatedly importing the
  *  same type of object. If performance is a major concern, you can always implement
- *  the RZAutoImportable protocol and provide a pre-defined mapping.
+ *  the RZImportable protocol and provide a pre-defined mapping.
  */
-@interface NSObject (RZAutoImport)
+@interface NSObject (RZImport)
 
 /**
  *  Return an instance of the calling class initialized with the values in the dictionary.
  *
- *  If the calling class implements RZAutoImportable, it is given the opportunity
+ *  If the calling class implements RZImportable, it is given the opportunity
  *  to return an existing unique instance of the object that is represented by
  *  the dictionary.
  *
@@ -74,14 +74,14 @@
  *  Return an instance of the calling class initialized with the values in the dictionary,
  *  with optional extra key/property mappings.
  *
- *  If the calling class implements RZAutoImportable, it is given the opportunity
+ *  If the calling class implements RZImportable, it is given the opportunity
  *  to return an existing unique instance of the object that is represented by
  *  the dictionary.
  *
  *  @param dict     Dictionary from which to create the object instance.
  *  @param mappings An optional dictionary of extra mappings from keys to property names to
  *                  use in the import. These will override/supplement implicit mappings and mappings
- *                  provided by @p RZAutoImportable.
+ *                  provided by @p RZImportable.
  *
  *  @return An object instance initialized with the values in the dictionary.
  */
@@ -93,7 +93,7 @@
  *
  *  The array parameter should contain only @p NSDictionary instances.
  *
- *  If the calling class implements RZAutoImportable, it is given the opportunity
+ *  If the calling class implements RZImportable, it is given the opportunity
  *  to return an existing unique instance of an object that is represented by
  *  each dictionary.
  *
@@ -109,14 +109,14 @@
  *
  *  The array parameter should contain only @p NSDictionary instances.
  *
- *  If the calling class implements RZAutoImportable, it is given the opportunity
+ *  If the calling class implements RZImportable, it is given the opportunity
  *  to return an existing unique instance of an object that is represented by
  *  each dictionary.
  *
  *  @param array    An array of @p NSDictionary instances objects to import.
  *  @param mappings An optional dictionary of extra mappings from keys to property names to
  *                  use in the import. These will override/supplement implicit mappings and mappings
- *                  provided by @p RZAutoImportable.
+ *                  provided by @p RZImportable.
  *
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
@@ -125,7 +125,7 @@
 /**
  *  Import the values from the provided dictionary into this object.
  *  Uses the implicit key/property mapping and the optional mapping overrides
- *  provided by RZAutoImportable.
+ *  provided by RZImportable.
  *
  *  @param dict Dictionary of values to import.
  */
@@ -138,8 +138,9 @@
  *  @param dict     Dictionary of values to import.
  *  @param mappings An optional dictionary of extra mappings from keys to property names to
  *                  use in the import. These will override/supplement implicit mappings and mappings
- *                  provided by @p RZAutoImportable.
+ *                  provided by @p RZImportable.
  */
 - (void)rzai_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
+
 @end
 
