@@ -381,7 +381,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     static dispatch_queue_t s_serialQueue = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        s_serialQueue = dispatch_queue_create("com.RZimport.syncQueue", DISPATCH_QUEUE_SERIAL);
+        s_serialQueue = dispatch_queue_create("com.rzimport.syncQueue", DISPATCH_QUEUE_SERIAL);
     });
     
     if ( block ) {
