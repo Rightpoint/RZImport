@@ -28,6 +28,10 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Optional protocol for model objects to import in order to customize
+ *  the behavior of RZImport.
+ */
 @protocol RZImportable <NSObject>
 
 @optional
