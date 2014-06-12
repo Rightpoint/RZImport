@@ -8,7 +8,7 @@ NSString* const kAddressLastUpdatedFormat = @"yyyy-MM-dd_HH:mm";
 
 @implementation Address
 
-+ (NSDictionary *)rzai_customMappings
++ (NSDictionary *)rzi_customMappings
 {
     return @{
         @"street" : @"street1",
@@ -16,7 +16,7 @@ NSString* const kAddressLastUpdatedFormat = @"yyyy-MM-dd_HH:mm";
     };
 }
 
-+ (NSString *)rzai_dateFormatForKey:(NSString *)key
++ (NSString *)rzi_dateFormatForKey:(NSString *)key
 {
     if ( [key isEqualToString:@"last_updated"] ) {
         return kAddressLastUpdatedFormat;
@@ -24,7 +24,7 @@ NSString* const kAddressLastUpdatedFormat = @"yyyy-MM-dd_HH:mm";
     return nil;
 }
 
-- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key
 {
     if ( [key isEqualToString:@"zip"] ) {
         // validation - must be a string that only contains numbers

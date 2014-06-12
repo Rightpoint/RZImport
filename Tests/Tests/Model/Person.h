@@ -1,6 +1,6 @@
 //
 //  Person.h
-//  RZAutoImport
+//  RZImport
 //
 //  Created by Nick Donaldson on 5/21/14.
 //
