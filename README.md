@@ -1,7 +1,7 @@
 RZImport
 ============
 
-[![Build Status](https://travis-ci.org/Raizlabs/RZAutoImport.svg)](https://travis-ci.org/Raizlabs/RZAutoImport)
+[![Build Status](https://travis-ci.org/Raizlabs/RZImport.svg)](https://travis-ci.org/Raizlabs/RZImport)
 
 Tired of writing boilerplate to import deserialized API responses to model objects? 
 
