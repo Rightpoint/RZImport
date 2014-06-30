@@ -241,7 +241,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
         
         // !!!: The locale is mandated to be US, so JSON API responses will parse correctly regardless of locality.
         //      If other localization is required, custom import blocks must be used.
-        s_numberFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+        s_numberFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
     });
     return s_numberFormatter;
 }
