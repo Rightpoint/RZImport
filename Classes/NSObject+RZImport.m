@@ -279,7 +279,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     id object = nil;
     
     if ( [self respondsToSelector:@selector( rzi_existingObjectForDict: )] ) {
-        Class <RZImportable> thisClass = [self class];
+        Class <RZImportable> thisClass = self;
         object = [thisClass rzi_existingObjectForDict:dict];
     }
     
@@ -324,6 +324,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 {
     BOOL canOverrideImports = [self respondsToSelector:@selector( rzi_shouldImportValue:forKey: )];
     
+    
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         
         if ( canOverrideImports ) {
@@ -345,7 +346,6 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 }
 
 #pragma mark - Private Header
-
 
 // For runtime locating of property info
 + (RZIPropertyInfo *)rzi_propertyInfoForExternalKey:(NSString *)key withMappings:(NSDictionary *)extraMappings
@@ -389,6 +389,27 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     }
 }
 
++ (NSSet *)rzi_cachedIgnoredKeys
+{
+    static void * kRZIIgnoredKeysAssocKey = &kRZIIgnoredKeysAssocKey;
+    __block NSSet *ignoredKeys = nil;
+    [self rzi_performBlockAtomically:^{
+        ignoredKeys = objc_getAssociatedObject(self, kRZIIgnoredKeysAssocKey);
+        if ( ignoredKeys == nil ) {
+            if ( [self respondsToSelector:@selector( rzi_ignoredKeys )] ) {
+                Class <RZImportable> thisClass = self;
+                ignoredKeys = [NSSet setWithArray:[thisClass rzi_ignoredKeys]];
+            }
+            else {
+                // !!!: empty set so cache does not fault again
+                ignoredKeys = [NSSet set];
+            }
+            objc_setAssociatedObject(self, kRZIIgnoredKeysAssocKey, ignoredKeys, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
+    }];
+    return ignoredKeys;
+}
+
 // !!!: this method is not threadsafe
 + (NSDictionary *)rzi_importMappings
 {
@@ -403,9 +424,9 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
         [mutableMapping addEntriesFromDictionary:[self rzi_normalizedPropertyMappings]];
         
         // Get any mappings from the RZImportable protocol
-        if ( [[self class] respondsToSelector:@selector( rzi_customMappings )] ) {
+        if ( [self respondsToSelector:@selector( rzi_customMappings )] ) {
             
-            Class <RZImportable> thisClass = [self class];
+            Class <RZImportable> thisClass = self;
             NSDictionary *customMappings = [thisClass rzi_customMappings];
             
             [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *key, NSString *propName, BOOL *stop ) {
@@ -428,12 +449,12 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 {
     NSMutableDictionary *mappings = [NSMutableDictionary dictionary];
     
-    Class currentClass = [self class];
+    Class currentClass = self;
     while ( currentClass != Nil ) {
         
         NSString *className = NSStringFromClass(currentClass);
         
-        if ( ![[[self class] s_rzi_ignoredClasses] containsObject:className] ) {
+        if ( ![[self s_rzi_ignoredClasses] containsObject:className] ) {
             NSArray *classPropNames = rzi_propertyNamesForClass(currentClass);
             [classPropNames enumerateObjectsUsingBlock:^(NSString *classPropName, NSUInteger idx, BOOL *stop) {
                 RZIPropertyInfo *propInfo = [self rzi_cachedPropertyInfoForPropertyName:classPropName];

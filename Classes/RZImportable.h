@@ -44,6 +44,14 @@
 + (NSDictionary *)rzi_customMappings;
 
 /**
+ *  Implement to ignore a specific set of keys.
+ *  When performing an import, these keys will be ignored in the dictionary being imported.
+ *
+ *  @return An array of NSString objects representing keys to ignore during import.
+ */
++ (NSArray *)rzi_ignoredKeys;
+
+/**
  *  Implement to provide a custom date format string for a particular key or keys.
  *  Will only be called if the inferred property is an NSDate type and the dict value is a string.
  *
