@@ -218,22 +218,23 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     Address *address = [Address new];
     
     NSString* const theStreet = @"101 Main St.";
+    NSString* const theZip = @"01234";
     NSDictionary *d = @{
         @"street1" : theStreet,
-        @"zip" : @"01234"
+        @"zip" : theZip
     };
     
     XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
     
     // Ensure that the valid zip code imported correctly
-    XCTAssertEqualObjects( address.zipCode, @"01234", @"Failed to import valid zip code");
+    XCTAssertEqualObjects( address.zipCode, theZip, @"Failed to import valid zip code");
     
     // Import invalid zip code and make sure it fails - should keep previous value
     d = @{ @"zip" : @"not10202valid" };
     
     XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
-    XCTAssertEqualObjects( address.zipCode, @"01234", @"Failed block import of invalid zip code");
+    XCTAssertEqualObjects( address.zipCode, theZip, @"Failed block import of invalid zip code");
 }
 
 - (void)test_threadSafety
@@ -277,6 +278,26 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
             [[NSRunLoop currentRunLoop] runUntilDate:[[NSDate date] dateByAddingTimeInterval:0.1]];
         }
     }
+}
+
+- (void)test_ignoreKeys
+{
+    Address *address = [Address new];
+    
+    NSString* const theStreet = @"101 Main St.";
+    NSString* const theZip = @"01234";
+    NSDictionary *d = @{
+        @"street1" : theStreet,
+        @"zip" : theZip,
+        @"ignoreMe" : @"Don't import this"
+    };
+    
+    XCTAssertNil( address.ignoreMe, @"Property should be nil initially" );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
+    XCTAssertEqualObjects( address.zipCode, theZip, @"Failed to import valid zip code");
+    XCTAssertNil( address.ignoreMe, @"Property still be nil" );
+
 }
 
 @end

@@ -324,8 +324,13 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 {
     BOOL canOverrideImports = [self respondsToSelector:@selector( rzi_shouldImportValue:forKey: )];
     
+    NSSet *ignoredKeys = [[self class] rzi_cachedIgnoredKeys];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
+        
+        if ( [ignoredKeys containsObject:key] ) {
+            return;
+        }
         
         if ( canOverrideImports ) {
             if ( ![(id<RZImportable>)self rzi_shouldImportValue:value forKey:key] ) {
