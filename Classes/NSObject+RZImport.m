@@ -345,7 +345,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
             [self rzi_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
         }
         else {
-            RZILogDebug(@"No property found in class %@ for key %@. Create a custom mapping to import a value for this key.", NSStringFromClass([self class]), key);
+            [self rzi_logUnknownKeyWarningForKey:key];
         }
     }];
 }
@@ -495,6 +495,23 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     }
     
     return propInfo;
+}
+
+- (void)rzi_logUnknownKeyWarningForKey:(NSString *)key
+{
+    [[self class] rzi_performBlockAtomically:^{
+       
+        static NSMutableSet *s_cachedUnknownKeySet = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            s_cachedUnknownKeySet = [NSMutableSet set];
+        });
+        
+        if ( ![s_cachedUnknownKeySet containsObject:key] ) {
+            [s_cachedUnknownKeySet addObject:key];
+            RZILogDebug(@"No property found in class \"%@\" for key \"%@\". Create a custom mapping to import a value for this key.", NSStringFromClass([self class]), key);
+        }
+    }];
 }
 
 - (void)rzi_setNilForPropertyNamed:(NSString *)propName

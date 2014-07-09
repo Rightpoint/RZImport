@@ -300,4 +300,21 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 }
 
+- (void)test_unknownKeyWarningCache
+{
+    /*
+     *  This test is for visual verification of the log.
+     *  Only one warning should be logged for each unknown key ("favoriteFood" and "zodiac").
+     */
+    
+    NSMutableArray *peopleDicts = [NSMutableArray array];
+    [peopleDicts addObject:@{ @"id" : @1000, @"favoriteFood" : @"Steak", @"zodiac" : @"Capricorn" }];
+    [peopleDicts addObject:@{ @"id" : @1001, @"favoriteFood" : @"Tacos", @"zodiac" : @"Gemini" }];
+    [peopleDicts addObject:@{ @"id" : @1002, @"favoriteFood" : @"Biryani", @"zodiac" : @"Pisces" }];
+    
+    NSArray *newPeeps = [Person rzi_objectsFromArray:peopleDicts];
+    XCTAssertEqual(newPeeps.count, (NSUInteger)3, @"Wrong number of people");
+}
+    
+
 @end
