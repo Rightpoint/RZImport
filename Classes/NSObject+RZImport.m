@@ -385,7 +385,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
         [self rzi_importValuesFromNestedDict:value withKeyPathPrefix:key mappings:mappings ignoredKeys:ignoredKeys];
     }
     else {
-        [self rzi_logUnknownKeyWarningForKey:key];
+        [[self class] rzi_logUnknownKeyWarningForKey:key];
     }
 }
 
@@ -521,9 +521,9 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     return propInfo;
 }
 
-- (void)rzi_logUnknownKeyWarningForKey:(NSString *)key
++ (void)rzi_logUnknownKeyWarningForKey:(NSString *)key
 {
-    [[self class] rzi_performBlockAtomicallyAndWait:NO block:^{
+    [self rzi_performBlockAtomicallyAndWait:NO block:^{
        
         static NSMutableSet *s_cachedUnknownKeySet = nil;
         static dispatch_once_t onceToken;
@@ -531,9 +531,11 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
             s_cachedUnknownKeySet = [NSMutableSet set];
         });
         
-        if ( ![s_cachedUnknownKeySet containsObject:key] ) {
-            [s_cachedUnknownKeySet addObject:key];
-            RZILogDebug(@"No property found in class \"%@\" for key \"%@\". Create a custom mapping to import a value for this key, or add it to the ignored keys to suppress this warning.", NSStringFromClass([self class]), key);
+        NSString *cacheKeyString = [NSString stringWithFormat:@"%@:%@", NSStringFromClass(self), key];
+        
+        if ( ![s_cachedUnknownKeySet containsObject:cacheKeyString] ) {
+            [s_cachedUnknownKeySet addObject:cacheKeyString];
+            RZILogDebug(@"No property found in class \"%@\" for key \"%@\". Create a custom mapping to import a value for this key, or add it to the ignored keys to suppress this warning.", NSStringFromClass(self), key);
         }
     }];
 }
