@@ -279,7 +279,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     id object = nil;
     
     if ( [self respondsToSelector:@selector( rzi_existingObjectForDict: )] ) {
-        Class <RZImportable> thisClass = [self class];
+        Class <RZImportable> thisClass = self;
         object = [thisClass rzi_existingObjectForDict:dict];
     }
     
@@ -324,7 +324,13 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 {
     BOOL canOverrideImports = [self respondsToSelector:@selector( rzi_shouldImportValue:forKey: )];
     
+    NSSet *ignoredKeys = [[self class] rzi_cachedIgnoredKeys];
+    
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
+        
+        if ( [ignoredKeys containsObject:key] ) {
+            return;
+        }
         
         if ( canOverrideImports ) {
             if ( ![(id<RZImportable>)self rzi_shouldImportValue:value forKey:key] ) {
@@ -339,19 +345,18 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
             [self rzi_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
         }
         else {
-            RZILogDebug(@"No property found in class %@ for key %@. Create a custom mapping to import a value for this key.", NSStringFromClass([self class]), key);
+            [self rzi_logUnknownKeyWarningForKey:key];
         }
     }];
 }
 
 #pragma mark - Private Header
 
-
 // For runtime locating of property info
 + (RZIPropertyInfo *)rzi_propertyInfoForExternalKey:(NSString *)key withMappings:(NSDictionary *)extraMappings
 {
     __block RZIPropertyInfo *propInfo = nil;
-    [self rzi_performBlockAtomically:^{
+    [self rzi_performBlockAtomicallyAndWait:YES block:^{
         
         // First check overridden mappings
         NSString *propName = [extraMappings objectForKey:key];
@@ -376,7 +381,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 
 #pragma mark - Private
 
-+ (void)rzi_performBlockAtomically:(void(^)())block
++ (void)rzi_performBlockAtomicallyAndWait:(BOOL)wait block:(void(^)())block
 {
     static dispatch_queue_t s_serialQueue = nil;
     static dispatch_once_t onceToken;
@@ -385,8 +390,34 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     });
     
     if ( block ) {
-        dispatch_sync(s_serialQueue, block);
+        if ( wait ) {
+            dispatch_sync(s_serialQueue, block);
+        }
+        else {
+            dispatch_async(s_serialQueue, block);
+        }
     }
+}
+
++ (NSSet *)rzi_cachedIgnoredKeys
+{
+    static void * kRZIIgnoredKeysAssocKey = &kRZIIgnoredKeysAssocKey;
+    __block NSSet *ignoredKeys = nil;
+    [self rzi_performBlockAtomicallyAndWait:YES block:^{
+        ignoredKeys = objc_getAssociatedObject(self, kRZIIgnoredKeysAssocKey);
+        if ( ignoredKeys == nil ) {
+            if ( [self respondsToSelector:@selector( rzi_ignoredKeys )] ) {
+                Class <RZImportable> thisClass = self;
+                ignoredKeys = [NSSet setWithArray:[thisClass rzi_ignoredKeys]];
+            }
+            else {
+                // !!!: empty set so cache does not fault again
+                ignoredKeys = [NSSet set];
+            }
+            objc_setAssociatedObject(self, kRZIIgnoredKeysAssocKey, ignoredKeys, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
+    }];
+    return ignoredKeys;
 }
 
 // !!!: this method is not threadsafe
@@ -403,9 +434,9 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
         [mutableMapping addEntriesFromDictionary:[self rzi_normalizedPropertyMappings]];
         
         // Get any mappings from the RZImportable protocol
-        if ( [[self class] respondsToSelector:@selector( rzi_customMappings )] ) {
+        if ( [self respondsToSelector:@selector( rzi_customMappings )] ) {
             
-            Class <RZImportable> thisClass = [self class];
+            Class <RZImportable> thisClass = self;
             NSDictionary *customMappings = [thisClass rzi_customMappings];
             
             [customMappings enumerateKeysAndObjectsUsingBlock:^( NSString *key, NSString *propName, BOOL *stop ) {
@@ -428,12 +459,12 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 {
     NSMutableDictionary *mappings = [NSMutableDictionary dictionary];
     
-    Class currentClass = [self class];
+    Class currentClass = self;
     while ( currentClass != Nil ) {
         
         NSString *className = NSStringFromClass(currentClass);
         
-        if ( ![[[self class] s_rzi_ignoredClasses] containsObject:className] ) {
+        if ( ![[self s_rzi_ignoredClasses] containsObject:className] ) {
             NSArray *classPropNames = rzi_propertyNamesForClass(currentClass);
             [classPropNames enumerateObjectsUsingBlock:^(NSString *classPropName, NSUInteger idx, BOOL *stop) {
                 RZIPropertyInfo *propInfo = [self rzi_cachedPropertyInfoForPropertyName:classPropName];
@@ -469,6 +500,23 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     }
     
     return propInfo;
+}
+
+- (void)rzi_logUnknownKeyWarningForKey:(NSString *)key
+{
+    [[self class] rzi_performBlockAtomicallyAndWait:NO block:^{
+       
+        static NSMutableSet *s_cachedUnknownKeySet = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            s_cachedUnknownKeySet = [NSMutableSet set];
+        });
+        
+        if ( ![s_cachedUnknownKeySet containsObject:key] ) {
+            [s_cachedUnknownKeySet addObject:key];
+            RZILogDebug(@"No property found in class \"%@\" for key \"%@\". Create a custom mapping to import a value for this key.", NSStringFromClass([self class]), key);
+        }
+    }];
 }
 
 - (void)rzi_setNilForPropertyNamed:(NSString *)propName
@@ -537,7 +585,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
                     case RZImportDataTypePrimitive:
                     case RZImportDataTypeNSNumber: {
                         __block NSNumber *number = nil;
-                        [[self class] rzi_performBlockAtomically:^{
+                        [[self class] rzi_performBlockAtomicallyAndWait:YES block:^{
                             number = [[[self class] s_rzi_numberFormatter] numberFromString:value];
                         }];
                         convertedValue = number;
@@ -551,7 +599,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
                     case RZImportDataTypeNSDate: {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
-                        [[self class] rzi_performBlockAtomically:^{
+                        [[self class] rzi_performBlockAtomicallyAndWait:YES block:^{
                             
                             NSString        *dateFormat     = nil;
                             NSDateFormatter *dateFormatter  = [[self class] s_rzi_dateFormatter];

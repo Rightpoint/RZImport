@@ -16,6 +16,11 @@ NSString* const kAddressLastUpdatedFormat = @"yyyy-MM-dd_HH:mm";
     };
 }
 
++ (NSArray *)rzi_ignoredKeys
+{
+    return @[ @"ignoreMe" ];
+}
+
 + (NSString *)rzi_dateFormatForKey:(NSString *)key
 {
     if ( [key isEqualToString:@"last_updated"] ) {
