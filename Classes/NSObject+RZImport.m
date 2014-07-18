@@ -356,7 +356,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 + (RZIPropertyInfo *)rzi_propertyInfoForExternalKey:(NSString *)key withMappings:(NSDictionary *)extraMappings
 {
     __block RZIPropertyInfo *propInfo = nil;
-    [self rzi_performBlockAtomically:^{
+    [self rzi_performBlockAtomicallyAndWait:YES block:^{
         
         // First check overridden mappings
         NSString *propName = [extraMappings objectForKey:key];
@@ -381,7 +381,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 
 #pragma mark - Private
 
-+ (void)rzi_performBlockAtomically:(void(^)())block
++ (void)rzi_performBlockAtomicallyAndWait:(BOOL)wait block:(void(^)())block
 {
     static dispatch_queue_t s_serialQueue = nil;
     static dispatch_once_t onceToken;
@@ -390,7 +390,12 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     });
     
     if ( block ) {
-        dispatch_sync(s_serialQueue, block);
+        if ( wait ) {
+            dispatch_sync(s_serialQueue, block);
+        }
+        else {
+            dispatch_async(s_serialQueue, block);
+        }
     }
 }
 
@@ -398,7 +403,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 {
     static void * kRZIIgnoredKeysAssocKey = &kRZIIgnoredKeysAssocKey;
     __block NSSet *ignoredKeys = nil;
-    [self rzi_performBlockAtomically:^{
+    [self rzi_performBlockAtomicallyAndWait:YES block:^{
         ignoredKeys = objc_getAssociatedObject(self, kRZIIgnoredKeysAssocKey);
         if ( ignoredKeys == nil ) {
             if ( [self respondsToSelector:@selector( rzi_ignoredKeys )] ) {
@@ -499,7 +504,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 
 - (void)rzi_logUnknownKeyWarningForKey:(NSString *)key
 {
-    [[self class] rzi_performBlockAtomically:^{
+    [[self class] rzi_performBlockAtomicallyAndWait:NO block:^{
        
         static NSMutableSet *s_cachedUnknownKeySet = nil;
         static dispatch_once_t onceToken;
@@ -580,7 +585,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
                     case RZImportDataTypePrimitive:
                     case RZImportDataTypeNSNumber: {
                         __block NSNumber *number = nil;
-                        [[self class] rzi_performBlockAtomically:^{
+                        [[self class] rzi_performBlockAtomicallyAndWait:YES block:^{
                             number = [[[self class] s_rzi_numberFormatter] numberFromString:value];
                         }];
                         convertedValue = number;
@@ -594,7 +599,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
                     case RZImportDataTypeNSDate: {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
-                        [[self class] rzi_performBlockAtomically:^{
+                        [[self class] rzi_performBlockAtomicallyAndWait:YES block:^{
                             
                             NSString        *dateFormat     = nil;
                             NSDateFormatter *dateFormatter  = [[self class] s_rzi_dateFormatter];
