@@ -37,9 +37,9 @@
 @optional
 
 /**
- *  Implement to provide dictionary of custom mappings from dictionary keys to properties.
+ *  Implement to provide dictionary of custom mappings from dictionary keys/keypaths to properties.
  *
- *  @return A dictionary containing mappings from dictionary keys to property names.
+ *  @return A dictionary containing mappings from dictionary keys/keypaths to property names.
  */
 + (NSDictionary *)rzi_customMappings;
 

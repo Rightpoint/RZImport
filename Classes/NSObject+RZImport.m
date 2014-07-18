@@ -338,15 +338,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
             }
         }
         
-        RZIPropertyInfo *propDescriptor = [[self class] rzi_propertyInfoForExternalKey:key withMappings:mappings];
-
-        if ( propDescriptor != nil ) {
-            value = RZINSNullToNil(value);
-            [self rzi_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
-        }
-        else {
-            [self rzi_logUnknownKeyWarningForKey:key];
-        }
+        [self rzi_importValue:value forKey:key withMappings:mappings];
     }];
 }
 
@@ -380,6 +372,33 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 }
 
 #pragma mark - Private
+
+- (void)rzi_importValue:(id)value forKey:(NSString *)key withMappings:(NSDictionary *)mappings
+{
+    RZIPropertyInfo *propDescriptor = [[self class] rzi_propertyInfoForExternalKey:key withMappings:mappings];
+    
+    if ( propDescriptor != nil ) {
+        value = RZINSNullToNil(value);
+        [self rzi_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
+    }
+    else if ( [value isKindOfClass:[NSDictionary class]] ) {
+        [self rzi_importValuesFromNestedDict:value withKeyPathPrefix:key mappings:mappings];
+    }
+    else {
+        [self rzi_logUnknownKeyWarningForKey:key];
+    }
+}
+
+- (void)rzi_importValuesFromNestedDict:(NSDictionary *)dict withKeyPathPrefix:(NSString *)keypathPrefix mappings:(NSDictionary *)mappings
+{
+    NSParameterAssert(dict);
+    NSParameterAssert(keypathPrefix);
+    
+    [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
+        NSString *keyPath = [NSString stringWithFormat:@"%@.%@", keypathPrefix, key];
+        [self rzi_importValue:value forKey:keyPath withMappings:mappings];
+    }];
+}
 
 + (void)rzi_performBlockAtomicallyAndWait:(BOOL)wait block:(void(^)())block
 {
