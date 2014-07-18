@@ -46,8 +46,10 @@
 + (NSDictionary *)rzi_customMappings;
 
 /**
- *  Implement to ignore a specific set of keys.
+ *  Implement to ignore a specific set of keys or keypaths.
  *  When performing an import, these keys will be ignored in the dictionary being imported.
+ *
+ *  @note To ignore all keypaths in a nested dictionary, return its root key here.
  *
  *  @return An array of NSString objects representing keys to ignore during import.
  */

@@ -201,27 +201,6 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using overridden property mapping" );
 }
 
-- (void)test_keypathMapping
-{
-    Person *person = [Person new];
-    
-    NSDictionary *d = @{
-        @"id" : @555,
-        @"profile" : @{
-            @"first_name" : @"Bob",
-            @"last_name" : @"Smith",
-            @"prefs" : @{
-               @"color" : @"Gray"
-            }
-        }
-    };
-    
-    XCTAssertNoThrow( [person rzi_importValuesFromDict:d], @"Import should not throw exception" );
-    XCTAssertEqualObjects( person.firstName, @"Bob", @"First name failed to import from keypath" );
-    XCTAssertEqualObjects( person.lastName, @"Smith", @"Last name failed to import from keypath" );
-    XCTAssertEqualObjects( person.colorPref, @"Gray", @"Color pref failed to import from three-component keypath" );
-}
-
 - (void)test_extraInlineMapping
 {
     Address *address = [Address new];
@@ -233,6 +212,29 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertNoThrow( [address rzi_importValuesFromDict:d withMappings:@{ @"street_where_I_live" : @"street1" }], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using extra inline property mapping" );
 }
+
+- (void)test_keypathMapping
+{
+    Person *person = [Person new];
+    
+    NSDictionary *d = @{
+        @"id" : @555,
+        @"profile" : @{
+            @"extraneous" : @"information",
+            @"first_name" : @"Bob",
+            @"last_name" : @"Smith",
+            @"prefs" : @{
+                @"color" : @"Gray"
+            }
+        }
+    };
+    
+    XCTAssertNoThrow( [person rzi_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertEqualObjects( person.firstName, @"Bob", @"First name failed to import from keypath" );
+    XCTAssertEqualObjects( person.lastName, @"Smith", @"Last name failed to import from keypath" );
+    XCTAssertEqualObjects( person.colorPref, @"Gray", @"Color pref failed to import from three-component keypath" );
+}
+
 
 - (void)test_validation
 {

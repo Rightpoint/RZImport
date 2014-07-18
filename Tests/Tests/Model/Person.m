@@ -22,6 +22,11 @@
     };
 }
 
++ (NSArray *)rzi_ignoredKeys
+{
+    return @[ @"profile.extraneous" ];
+}
+
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict
 {
     NSNumber *objID = [dict objectForKey:@"id"];

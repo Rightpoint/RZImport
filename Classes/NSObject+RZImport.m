@@ -327,18 +327,14 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     NSSet *ignoredKeys = [[self class] rzi_cachedIgnoredKeys];
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
-        
-        if ( [ignoredKeys containsObject:key] ) {
-            return;
-        }
-        
+    
         if ( canOverrideImports ) {
             if ( ![(id<RZImportable>)self rzi_shouldImportValue:value forKey:key] ) {
                 return;
             }
         }
         
-        [self rzi_importValue:value forKey:key withMappings:mappings];
+        [self rzi_importValue:value forKey:key withMappings:mappings ignoredKeys:ignoredKeys];
     }];
 }
 
@@ -373,8 +369,12 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 
 #pragma mark - Private
 
-- (void)rzi_importValue:(id)value forKey:(NSString *)key withMappings:(NSDictionary *)mappings
+- (void)rzi_importValue:(id)value forKey:(NSString *)key withMappings:(NSDictionary *)mappings ignoredKeys:(NSArray *)ignoredKeys
 {
+    if ( [ignoredKeys containsObject:key] ) {
+        return;
+    }
+    
     RZIPropertyInfo *propDescriptor = [[self class] rzi_propertyInfoForExternalKey:key withMappings:mappings];
     
     if ( propDescriptor != nil ) {
@@ -382,21 +382,21 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
         [self rzi_setValue:value fromKey:key forPropertyDescriptor:propDescriptor];
     }
     else if ( [value isKindOfClass:[NSDictionary class]] ) {
-        [self rzi_importValuesFromNestedDict:value withKeyPathPrefix:key mappings:mappings];
+        [self rzi_importValuesFromNestedDict:value withKeyPathPrefix:key mappings:mappings ignoredKeys:ignoredKeys];
     }
     else {
         [self rzi_logUnknownKeyWarningForKey:key];
     }
 }
 
-- (void)rzi_importValuesFromNestedDict:(NSDictionary *)dict withKeyPathPrefix:(NSString *)keypathPrefix mappings:(NSDictionary *)mappings
+- (void)rzi_importValuesFromNestedDict:(NSDictionary *)dict withKeyPathPrefix:(NSString *)keypathPrefix mappings:(NSDictionary *)mappings ignoredKeys:(NSArray *)ignoredKeys
 {
     NSParameterAssert(dict);
     NSParameterAssert(keypathPrefix);
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         NSString *keyPath = [NSString stringWithFormat:@"%@.%@", keypathPrefix, key];
-        [self rzi_importValue:value forKey:keyPath withMappings:mappings];
+        [self rzi_importValue:value forKey:keyPath withMappings:mappings ignoredKeys:ignoredKeys];
     }];
 }
 
@@ -533,7 +533,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
         
         if ( ![s_cachedUnknownKeySet containsObject:key] ) {
             [s_cachedUnknownKeySet addObject:key];
-            RZILogDebug(@"No property found in class \"%@\" for key \"%@\". Create a custom mapping to import a value for this key.", NSStringFromClass([self class]), key);
+            RZILogDebug(@"No property found in class \"%@\" for key \"%@\". Create a custom mapping to import a value for this key, or add it to the ignored keys to suppress this warning.", NSStringFromClass([self class]), key);
         }
     }];
 }
