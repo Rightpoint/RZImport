@@ -369,7 +369,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 
 #pragma mark - Private
 
-- (void)rzi_importValue:(id)value forKey:(NSString *)key withMappings:(NSDictionary *)mappings ignoredKeys:(NSArray *)ignoredKeys
+- (void)rzi_importValue:(id)value forKey:(NSString *)key withMappings:(NSDictionary *)mappings ignoredKeys:(NSSet *)ignoredKeys
 {
     if ( [ignoredKeys containsObject:key] ) {
         return;
@@ -389,7 +389,7 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     }
 }
 
-- (void)rzi_importValuesFromNestedDict:(NSDictionary *)dict withKeyPathPrefix:(NSString *)keypathPrefix mappings:(NSDictionary *)mappings ignoredKeys:(NSArray *)ignoredKeys
+- (void)rzi_importValuesFromNestedDict:(NSDictionary *)dict withKeyPathPrefix:(NSString *)keypathPrefix mappings:(NSDictionary *)mappings ignoredKeys:(NSSet *)ignoredKeys
 {
     NSParameterAssert(dict);
     NSParameterAssert(keypathPrefix);
