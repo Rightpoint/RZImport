@@ -39,6 +39,8 @@
 /**
  *  Implement to provide dictionary of custom mappings from dictionary keys/keypaths to properties.
  *
+ *  @note Keypaths are supported in custom mappings for access to values within nested dictionaries.
+ *
  *  @return A dictionary containing mappings from dictionary keys/keypaths to property names.
  */
 + (NSDictionary *)rzi_customMappings;
