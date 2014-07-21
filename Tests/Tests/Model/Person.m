@@ -13,6 +13,20 @@
 
 @implementation Person
 
++ (NSDictionary *)rzi_customMappings
+{
+    return @{
+        @"profile.first_name" : @"firstName",
+        @"profile.last_name" : @"lastName",
+        @"profile.prefs.color" : @"colorPref"
+    };
+}
+
++ (NSArray *)rzi_ignoredKeys
+{
+    return @[ @"profile.extraneous" ];
+}
+
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict
 {
     NSNumber *objID = [dict objectForKey:@"id"];

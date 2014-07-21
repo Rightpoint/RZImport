@@ -129,7 +129,7 @@ Person *myPerson = self.person;
 
 ### Custom Mappings
 
-If you need to provide a custom mapping from a dictionary key to a property name, implement the `RZImportable` protocol on your model class. Custom mappings will take precedence over inferred mappings, but both can be used for the same class.
+If you need to provide a custom mapping from a dictionary key or keypath to a property name, implement the `RZImportable` protocol on your model class. Custom mappings will take precedence over inferred mappings, but both can be used for the same class.
 
 ```obj-c
 #import "RZImportable.h"

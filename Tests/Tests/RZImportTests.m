@@ -213,27 +213,51 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using extra inline property mapping" );
 }
 
+- (void)test_keypathMapping
+{
+    Person *person = [Person new];
+    
+    NSDictionary *d = @{
+        @"id" : @555,
+        @"profile" : @{
+            @"extraneous" : @"information",
+            @"first_name" : @"Bob",
+            @"last_name" : @"Smith",
+            @"prefs" : @{
+                @"color" : @"Gray"
+            }
+        }
+    };
+    
+    XCTAssertNoThrow( [person rzi_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertEqualObjects( person.firstName, @"Bob", @"First name failed to import from keypath" );
+    XCTAssertEqualObjects( person.lastName, @"Smith", @"Last name failed to import from keypath" );
+    XCTAssertEqualObjects( person.colorPref, @"Gray", @"Color pref failed to import from three-component keypath" );
+}
+
+
 - (void)test_validation
 {
     Address *address = [Address new];
     
     NSString* const theStreet = @"101 Main St.";
+    NSString* const theZip = @"01234";
     NSDictionary *d = @{
         @"street1" : theStreet,
-        @"zip" : @"01234"
+        @"zip" : theZip
     };
     
     XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
     XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
     
     // Ensure that the valid zip code imported correctly
-    XCTAssertEqualObjects( address.zipCode, @"01234", @"Failed to import valid zip code");
+    XCTAssertEqualObjects( address.zipCode, theZip, @"Failed to import valid zip code");
     
     // Import invalid zip code and make sure it fails - should keep previous value
     d = @{ @"zip" : @"not10202valid" };
     
     XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
-    XCTAssertEqualObjects( address.zipCode, @"01234", @"Failed block import of invalid zip code");
+    XCTAssertEqualObjects( address.zipCode, theZip, @"Failed block import of invalid zip code");
 }
 
 - (void)test_threadSafety
@@ -278,5 +302,42 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
         }
     }
 }
+
+- (void)test_ignoreKeys
+{
+    Address *address = [Address new];
+    
+    NSString* const theStreet = @"101 Main St.";
+    NSString* const theZip = @"01234";
+    NSDictionary *d = @{
+        @"street1" : theStreet,
+        @"zip" : theZip,
+        @"ignoreMe" : @"Don't import this"
+    };
+    
+    XCTAssertNil( address.ignoreMe, @"Property should be nil initially" );
+    XCTAssertNoThrow( [address rzi_importValuesFromDict:d], @"Import should not throw exception" );
+    XCTAssertEqualObjects( address.street1, theStreet, @"Failed to import using inferred property mapping" );
+    XCTAssertEqualObjects( address.zipCode, theZip, @"Failed to import valid zip code");
+    XCTAssertNil( address.ignoreMe, @"Property still be nil" );
+
+}
+
+- (void)test_unknownKeyWarningCache
+{
+    /*
+     *  This test is for visual verification of the log.
+     *  Only one warning should be logged for each unknown key ("favoriteFood" and "zodiac").
+     */
+    
+    NSMutableArray *peopleDicts = [NSMutableArray array];
+    [peopleDicts addObject:@{ @"id" : @1000, @"favoriteFood" : @"Steak", @"zodiac" : @"Capricorn" }];
+    [peopleDicts addObject:@{ @"id" : @1001, @"favoriteFood" : @"Tacos", @"zodiac" : @"Gemini" }];
+    [peopleDicts addObject:@{ @"id" : @1002, @"favoriteFood" : @"Biryani", @"zodiac" : @"Pisces" }];
+    
+    NSArray *newPeeps = [Person rzi_objectsFromArray:peopleDicts];
+    XCTAssertEqual(newPeeps.count, (NSUInteger)3, @"Wrong number of people");
+}
+    
 
 @end
