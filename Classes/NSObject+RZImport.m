@@ -47,7 +47,7 @@ static NSString* const kRZImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 #define RZINSNullToNil(x) ([x isEqual:[NSNull null]] ? nil : x)
 
-static objc_property_t rzi_getProperty(NSString *name, Class class) {
+static objc_property_t rzi_getProperty( NSString *name, Class class ) {
     
     objc_property_t property = class_getProperty( class, [name UTF8String] );
     
@@ -63,7 +63,7 @@ static objc_property_t rzi_getProperty(NSString *name, Class class) {
     return property;
 }
 
-static RZIPropertyInfo * rzi_propertyInfoForProperty(NSString *propertyName, Class aClass ) {
+static RZIPropertyInfo *rzi_propertyInfoForProperty( NSString *propertyName, Class aClass ) {
     
     RZIPropertyInfo *propertyInfo = [[RZIPropertyInfo alloc] init];
     
@@ -681,7 +681,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                     convertedValue = value;
                 }
             }
-            else if ( [value isKindOfClass:[NSDictionary class]]) {
+            else if ( [value isKindOfClass:[NSDictionary class]] ) {
                 
                 NSSet *nestedKeys = [[self class] rzi_cachedNestedKeys];
                 if ( [nestedKeys containsObject:propDescriptor.propertyName] ) {
