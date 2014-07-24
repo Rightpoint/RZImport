@@ -682,16 +682,9 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                 }
             }
             else if ( [value isKindOfClass:[NSDictionary class]]) {
-                NSSet *nestedKeys = [[self class] rzi_cachedNestedKeys];
                 
-                __block BOOL shouldImport = NO;
-                [nestedKeys enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-                    if ( [propDescriptor.propertyName isEqualToString:obj] ) {
-                        shouldImport = YES;
-                        *stop = YES;
-                    }
-                }];
-                if ( shouldImport ) {
+                NSSet *nestedKeys = [[self class] rzi_cachedNestedKeys];
+                if ( [nestedKeys containsObject:propDescriptor.propertyName] ) {
                     convertedValue = [propDescriptor.propertyClass rzi_objectFromDictionary:value];
                 }
             }
