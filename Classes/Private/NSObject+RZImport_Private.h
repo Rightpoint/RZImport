@@ -53,6 +53,13 @@ typedef NS_ENUM(NSInteger, RZImportDataType)
     RZImportDataTypeOtherObject
 };
 
+/**
+ *  Returns the RZImportDataType based off the class of an object
+ *
+ *  @param objClass the class that we are requesting the type for
+ *
+ *  @return the data type.
+ */
 OBJC_EXTERN RZImportDataType rzi_dataTypeFromClass(Class objClass);
 
 /**
