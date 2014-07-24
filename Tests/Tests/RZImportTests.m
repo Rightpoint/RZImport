@@ -359,6 +359,26 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
         XCTAssertEqualObjects( johnsJob.companyName, @"Raizlabs", @"Failed to import job companyName" );
     }
 }
+
+- (void)test_nestedImportCustomKey
+{
+    NSString* const companyName = @"Raizlabs";
+    NSString* const title = @"Designer";
+    NSDictionary *d = @{
+                        @"id" : @1234,
+                        @"employment" : @{
+                                @"companyName" : companyName,
+                                @"title" : title
+                                }
+                        };
+    Person *guy = [Person rzi_objectFromDictionary:d];
+    XCTAssertNotNil(guy, @"Person should not be nil");
+    
+    Job *guysJob = guy.job;
+    XCTAssertNotNil(guysJob, @"Guy should have a job");
+    XCTAssertEqualObjects(guysJob.companyName, companyName, @"Failed to import Company Name");
+    XCTAssertEqualObjects(guysJob.title, title, @"Failed to import title");
+}
     
 
 @end

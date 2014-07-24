@@ -19,7 +19,10 @@
     return @{
         @"profile.first_name" : @"firstName",
         @"profile.last_name" : @"lastName",
-        @"profile.prefs.color" : @"colorPref"
+        @"profile.prefs.color" : @"colorPref",
+        
+        // This is for testing the Nested Import with a custom key.
+        @"employment" : @"job"
     };
 }
 
