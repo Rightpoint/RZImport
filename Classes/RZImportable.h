@@ -56,6 +56,14 @@
 + (NSArray *)rzi_ignoredKeys;
 
 /**
+ *  Implement to provide a list of keys that should be automatically imported when possible
+ *  from an NSDictionary.
+ *
+ *  @return An array of NSString objects representing keys to try and nest import.
+ */
++ (NSArray *)rzi_nestedImportKeys;
+
+/**
  *  Implement to provide a custom date format string for a particular key or keys.
  *  Will only be called if the inferred property is an NSDate type and the dict value is a string.
  *

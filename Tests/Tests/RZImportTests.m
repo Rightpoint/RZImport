@@ -12,6 +12,7 @@
 #import "Person.h"
 #import "BigObject.h"
 #import "Address.h"
+#import "Job.h"
 #import "TestDataStore.h"
 
 extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
@@ -337,6 +338,26 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     
     NSArray *newPeeps = [Person rzi_objectsFromArray:peopleDicts];
     XCTAssertEqual(newPeeps.count, (NSUInteger)3, @"Wrong number of people");
+}
+
+- (void)test_nestedImport
+{
+    NSError      *err = nil;
+    NSDictionary *d   = [self loadTestJson:@"test_person_job" error:&err];
+    
+    XCTAssertNil( err, @"Error reading json: %@", err );
+    XCTAssertNotNil( d, @"Could not deserialize json" );
+    
+    Person *johndoe = nil;
+    XCTAssertNoThrow( johndoe = [Person rzi_objectFromDictionary:d], @"Import should not throw exception" );
+    XCTAssertNotNil( johndoe, @"Failed to create object" );
+    
+    Job *johnsJob = johndoe.job;
+    XCTAssertNotNil( johnsJob, @"Failed to import job Automatically" );
+    if ( johnsJob ) {
+        XCTAssertEqualObjects( johnsJob.title, @"Software Engineer", @"Failed to import job title" );
+        XCTAssertEqualObjects( johnsJob.companyName, @"Raizlabs", @"Failed to import job companyName" );
+    }
 }
     
 

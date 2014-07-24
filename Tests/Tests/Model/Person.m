@@ -8,6 +8,7 @@
 
 #import "Person.h"
 #import "Address.h"
+#import "Job.h"
 #import "TestDataStore.h"
 #import "NSObject+RZImport.h"
 
@@ -27,6 +28,11 @@
     return @[ @"profile.extraneous" ];
 }
 
++ (NSArray *)rzi_nestedImportKeys
+{
+    return @[ @"job" ];
+}
+
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict
 {
     NSNumber *objID = [dict objectForKey:@"id"];
@@ -44,5 +50,7 @@
     }
     return YES;
 }
+
+
 
 @end

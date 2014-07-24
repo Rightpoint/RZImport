@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98B298691981444F001C41CC /* Job.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B298681981444F001C41CC /* Job.m */; };
+		98B2986A1981444F001C41CC /* Job.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B298681981444F001C41CC /* Job.m */; };
+		98B2986C198144BB001C41CC /* test_person_job.json in Resources */ = {isa = PBXBuildFile; fileRef = 98B2986B198144BB001C41CC /* test_person_job.json */; };
+		98B2986D198144BB001C41CC /* test_person_job.json in Resources */ = {isa = PBXBuildFile; fileRef = 98B2986B198144BB001C41CC /* test_person_job.json */; };
 		9A90D23E192CF9F000ED28F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23D192CF9F000ED28F6 /* XCTest.framework */; };
 		9A90D240192CF9F000ED28F6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90D23F192CF9F000ED28F6 /* Foundation.framework */; };
 		9AF9EF131937946A00F659E2 /* TestDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AF9EF051937946A00F659E2 /* TestDataStore.m */; };
@@ -31,6 +35,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		98B298671981444F001C41CC /* Job.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Job.h; sourceTree = "<group>"; };
+		98B298681981444F001C41CC /* Job.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Job.m; sourceTree = "<group>"; };
+		98B2986B198144BB001C41CC /* test_person_job.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_person_job.json; sourceTree = "<group>"; };
 		9A0DC9A41949E9DD009A0E32 /* RZImportTests-iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RZImportTests-iOS-Info.plist"; sourceTree = "<group>"; };
 		9A0DC9A51949E9DD009A0E32 /* RZImportTests-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZImportTests-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		9A0DC9A81949E9E9009A0E32 /* RZImportTests-OSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZImportTests-OSX-Info.plist"; sourceTree = "<group>"; };
@@ -160,6 +167,7 @@
 			children = (
 				9AF9EF071937946A00F659E2 /* test_person.json */,
 				9AF9EF081937946A00F659E2 /* test_person_address.json */,
+				98B2986B198144BB001C41CC /* test_person_job.json */,
 			);
 			path = json;
 			sourceTree = "<group>";
@@ -175,6 +183,8 @@
 				9AF9EF0F1937946A00F659E2 /* ModelObject.m */,
 				9AF9EF101937946A00F659E2 /* Person.h */,
 				9AF9EF111937946A00F659E2 /* Person.m */,
+				98B298671981444F001C41CC /* Job.h */,
+				98B298681981444F001C41CC /* Job.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -261,6 +271,7 @@
 			files = (
 				9AF9EF141937946A00F659E2 /* test_person.json in Resources */,
 				9AF9EF151937946A00F659E2 /* test_person_address.json in Resources */,
+				98B2986C198144BB001C41CC /* test_person_job.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +281,7 @@
 			files = (
 				9AF9EF32193794E000F659E2 /* test_person.json in Resources */,
 				9AF9EF33193794E000F659E2 /* test_person_address.json in Resources */,
+				98B2986D198144BB001C41CC /* test_person_job.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +295,7 @@
 				9AF9EF191937946A00F659E2 /* Person.m in Sources */,
 				9AF9EF161937946A00F659E2 /* Address.m in Sources */,
 				F207C52A19356F98005CDA77 /* NSObject+RZImport.m in Sources */,
+				98B298691981444F001C41CC /* Job.m in Sources */,
 				9AF9EF181937946A00F659E2 /* ModelObject.m in Sources */,
 				9AF9EF131937946A00F659E2 /* TestDataStore.m in Sources */,
 				9AF9EF171937946A00F659E2 /* BigObject.m in Sources */,
@@ -297,6 +310,7 @@
 				9AF9EF391937954600F659E2 /* NSObject+RZImport.m in Sources */,
 				9AF9EF37193794E700F659E2 /* Person.m in Sources */,
 				9AF9EF34193794E700F659E2 /* Address.m in Sources */,
+				98B2986A1981444F001C41CC /* Job.m in Sources */,
 				9AF9EF36193794E700F659E2 /* ModelObject.m in Sources */,
 				9AF9EF31193794DB00F659E2 /* TestDataStore.m in Sources */,
 				9AF9EF35193794E700F659E2 /* BigObject.m in Sources */,

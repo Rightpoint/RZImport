@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, RZImportDataType)
     RZImportDataTypeOtherObject
 };
 
-OBJC_EXTERN RZImportDataType rzi_dataTypeFromString(NSString *string);
+OBJC_EXTERN RZImportDataType rzi_dataTypeFromClass(Class objClass);
 
 /**
  *  Returns a normalized verison of the key argument
@@ -80,5 +80,6 @@ OBJC_EXTERN NSString *rzi_normalizedKey(NSString *key);
 
 @property (nonatomic, copy)   NSString *propertyName;
 @property (nonatomic, assign) RZImportDataType dataType;
+@property (nonatomic, assign) Class propertyClass;
 
 @end

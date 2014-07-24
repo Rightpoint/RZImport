@@ -63,21 +63,25 @@ static objc_property_t rzi_getProperty(NSString *name, Class class) {
     return property;
 }
 
-static RZImportDataType rzi_dataTypeForProperty(NSString *propertyName, Class aClass) {
+static RZIPropertyInfo * rzi_propertyInfoForProperty(NSString *propertyName, Class aClass ) {
+    
+    RZIPropertyInfo *propertyInfo = [[RZIPropertyInfo alloc] init];
+    
+    propertyInfo.propertyName = propertyName;
     
     objc_property_t property = rzi_getProperty(propertyName, aClass);
     if ( property == nil ) {
-        return RZImportDataTypeUnknown;
+        propertyInfo.dataType = RZImportDataTypeUnknown;
+        return propertyInfo;
     }
     
     char *typeEncoding = nil;
     typeEncoding = property_copyAttributeValue(property, "T");
     
     if ( typeEncoding == NULL ) {
-        return RZImportDataTypeUnknown;
+        propertyInfo.dataType = RZImportDataTypeUnknown;
+        return propertyInfo;
     }
-    
-    RZImportDataType type = RZImportDataTypeUnknown;
     
     switch ( typeEncoding[0] ) {
             
@@ -88,7 +92,11 @@ static RZImportDataType rzi_dataTypeForProperty(NSString *propertyName, Class aC
             
             if ( typeLength > 3 ) {
                 NSString *typeString = [[NSString stringWithUTF8String:typeEncoding] substringWithRange:NSMakeRange(2, typeLength - 3)];
-                type = rzi_dataTypeFromString(typeString);
+                
+                Class propertyClass = NSClassFromString( typeString );
+                
+                propertyInfo.propertyClass = propertyClass;
+                propertyInfo.dataType = rzi_dataTypeFromClass( propertyClass );
             }
         }
             break;
@@ -107,7 +115,7 @@ static RZImportDataType rzi_dataTypeForProperty(NSString *propertyName, Class aC
         case _C_FLT:
         case _C_DBL:
         case _C_BOOL:
-            type = RZImportDataTypePrimitive;
+            propertyInfo.dataType = RZImportDataTypePrimitive;
             break;
             
         default:
@@ -118,7 +126,8 @@ static RZImportDataType rzi_dataTypeForProperty(NSString *propertyName, Class aC
         free(typeEncoding), typeEncoding = NULL;
     }
     
-    return type;
+    return propertyInfo;
+
 }
 
 static NSArray* rzi_propertyNamesForClass(Class aClass) {
@@ -172,9 +181,8 @@ NSString *rzi_normalizedKey(NSString *key) {
     return [[key lowercaseString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
 }
 
-RZImportDataType rzi_dataTypeFromString(NSString *string)
+RZImportDataType rzi_dataTypeFromClass(Class objClass)
 {
-    Class objClass = NSClassFromString(string);
     if ( objClass == Nil ){
         return RZImportDataTypeUnknown;
     }
@@ -202,7 +210,6 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     
     return type;
 }
-
 
 @implementation RZIPropertyInfo
 
@@ -439,6 +446,27 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
     return ignoredKeys;
 }
 
++ (NSSet *)rzi_cachedNestedKeys
+{
+    static void * kRZINestedKeysAssocKey = &kRZINestedKeysAssocKey;
+    __block NSSet *nestedKeys = nil;
+    [self rzi_performBlockAtomicallyAndWait:YES block:^{
+        nestedKeys = objc_getAssociatedObject(self, kRZINestedKeysAssocKey);
+        if ( nestedKeys == nil ) {
+            if ( [self respondsToSelector:@selector( rzi_nestedImportKeys )] ) {
+                Class <RZImportable> thisClass = self;
+                nestedKeys = [NSSet setWithArray:[thisClass rzi_nestedImportKeys]];
+            }
+            else {
+                // !!!: empty set so cache does not fault again
+                nestedKeys = [NSSet set];
+            }
+            objc_setAssociatedObject(self, kRZINestedKeysAssocKey, nestedKeys, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
+    }];
+    return nestedKeys;
+}
+
 // !!!: this method is not threadsafe
 + (NSDictionary *)rzi_importMappings
 {
@@ -512,9 +540,10 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
 
     RZIPropertyInfo *propInfo = [classPropInfo objectForKey:propName];
     if ( propInfo == nil ) {
-        propInfo = [[RZIPropertyInfo alloc] init];
-        propInfo.propertyName = propName;
-        propInfo.dataType = rzi_dataTypeForProperty(propName, self);
+        propInfo = rzi_propertyInfoForProperty(propName, self);
+//        propInfo = [[RZIPropertyInfo alloc] init];
+//        propInfo.propertyName = propName;
+//        propInfo.dataType = rzi_dataTypeForProperty(propName, self);
         [classPropInfo setObject:propInfo forKey:propName];
     }
     
@@ -648,11 +677,25 @@ RZImportDataType rzi_dataTypeFromString(NSString *string)
                 
             }
             else if ( [value isKindOfClass:[NSDate class]] ) {
-                
+                ƒ
                 // This will not occur in raw JSON deserialization,
                 // but the conversion may have already happened in an external method.
                 if ( propDescriptor.dataType == RZImportDataTypeNSDate ) {
                     convertedValue = value;
+                }
+            }
+            else if ( [value isKindOfClass:[NSDictionary class]]) {
+                NSSet *nestedKeys = [[self class] rzi_cachedNestedKeys];
+                
+                __block BOOL shouldImport = NO;
+                [nestedKeys enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+                    if ( [propDescriptor.propertyName isEqualToString:obj] ) {
+                        shouldImport = YES;
+                        *stop = YES;
+                    }
+                }];
+                if ( shouldImport ) {
+                    convertedValue = [propDescriptor.propertyClass rzi_objectFromDictionary:value];
                 }
             }
             

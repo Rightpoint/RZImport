@@ -9,6 +9,7 @@
 #import "ModelObject.h"
 
 @class Address;
+@class Job;
 
 @interface Person : ModelObject
 
@@ -19,4 +20,5 @@
 
 @property (nonatomic, strong) Address *address;
 
+@property (nonatomic, strong) Job *job;
 @end
