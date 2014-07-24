@@ -541,9 +541,6 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     RZIPropertyInfo *propInfo = [classPropInfo objectForKey:propName];
     if ( propInfo == nil ) {
         propInfo = rzi_propertyInfoForProperty(propName, self);
-//        propInfo = [[RZIPropertyInfo alloc] init];
-//        propInfo.propertyName = propName;
-//        propInfo.dataType = rzi_dataTypeForProperty(propName, self);
         [classPropInfo setObject:propInfo forKey:propName];
     }
     
@@ -677,7 +674,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                 
             }
             else if ( [value isKindOfClass:[NSDate class]] ) {
-                ƒ
+                
                 // This will not occur in raw JSON deserialization,
                 // but the conversion may have already happened in an external method.
                 if ( propDescriptor.dataType == RZImportDataTypeNSDate ) {

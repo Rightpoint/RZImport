@@ -56,7 +56,7 @@
 + (NSArray *)rzi_ignoredKeys;
 
 /**
- *  Implement to provide a list of keys that should be automatically imported when possible
+ *  Implement to provide a list of keys that should be automatically imported into custom objects when possible
  *  from an NSDictionary.
  *
  *  @return An array of NSString objects representing keys to try and nest import.
