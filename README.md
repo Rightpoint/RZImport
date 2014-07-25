@@ -184,7 +184,7 @@ You can also prevent RZImport from importing a value for a particular key, or im
 
 ### Nested Dictionaries
 
-If you are importing a dictionary with sub-dictionaries that correspond to objects that you want to also be imported using RZImport.  You can implement the `RZImportable` protocol and return the keys from `rzi_nestedObjectKeys`.
+If you are importing a dictionary with sub-dictionaries that correspond to objects that you want to also be imported using RZImport, you can implement the `RZImportable` protocol and return the keys from `rzi_nestedObjectKeys`.
 
 ```obj-c
 @interface Job : NSObject

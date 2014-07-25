@@ -56,10 +56,11 @@
 + (NSArray *)rzi_ignoredKeys;
 
 /**
- *  Implement to provide a list of keys in dictionaries being imported representing nested dictionaries 
- *  to import to a corresponding property on this class representing another model object.
+ *  Implement to provide a list of keys in dictionaries being imported whose values should be imported as nested objects.
+ *  These keys should represent nested dictionaries in the dictionary being imported and should have valid mappings to 
+ *  properties on this class which are other importable model objects.
  *
- *  @return An array of NSString objects representing keys to try and nest import.
+ *  @return An array of NSString objects representing keys whose values should be imported as other model objects.
  */
 + (NSArray *)rzi_nestedObjectKeys;
 
