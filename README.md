@@ -182,6 +182,48 @@ You can also prevent RZImport from importing a value for a particular key, or im
 
 ```
 
+### Nested Dictionaries
+
+If you are importing a dictionary with sub-dictionaries that correspond to objects that you want to also be imported using RZImport.  You can implement the `RZImportable` protocol and return the keys from `rzi_nestedObjectKeys`.
+
+```obj-c
+@interface Job : NSObject
+
+@property (nonatomic, copy) NSString *jobTitle;
+@property (nonatomic, copy) NSString *companyName;
+
+@end
+
+@interface Person : NSObject <RZImportable>
+
+@property (nonatomic, strong) Job *job;
+@property (nonatomic, copy) NSString *firstName;
+
+@end
+
+@implementation Person
+
++ (NSArray *)rzi_nestedObjectKeys 
+{
+	return @[ @"job" ];
+}
+
+@end
+
+...
+- (void)createPersonWithJob
+{
+	NSDictionary *personData = @{
+					@"firstName" : @"John",
+					@"job" : @{
+						@"jobTitle" : @"Software Developer",
+						@"companyName" : @"Raizlabs"
+					}
+				};
+	Person *p = [Person rz_objectFromDictionary:personData];
+} 
+```
+
 ### Uniquing Objects
 
 `RZImportable` also has a handy method that you can implement on your classes to prevent duplicate objects from being created when using `rzi_objectFromDictionary:` or `rzi_objectsFromArray:`.

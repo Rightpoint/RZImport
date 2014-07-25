@@ -56,12 +56,12 @@
 + (NSArray *)rzi_ignoredKeys;
 
 /**
- *  Implement to provide a list of keys that should be automatically imported into custom objects when possible
- *  from an NSDictionary.
+ *  Implement to provide a list of keys in dictionaries being imported representing nested dictionaries 
+ *  to import to a corresponding property on this class representing another model object.
  *
  *  @return An array of NSString objects representing keys to try and nest import.
  */
-+ (NSArray *)rzi_nestedImportKeys;
++ (NSArray *)rzi_nestedObjectKeys;
 
 /**
  *  Implement to provide a custom date format string for a particular key or keys.

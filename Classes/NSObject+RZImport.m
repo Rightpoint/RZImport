@@ -453,9 +453,9 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     [self rzi_performBlockAtomicallyAndWait:YES block:^{
         nestedKeys = objc_getAssociatedObject(self, kRZINestedKeysAssocKey);
         if ( nestedKeys == nil ) {
-            if ( [self respondsToSelector:@selector( rzi_nestedImportKeys )] ) {
+            if ( [self respondsToSelector:@selector( rzi_nestedObjectKeys )] ) {
                 Class <RZImportable> thisClass = self;
-                nestedKeys = [NSSet setWithArray:[thisClass rzi_nestedImportKeys]];
+                nestedKeys = [NSSet setWithArray:[thisClass rzi_nestedObjectKeys]];
             }
             else {
                 // !!!: empty set so cache does not fault again

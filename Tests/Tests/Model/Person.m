@@ -31,7 +31,7 @@
     return @[ @"profile.extraneous" ];
 }
 
-+ (NSArray *)rzi_nestedImportKeys
++ (NSArray *)rzi_nestedObjectKeys
 {
     return @[ @"job" ];
 }
