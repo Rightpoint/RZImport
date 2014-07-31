@@ -335,7 +335,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
     
-        if ( canOverrideImports ) {
+        if ( canOverrideImports && ![ignoredKeys containsObject:key] ) {
             if ( ![(id<RZImportable>)self rzi_shouldImportValue:value forKey:key] ) {
                 return;
             }
