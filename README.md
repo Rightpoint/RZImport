@@ -247,6 +247,8 @@ RZImport uses the default designated initializer `init` when it creates new obje
 
 For example, RZImport cannot be used out-of-the-box to create valid instances of a subclass of `NSManagedObject`, since managed objects must be initialized with an entity description. However, there is no reason it will not work for updating existing instances of a subclass of `NSManagedObject` from a dictionary, or by overriding `+rzi_existingObjectForDict` to return a new object inserted into the correct managed object context.
 
+**If you are interested in using RZImport with CoreData, check out [RZVinyl](https://github.com/Raizlabs/RZVinyl)**
+
 ## License
 
 RZImport is licensed under the MIT license. See the `LICENSE` file for details.
