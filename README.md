@@ -96,12 +96,12 @@ RZImport can be used to create model objects from a either a dictionary or an ar
 {
     [self.apiClient get:@"/people" completion:^(NSData *responseData, NSError *error) {
 
-        if ( !error ) {
+        if ( responseData ) {
             NSError *jsonErr = nil;
             id deserializedResponse = [NSJSONSerialization JSONObjectWithData:responseData
                                                                       options:kNilOptions
                                                                         error:&jsonErr];
-            if ( !jsonErr ) {
+            if ( deserializedResponse ) {
                 // convert to native objects
                 if ( [deserializedResponse isKindOfClass:[NSDictionary class]] ) {
                     Person *newPerson = [Person rzi_objectFromDictionary:deserializedResponse];
@@ -111,6 +111,9 @@ RZImport can be used to create model objects from a either a dictionary or an ar
                     NSArray *people = [Person rzi_objectsFromArray:deserializedResponse];
                     // ... do something with the people ...
                 }
+            }
+            else {
+                // Handle jsonErr
             }
         }
     }];
