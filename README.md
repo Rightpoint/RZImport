@@ -36,9 +36,9 @@ Key/property mappings are created once and cached, so once an object type has be
 ```obj-c
 @interface Person : NSObject
 
-@property (nonatomic, copy) NSNumber *ID;
-@property (nonatomic, copy) NSString *firstName;
-@property (nonatomic, copy) NSString *lastName;
+@property (copy, nonatomic) NSNumber *ID;
+@property (copy, nonatomic) NSString *firstName;
+@property (copy, nonatomic) NSString *lastName;
 
 @end
 
@@ -137,8 +137,8 @@ If you need to provide a custom mapping from a dictionary key or keypath to a pr
 
 @interface MyModelClass : NSObject <RZImportable>
 
-@property (nonatomic, copy) NSNumber *objectID;
-@property (nonatomic, copy) NSString *zipCode;
+@property (copy, nonatomic) NSNumber *objectID;
+@property (copy, nonatomic) NSString *zipCode;
 
 @end
 
@@ -190,15 +190,15 @@ If you are importing a dictionary with sub-dictionaries that correspond to objec
 ```obj-c
 @interface Job : NSObject
 
-@property (nonatomic, copy) NSString *jobTitle;
-@property (nonatomic, copy) NSString *companyName;
+@property (copy, nonatomic) NSString *jobTitle;
+@property (copy, nonatomic) NSString *companyName;
 
 @end
 
 @interface Person : NSObject <RZImportable>
 
-@property (nonatomic, strong) Job *job;
-@property (nonatomic, copy) NSString *firstName;
+@property (strong, nonatomic) Job *job;
+@property (copy, nonatomic) NSString *firstName;
 
 @end
 
