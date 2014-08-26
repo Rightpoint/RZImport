@@ -3,11 +3,11 @@ RZImport
 
 [![Build Status](https://travis-ci.org/Raizlabs/RZImport.svg)](https://travis-ci.org/Raizlabs/RZImport)
 
-Tired of writing boilerplate to import deserialized API responses to model objects? 
+Tired of writing boilerplate to import deserialized API responses to model objects?
 
-Tired of dealing with dozens and dozens of string keys? 
+Tired of dealing with dozens and dozens of string keys?
 
-RZImport is here to help!  
+RZImport is here to help!
 
 RZImport is a category on `NSObject` and an accompanying optional protocol for creating and updating model objects in your iOS applications. It's particularly useful for importing objects from deserialized JSON HTTP responses in REST API's, but it works with any `NSDictionary` or array of dictionaries that you need to convert to native model objects.
 
@@ -36,19 +36,19 @@ Key/property mappings are created once and cached, so once an object type has be
 ```obj-c
 @interface Person : NSObject
 
-@property (nonatomic, copy) NSNumber *ID;
-@property (nonatomic, copy) NSString *firstName;
-@property (nonatomic, copy) NSString *lastName;
+@property (copy, nonatomic) NSNumber *ID;
+@property (copy, nonatomic) NSString *firstName;
+@property (copy, nonatomic) NSString *lastName;
 
 @end
 
 ...
 
 // Dictionary with some key/value pairs representing a person
-NSDictionary *myDictionary = @{ 
-	@"id" : @100,
-	@"first_name" : @"Bob",
-	@"last_name" : @"Smith"
+NSDictionary *myDictionary = @{
+    @"id" : @100,
+    @"first_name" : @"Bob",
+    @"last_name" : @"Smith"
 };
 
 // Create a new Person instance by automatically inferring key/property mappings
@@ -94,28 +94,29 @@ RZImport can be used to create model objects from a either a dictionary or an ar
 
 - (void)fetchThePeople
 {
-	[self.apiClient get:@"/people" completion:^(NSData *responseData, NSError *error) {
-		
-		if ( !error ) {
-		
-			NSError *jsonErr = nil;
-			id deserializedResponse = [NSJSONSerialization JSONObjectWithData:responseData
+    [self.apiClient get:@"/people" completion:^(NSData *responseData, NSError *error) {
+
+        if ( responseData ) {
+            NSError *jsonErr = nil;
+            id deserializedResponse = [NSJSONSerialization JSONObjectWithData:responseData
                                                                       options:kNilOptions
                                                                         error:&jsonErr];
-			if ( !jsonErr ) {
-			
-				// convert to native objects
-				if ( [deserializedResponse isKindOfClass:[NSDictionary class]] ) {
-					Person *newPerson = [Person rzi_objectFromDictionary:deserializedResponse];
-					// ... do something with the person ...
-				}
-				else if ( [deserializedResponse isKindOfClass:[NSArray class]] ) {
-					NSArray *people = [Person rzi_objectsFromArray:deserializedResponse];
-					// ... do something with the people ...
-				}
-			}
-		}
-	}];	
+            if ( deserializedResponse ) {
+                // convert to native objects
+                if ( [deserializedResponse isKindOfClass:[NSDictionary class]] ) {
+                    Person *newPerson = [Person rzi_objectFromDictionary:deserializedResponse];
+                    // ... do something with the person ...
+                }
+                else if ( [deserializedResponse isKindOfClass:[NSArray class]] ) {
+                    NSArray *people = [Person rzi_objectsFromArray:deserializedResponse];
+                    // ... do something with the people ...
+                }
+            }
+            else {
+                // Handle jsonErr
+            }
+        }
+    }];
 }
 
 ```
@@ -136,8 +137,8 @@ If you need to provide a custom mapping from a dictionary key or keypath to a pr
 
 @interface MyModelClass : NSObject <RZImportable>
 
-@property (nonatomic, copy) NSNumber *objectID;
-@property (nonatomic, copy) NSString *zipCode;
+@property (copy, nonatomic) NSNumber *objectID;
+@property (copy, nonatomic) NSString *zipCode;
 
 @end
 
@@ -146,38 +147,38 @@ If you need to provide a custom mapping from a dictionary key or keypath to a pr
 
 + (NSDictionary *)rzi_customKeyMappings
 {
-	// Map dictionary key "zip" to property "zipCode"
-	// and dictionary key "id" to property "objectID"
-	return @{
-		@"zip" : @"zipCode",
-		@"id" : @"objectID"
-	};
+    // Map dictionary key "zip" to property "zipCode"
+    // and dictionary key "id" to property "objectID"
+    return @{
+        @"zip" : @"zipCode",
+        @"id" : @"objectID"
+    };
 }
 
 @end
 
 ```
 
-You can also prevent RZImport from importing a value for a particular key, or import the value of a key using your own custom logic. 
+You can also prevent RZImport from importing a value for a particular key, or import the value of a key using your own custom logic.
 
 ```obj-c
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key;
 {
-	if ( [key isEqualToString:@"zip"] ) {
-		// validation - must be a string that only contains numbers
-		if ( [value isKindOfClass:[NSString class]] ) {
-			return ([value rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location == NSNotFound);
-		}
-		return NO;
-	}
-	else if ( [key isEqualToString:@"address"] ) {
-		if ( [value isKindOfClass:[NSDictionary class]] ) {
-			// custom import logic
-			self.address = [Address rzi_objectFromDictionary:value];
-		}
-		return NO;
-	}
-	return YES;
+    if ( [key isEqualToString:@"zip"] ) {
+        // validation - must be a string that only contains numbers
+        if ( [value isKindOfClass:[NSString class]] ) {
+            return ([value rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location == NSNotFound);
+        }
+        return NO;
+    }
+    else if ( [key isEqualToString:@"address"] ) {
+        if ( [value isKindOfClass:[NSDictionary class]] ) {
+            // custom import logic
+            self.address = [Address rzi_objectFromDictionary:value];
+        }
+        return NO;
+    }
+    return YES;
 }
 
 ```
@@ -189,23 +190,23 @@ If you are importing a dictionary with sub-dictionaries that correspond to objec
 ```obj-c
 @interface Job : NSObject
 
-@property (nonatomic, copy) NSString *jobTitle;
-@property (nonatomic, copy) NSString *companyName;
+@property (copy, nonatomic) NSString *jobTitle;
+@property (copy, nonatomic) NSString *companyName;
 
 @end
 
 @interface Person : NSObject <RZImportable>
 
-@property (nonatomic, strong) Job *job;
-@property (nonatomic, copy) NSString *firstName;
+@property (strong, nonatomic) Job *job;
+@property (copy, nonatomic) NSString *firstName;
 
 @end
 
 @implementation Person
 
-+ (NSArray *)rzi_nestedObjectKeys 
++ (NSArray *)rzi_nestedObjectKeys
 {
-	return @[ @"job" ];
+    return @[ @"job" ];
 }
 
 @end
@@ -213,15 +214,15 @@ If you are importing a dictionary with sub-dictionaries that correspond to objec
 ...
 - (void)createPersonWithJob
 {
-	NSDictionary *personData = @{
-					@"firstName" : @"John",
-					@"job" : @{
-						@"jobTitle" : @"Software Developer",
-						@"companyName" : @"Raizlabs"
-					}
-				};
-	Person *p = [Person rz_objectFromDictionary:personData];
-} 
+    NSDictionary *personData = @{
+                    @"firstName" : @"John",
+                    @"job" : @{
+                        @"jobTitle" : @"Software Developer",
+                        @"companyName" : @"Raizlabs"
+                    }
+                };
+    Person *p = [Person rz_objectFromDictionary:personData];
+}
 ```
 
 ### Uniquing Objects
@@ -231,8 +232,8 @@ If you are importing a dictionary with sub-dictionaries that correspond to objec
 ```obj-c
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict
 {
-	// If there is already an object in the data store with the same ID, return it.
-	// The existing instance will be updated and returned instead of a new instance.
+    // If there is already an object in the data store with the same ID, return it.
+    // The existing instance will be updated and returned instead of a new instance.
     NSNumber *objID = [dict objectForKey:@"id"];
     if ( objID != nil ) {
         return [[DataStore sharedInstance] objectWithClassName:@"Person" forId:objID];
