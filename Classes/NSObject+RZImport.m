@@ -690,7 +690,10 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
             }
             
             if ( convertedValue ) {
-                [self setValue:convertedValue forKey:propDescriptor.propertyName];
+                NSObject *currentValue = [self valueForKey:propDescriptor.propertyName];
+                if ( [currentValue isEqual:convertedValue] == NO ) {
+                    [self setValue:convertedValue forKey:propDescriptor.propertyName];
+                }
             }
             else {
                 RZILogError(@"Could not convert value of type %@ for key \"%@\" to correct type for property \"%@\" of class %@",
