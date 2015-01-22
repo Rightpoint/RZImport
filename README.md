@@ -125,7 +125,7 @@ You can also update an existing object instance from a dictionary.
 
 ```obj-c
 Person *myPerson = self.person;
-[myPerson rzi_updateFromDictionary:someDictionary];
+[myPerson rzi_importValuesFromDict:someDictionary];
 ```
 
 ### Custom Mappings
