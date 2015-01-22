@@ -2,6 +2,7 @@ RZImport
 ============
 
 [![Build Status](https://travis-ci.org/Raizlabs/RZImport.svg)](https://travis-ci.org/Raizlabs/RZImport)
+[![Version](https://img.shields.io/cocoapods/v/RZImport.svg?style=flat)](http://cocoadocs.org/docsets/RZImport)
 
 Tired of writing boilerplate to import deserialized API responses to model objects?
 
