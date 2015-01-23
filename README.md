@@ -251,6 +251,23 @@ For example, RZImport cannot be used out-of-the-box to create valid instances of
 
 **If you are interested in using RZImport with CoreData, check out [RZVinyl](https://github.com/Raizlabs/RZVinyl)**
 
+## Maintainers
+[arrouse](https://github.com/arrouse) ([@arrouse88](http://twitter.com/arrouse88))
+
+[nbonatsakis](https://github.com/nbonatsakis) ([@nickbona](http://twitter.com/nickbona))
+
+[KingOfBrian](https://github.com/KingOfBrian) ([@KingOfBrian](http://twitter.com/KingOfBrian))
+
+[mattThousand](https://github.com/mattThousand) ([@mattThousand ](http://twitter.com/mattThousand))
+
+[SpencerP](https://github.com/SpencerP)
+
+[LFabien](https://github.com/LFabien)
+
+## Contributors
+
+[ndonald2](https://github.com/ndonald2) ([@infrasonick](http://twitter.com/infrasonick)) 
+
 ## License
 
 RZImport is licensed under the MIT license. See the `LICENSE` file for details.
