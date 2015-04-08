@@ -433,7 +433,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
 
 
     if ( [self respondsToSelector:@selector(rze_additionalKeys)] ) {
-        [jsonObject addEntriesFromDictionary:[self rze_additionalKeys]];
+        [jsonObject addEntriesFromDictionary:[(id <RZImportable>)self rze_additionalKeys]];
     }
 
     for ( NSString *managedObjectProperty in propertyNames ) {
