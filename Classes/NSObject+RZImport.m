@@ -29,6 +29,7 @@
 #import "NSObject+RZImport.h"
 #import "NSObject+RZImport_Private.h"
 #import <objc/runtime.h>
+#import <CoreData/CoreData.h>
 
 
 static NSString* const kRZImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
@@ -272,7 +273,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     return s_dateFormatter;
 }
 
-#pragma mark - Public
+#pragma mark - Public Import
 
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict
 {
@@ -345,7 +346,174 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     }];
 }
 
+#pragma mark - Public Export
+
++ (NSDictionary *)rze_exportMappings
+{
+    NSMutableDictionary *exportMappings = [NSMutableDictionary dictionary];
+
+    if ( [self conformsToProtocol:@protocol(RZImportable)] ) {
+
+        Class <RZImportable> thisClass = self;
+
+        if ( [self respondsToSelector:@selector(rzi_customMappings)] ) {
+
+            NSDictionary *importMappings = [thisClass rzi_customMappings];
+            for ( NSInteger i = 0; i < importMappings.count; i++ ) {
+                NSString *exportKey = importMappings.allValues[i];
+                NSString *exportValue = importMappings.allKeys[i];
+                exportMappings[exportKey] = exportValue;
+            }
+        }
+    }
+    return exportMappings;
+}
+
+//+ (NSArray *)rze_nestedObjectKeys
+//{
+//    NSArray *nestedObjects;
+//
+//    if ( [self conformsToProtocol:@protocol(RZImportable)] ) {
+//
+//        Class <RZImportable> thisClass = self;
+//
+//        if ( [self respondsToSelector:@selector(rze_nestedObjectKeys)] ) {
+//            nestedObjects = [thisClass rze_nestedObjectKeys];
+//        }
+//    }
+//    return nestedObjects;
+//}
+
+#warning FINISH - add date formatter parameter
+- (NSDictionary *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores
+{
+    return [self rze_jsonRepresentationWithUnderscores:underscores parentClass:nil];
+}
+
+- (NSArray *)rze_propertyNames
+{
+    NSArray *propertyNames;
+    if ( self.superclass != [NSManagedObject class] && self.superclass != [NSObject class] ) {
+        NSMutableArray *allPropertyNames = [NSMutableArray array];
+        [allPropertyNames addObjectsFromArray:rzi_propertyNamesForClass(self.class)];
+        [allPropertyNames addObjectsFromArray:[self.superclass rze_propertyNames]];
+        propertyNames = allPropertyNames;
+    }
+    else {
+        propertyNames = rzi_propertyNamesForClass(self.class);
+    }
+    return propertyNames;
+}
+
+- (NSDictionary *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores parentClass:(Class)parentClass {
+    NSArray *propertyNames = [self rze_propertyNames];
+    NSDictionary *exportMappings = [self.class rze_exportMappings];
+
+    Class <RZImportable> thisClass = self.class;
+
+    // Get a list of nested object keys suitable for export
+    NSArray *nestedObjects;
+    if ( [self.class respondsToSelector:@selector(rze_nestedObjectKeys)] ) {
+        nestedObjects = [thisClass rze_nestedObjectKeys];
+    }
+    else {
+        nestedObjects = [NSArray array];
+    }
+
+    // Get a list of ignored object keys suitable for export
+    NSArray *ignoredObjects;
+    if ( [self.class respondsToSelector:@selector(rze_ignoredKeys)] ) {
+        ignoredObjects = [thisClass rze_ignoredKeys];
+    }
+    else {
+        ignoredObjects = [NSArray array];
+    }
+
+    NSMutableDictionary *jsonObject = [NSMutableDictionary dictionary];
+
+
+    if ( [self respondsToSelector:@selector(rze_additionalKeys)] ) {
+        [jsonObject addEntriesFromDictionary:[self rze_additionalKeys]];
+    }
+
+    for ( NSString *managedObjectProperty in propertyNames ) {
+        NSString *mappedName = ( exportMappings[managedObjectProperty] ? exportMappings[managedObjectProperty] : [self.class rze_underscoreStringFromCamelCaseString:managedObjectProperty] );
+        id currentValue = [self valueForKey:managedObjectProperty];
+
+        if ( [ignoredObjects containsObject:managedObjectProperty] ) {
+            RZILogDebug(@"Ignoring key: %@",managedObjectProperty);
+        }
+        else if ( currentValue == nil ) {
+            jsonObject[mappedName] = [NSNull null];
+        }
+        else {
+            if ( [currentValue isKindOfClass:[NSNumber class]] ) {
+                jsonObject[mappedName] = currentValue;
+            }
+            else if ( [currentValue isKindOfClass:[NSString class]] ) {
+                jsonObject[mappedName] = currentValue;
+            }
+            else if ( [currentValue conformsToProtocol:@protocol(RZImportable)] && parentClass != [currentValue class] ) {
+                // avoids traversing back up to calling object in nested relationships
+                jsonObject[mappedName] = [currentValue rze_jsonRepresentationWithUnderscores:underscores parentClass:self.class];
+            }
+            else if ( [currentValue isKindOfClass:[NSArray class]] || [currentValue isKindOfClass:[NSSet class]] ) {
+
+                // Only handle objects identified in the import as nested
+                if ( [nestedObjects containsObject:managedObjectProperty] ) {
+
+                    NSArray *arrayValue = [self.class rze_arrayForObjectCollection:currentValue withUnderscores:underscores parentClass:self.class];
+
+                    if ( arrayValue.count > 0 ) {
+                        jsonObject[mappedName] = arrayValue;
+                    }
+                    else {
+                        jsonObject[mappedName] = [NSNull null];
+                    }
+                }
+
+            }
+        }
+    }
+
+    return jsonObject;
+}
+
 #pragma mark - Private Header
+
++ (NSArray *)rze_arrayForObjectCollection:(id)objectCollection withUnderscores:(BOOL)underscores parentClass:(Class)parentClass
+{
+    NSMutableArray *arrayValue = [NSMutableArray array];
+
+    NSArray *currentArray;
+    // For sets, check if objects have a sortOrder property to infer ordering
+    if ( [objectCollection isKindOfClass:[NSSet class]] ) {
+
+        if ( [[objectCollection anyObject] valueForKey:@"sortOrder"] ) {
+            NSSortDescriptor *sortOrderDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"sortOrder" ascending:YES];
+            currentArray = [objectCollection sortedArrayUsingDescriptors:@[sortOrderDescriptor]];
+        }
+        else {
+            currentArray = [objectCollection allObjects];
+        }
+
+    }
+    else {
+        currentArray = objectCollection;
+    }
+
+    for ( id obj in objectCollection ) {
+        // avoids traversing back up to calling object in nested relationships
+        if ( [obj conformsToProtocol:@protocol(RZImportable)] && parentClass != [obj class] ) {
+            NSDictionary *currentArrayValueDictionary = [obj rze_jsonRepresentationWithUnderscores:underscores parentClass:parentClass];
+            if ( [NSJSONSerialization isValidJSONObject:currentArrayValueDictionary] ) {
+                [arrayValue addObject:currentArrayValueDictionary];
+            }
+        }
+
+    }
+    return arrayValue;
+}
 
 // For runtime locating of property info
 + (RZIPropertyInfo *)rzi_propertyInfoForExternalKey:(NSString *)key withMappings:(NSDictionary *)extraMappings
@@ -707,6 +875,16 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     @catch ( NSException *exception ) {
         RZILogError(@"Could not set value %@ for property %@ of class %@", value, propDescriptor.propertyName, NSStringFromClass([self class]));
     }
+}
+
++ (NSString *)rze_underscoreStringFromCamelCaseString:(NSString *)camelCaseString
+{
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"([a-z])([A-Z])"
+                                                                           options:0
+                                                                             error:&error];
+    NSString *underscoreString = [regex stringByReplacingMatchesInString:camelCaseString options:0 range:NSMakeRange(0, [camelCaseString length]) withTemplate:@"$1_$2"];
+    return [underscoreString lowercaseString];
 }
 
 @end

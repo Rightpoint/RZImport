@@ -142,5 +142,9 @@
  */
 - (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
 
++ (NSDictionary *)rze_exportMappings;
+
+- (NSDictionary *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores;
+
 @end
 

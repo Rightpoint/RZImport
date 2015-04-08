@@ -99,4 +99,10 @@
  */
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key;
 
++ (NSArray *)rze_nestedObjectKeys;
+
++ (NSArray *)rze_ignoredKeys;
+
+- (NSDictionary *)rze_additionalKeys;
+
 @end
