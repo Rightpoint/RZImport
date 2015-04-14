@@ -144,7 +144,9 @@
 
 + (NSDictionary *)rze_exportMappings;
 
-- (NSDictionary *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores;
+- (NSDictionary *)rze_dictionaryRepresentationWithUnderscores:(BOOL)underscores;
+
+- (NSData *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores;
 
 @end
 

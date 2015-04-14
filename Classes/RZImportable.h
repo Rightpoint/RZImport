@@ -99,10 +99,35 @@
  */
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key;
 
-+ (NSArray *)rze_nestedObjectKeys;
+#pragma mark - Export
 
+/**
+ *  Implement to ignore a specific set of keys or keypaths.
+ *  When performing an export, these keys will be ignored in the managed object being exported.
+ *
+ *  @return An array of NSString objects representing keys to ignore during export.
+ */
 + (NSArray *)rze_ignoredKeys;
 
+/**
+ *  Implement to provide a list of keys in the managed object being exported whose values should be exported.
+ *  These keys should represent nested objects in the managed object being exported.
+ *
+ *  @return An array of NSString objects representing keys whose values should be exported.
+ */
++ (NSArray *)rze_nestedObjectKeys;
+
+/** 
+ *  Implement to provide a list of additional keys to return in the dictionary for this object. 
+ *  Typically used to reinstate keys we handled in rzi_shouldImportValue with custom logic
+ */
 - (NSDictionary *)rze_additionalKeys;
+
+/**
+ * Implement to provide a target date format for the export of this object.
+ * 
+ * Defaults to ISO8601 format if not provided.
+ */
+- (NSDateFormatter *)rze_dateFormatter;
 
 @end

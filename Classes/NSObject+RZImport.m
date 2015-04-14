@@ -385,9 +385,9 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
 //}
 
 #warning FINISH - add date formatter parameter
-- (NSDictionary *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores
+- (NSDictionary *)rze_dictionaryRepresentationWithUnderscores:(BOOL)underscores
 {
-    return [self rze_jsonRepresentationWithUnderscores:underscores parentClass:nil];
+    return [self rze_dictionaryRepresentationWithUnderscores:underscores parentClass:nil];
 }
 
 - (NSArray *)rze_propertyNames
@@ -405,7 +405,21 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     return propertyNames;
 }
 
-- (NSDictionary *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores parentClass:(Class)parentClass {
+- (NSData *)rze_jsonRepresentationWithUnderscores:(BOOL)underscores
+{
+    NSJSONWritingOptions writingOptions = 0;
+#if DEBUG
+    writingOptions = NSJSONWritingPrettyPrinted;
+#endif
+    NSError *error;
+    NSData *jsonData;
+    if ( [NSJSONSerialization isValidJSONObject:[self rze_dictionaryRepresentationWithUnderscores:underscores]] ) {
+        jsonData = [NSJSONSerialization dataWithJSONObject:[self rze_dictionaryRepresentationWithUnderscores:underscores] options:writingOptions error:&error];
+    }
+    return jsonData;
+}
+
+- (NSDictionary *)rze_dictionaryRepresentationWithUnderscores:(BOOL)underscores parentClass:(Class)parentClass {
     NSArray *propertyNames = [self rze_propertyNames];
     NSDictionary *exportMappings = [self.class rze_exportMappings];
 
@@ -453,9 +467,12 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
             else if ( [currentValue isKindOfClass:[NSString class]] ) {
                 jsonObject[mappedName] = currentValue;
             }
+            else if ( [currentValue isKindOfClass:[NSDate class]] ) {
+                jsonObject[mappedName] = [self rze_stringFromDate:currentValue];
+            }
             else if ( [currentValue conformsToProtocol:@protocol(RZImportable)] && parentClass != [currentValue class] ) {
                 // avoids traversing back up to calling object in nested relationships
-                jsonObject[mappedName] = [currentValue rze_jsonRepresentationWithUnderscores:underscores parentClass:self.class];
+                jsonObject[mappedName] = [currentValue rze_dictionaryRepresentationWithUnderscores:underscores parentClass:self.class];
             }
             else if ( [currentValue isKindOfClass:[NSArray class]] || [currentValue isKindOfClass:[NSSet class]] ) {
 
@@ -481,6 +498,18 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
 
 #pragma mark - Private Header
 
+- (NSString *)rze_stringFromDate:(NSDate *)date
+{
+    NSString *dateString;
+    if ( [self respondsToSelector:@selector(rze_dateFormatter)] ) {
+        dateString = [[(id <RZImportable>)self rze_dateFormatter] stringFromDate:date] ;
+    }
+    else {
+        dateString = [[self.class s_rzi_dateFormatter] stringFromDate:date];
+    }
+    return dateString;
+}
+
 + (NSArray *)rze_arrayForObjectCollection:(id)objectCollection withUnderscores:(BOOL)underscores parentClass:(Class)parentClass
 {
     NSMutableArray *arrayValue = [NSMutableArray array];
@@ -505,7 +534,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     for ( id obj in objectCollection ) {
         // avoids traversing back up to calling object in nested relationships
         if ( [obj conformsToProtocol:@protocol(RZImportable)] && parentClass != [obj class] ) {
-            NSDictionary *currentArrayValueDictionary = [obj rze_jsonRepresentationWithUnderscores:underscores parentClass:parentClass];
+            NSDictionary *currentArrayValueDictionary = [obj rze_dictionaryRepresentationWithUnderscores:underscores parentClass:parentClass];
             if ( [NSJSONSerialization isValidJSONObject:currentArrayValueDictionary] ) {
                 [arrayValue addObject:currentArrayValueDictionary];
             }
