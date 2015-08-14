@@ -646,11 +646,6 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                     case RZImportDataTypeNSDate: {
                         // Assume it's a unix timestamp
                         convertedValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
-                        
-                        RZILogDebug(@"Received a number for key [%@] matching property [%@] of class [%@]. Assuming unix timestamp.",
-                                     originalKey,
-                                     propDescriptor.propertyName,
-                                     NSStringFromClass([self class]));
                     }
                         break;
                         
