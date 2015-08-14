@@ -65,6 +65,15 @@
 + (NSArray *)rzi_nestedObjectKeys;
 
 /**
+ *  Implement to provide the order in which keys should be imported.
+ *  When performing an import, keys in this array will be imported first, and in the order specified.
+ *  Keys not including in this array will be imported in an arbitrary order.
+ *
+ *  @return An array of NSString objects representing keys in the order in which they should be imported.
+ */
++ (NSArray *)rzi_orderedKeys;
+
+/**
  *  Implement to provide a custom date format string for a particular key or keys.
  *  Will only be called if the inferred property is an NSDate type and the dict value is a string.
  *

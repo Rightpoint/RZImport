@@ -332,15 +332,28 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     BOOL canOverrideImports = [self respondsToSelector:@selector( rzi_shouldImportValue:forKey: )];
     
     NSSet *ignoredKeys = [[self class] rzi_cachedIgnoredKeys];
-    
-    [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
-    
+    NSOrderedSet *orderedKeys = [[self class] rzi_cachedOrderedKeys];
+
+    NSArray *dictKeys = dict.allKeys;
+
+    if ( orderedKeys.count > 0 ) {
+        dictKeys = [dictKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSUInteger idx1 = [orderedKeys indexOfObject:obj1];
+            NSUInteger idx2 = [orderedKeys indexOfObject:obj2];
+
+            return [@(idx1) compare:@(idx2)];
+        }];
+    }
+
+    [dictKeys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+        id value = dict[key];
+
         if ( canOverrideImports && ![ignoredKeys containsObject:key] ) {
             if ( ![(id<RZImportable>)self rzi_shouldImportValue:value forKey:key] ) {
                 return;
             }
         }
-        
+
         [self rzi_importValue:value forKey:key withMappings:mappings ignoredKeys:ignoredKeys];
     }];
 }
@@ -465,6 +478,27 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
         }
     }];
     return nestedKeys;
+}
+
++ (NSOrderedSet *)rzi_cachedOrderedKeys
+{
+    static void * kRZIOrderedKeysAssocKey = &kRZIOrderedKeysAssocKey;
+    __block NSOrderedSet *orderedKeys = nil;
+    [self rzi_performBlockAtomicallyAndWait:YES block:^{
+        orderedKeys = objc_getAssociatedObject(self, kRZIOrderedKeysAssocKey);
+        if ( orderedKeys == nil ) {
+            if ( [self respondsToSelector:@selector( rzi_orderedKeys )] ) {
+                Class <RZImportable> thisClass = self;
+                orderedKeys = [NSOrderedSet orderedSetWithArray:[thisClass rzi_orderedKeys]];
+            }
+            else {
+                // !!!: empty set so cache does not fault again
+                orderedKeys = [NSOrderedSet orderedSet];
+            }
+            objc_setAssociatedObject(self, kRZIOrderedKeysAssocKey, orderedKeys, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
+    }];
+    return orderedKeys;
 }
 
 // !!!: this method is not threadsafe
@@ -612,11 +646,6 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                     case RZImportDataTypeNSDate: {
                         // Assume it's a unix timestamp
                         convertedValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
-                        
-                        RZILogDebug(@"Received a number for key [%@] matching property [%@] of class [%@]. Assuming unix timestamp.",
-                                     originalKey,
-                                     propDescriptor.propertyName,
-                                     NSStringFromClass([self class]));
                     }
                         break;
                         
