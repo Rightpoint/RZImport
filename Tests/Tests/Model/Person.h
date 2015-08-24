@@ -22,3 +22,7 @@
 
 @property (nonatomic, strong) Job *job;
 @end
+
+@interface PersonCustomProps : Person
+@end
+
