@@ -638,6 +638,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                 switch (propDescriptor.dataType) {
                         
                     case RZImportDataTypeNSNumber:
+                    case RZImportDataTypeBoolean:
                     case RZImportDataTypePrimitive:
                         convertedValue = value;
                         break;
@@ -652,10 +653,6 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                     }
                         break;
                         
-                    case RZImportDataTypeBoolean:
-                        convertedValue = value;
-                        break;
-
                     default:
                         break;
                 }
@@ -679,6 +676,10 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                         convertedValue = value;
                         break;
                         
+                    case RZImportDataTypeBoolean:
+                        convertedValue = @([value boolValue]);
+                        break;
+
                     case RZImportDataTypeNSDate: {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
@@ -703,14 +704,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                         
                     }
                         break;
-                    case RZImportDataTypeBoolean: {
-                        __block NSNumber *boolNumber = nil;
-                        [[self class] rzi_performBlockAtomicallyAndWait:YES block:^{
-                            boolNumber = [NSNumber numberWithBool:[value boolValue]];
-                        }];
-                        convertedValue = boolNumber;
-                    }
-                        break;
+
                     default:
                         break;
                 }
