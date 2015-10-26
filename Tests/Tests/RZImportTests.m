@@ -397,6 +397,12 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssert(![self test_oneBool:@0   ]);
     XCTAssert(![self test_oneBool:@false]);
     XCTAssert(![self test_oneBool:[NSNull null]]);
+    XCTAssert(![self test_oneBool:@"0"      ]);
+    XCTAssert(![self test_oneBool:@" 0"     ]);
+    XCTAssert(![self test_oneBool:@" 0 "    ]);
+    XCTAssert(![self test_oneBool:@" 0.0 "  ]);
+    XCTAssert(![self test_oneBool:@"NOT a number means 'false' "  ]);
+
     XCTAssert([self test_oneBool:@"yes" ]);
     XCTAssert([self test_oneBool:@"YES" ]);
     XCTAssert([self test_oneBool:@"y"   ]);
@@ -405,6 +411,10 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssert([self test_oneBool:@-1    ]);
     XCTAssert([self test_oneBool:@42    ]);
     XCTAssert([self test_oneBool:@true  ]);
+    XCTAssert([self test_oneBool:@"1"   ]);
+    XCTAssert([self test_oneBool:@" 1"  ]);
+    XCTAssert([self test_oneBool:@" 1 " ]);
+    XCTAssert([self test_oneBool:@"42"  ]);
 // clang-format on
 }
 @end
