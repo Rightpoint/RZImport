@@ -15,10 +15,9 @@
 
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
-
 @property (nonatomic, copy) NSString *colorPref;
-
 @property (nonatomic, strong) Address *address;
-
 @property (nonatomic, strong) Job *job;
+@property (nonatomic, assign) bool deceased;
+
 @end

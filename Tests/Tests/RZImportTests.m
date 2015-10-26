@@ -15,6 +15,8 @@
 #import "Job.h"
 #import "TestDataStore.h"
 
+@import Foundation;
+
 extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 @interface RZImportTests : XCTestCase
@@ -379,6 +381,30 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertEqualObjects(guysJob.companyName, companyName, @"Failed to import Company Name");
     XCTAssertEqualObjects(guysJob.title, title, @"Failed to import title");
 }
-    
 
+- (BOOL)test_oneBool:(id)value
+{
+    return [Person rzi_objectFromDictionary:@{ @"deceased" : value }].deceased;
+}
+
+- (void)test_booleanImport
+{
+// clang-format off
+    XCTAssert(![self test_oneBool:@"no"     ]);
+    XCTAssert(![self test_oneBool:@"NO"     ]);
+    XCTAssert(![self test_oneBool:@"n" ]);
+    XCTAssert(![self test_oneBool:@"N" ]);
+    XCTAssert(![self test_oneBool:@0   ]);
+    XCTAssert(![self test_oneBool:@false]);
+    XCTAssert(![self test_oneBool:[NSNull null]]);
+    XCTAssert([self test_oneBool:@"yes" ]);
+    XCTAssert([self test_oneBool:@"YES" ]);
+    XCTAssert([self test_oneBool:@"y"   ]);
+    XCTAssert([self test_oneBool:@"Y"   ]);
+    XCTAssert([self test_oneBool:@1     ]);
+    XCTAssert([self test_oneBool:@-1    ]);
+    XCTAssert([self test_oneBool:@42    ]);
+    XCTAssert([self test_oneBool:@true  ]);
+// clang-format on
+}
 @end
