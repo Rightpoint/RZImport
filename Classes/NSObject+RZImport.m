@@ -405,7 +405,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
         [self rzi_importValuesFromNestedDict:value withKeyPathPrefix:key mappings:mappings ignoredKeys:ignoredKeys];
     }
     else {
-        [self rzi_unhandledValue:value forKey:key];
+        [self rzi_foundUnhandledValue:value forKey:key];
     }
 }
 
@@ -420,7 +420,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     }];
 }
 
-- (void)rzi_unhandledValue:(id)value forKey:(NSString *)key
+- (void)rzi_foundUnhandledValue:(id)value forKey:(NSString *)key
 {
     [[self class] rzi_logUnknownKeyWarningForKey:key];
 }
