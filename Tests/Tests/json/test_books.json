@@ -1,0 +1,38 @@
+[
+  {
+  "id" : 12345,
+  "last_updated" : "2014-05-20T20:12:00Z",
+  "title" : "Title 1",
+  "category"  : "science fiction",
+  },
+  {
+  "id" : 12346,
+  "last_updated" : "2014-05-20T20:12:00Z",
+  "title" : "Title 2",
+  "category"  : "mystery",
+  },
+  {
+  "id" : 12347,
+  "last_updated" : "2014-05-20T20:12:00Z",
+  "title" : "Title 3",
+  "category"  : "mystery",
+  },
+  {
+  "id" : 12348,
+  "last_updated" : "2014-05-20T20:12:00Z",
+  "title" : "Title 4",
+  "category"  : "biography",
+  },
+  {
+  "id" : 12349,
+  "last_updated" : "2014-05-20T20:12:00Z",
+  "title" : "Title 5",
+  "category"  : "action",
+  },
+  {
+  "id" : 12340,
+  "last_updated" : "2014-05-20T20:12:00Z",
+  "title" : "Title 6",
+  "category"  : "mystery",
+  }
+]

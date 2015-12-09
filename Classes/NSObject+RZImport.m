@@ -284,17 +284,37 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
     NSParameterAssert(dict);
     
     id object = nil;
-    
+    BOOL didCreateNewObject = NO;
+
     if ( [self respondsToSelector:@selector( rzi_existingObjectForDict: )] ) {
         Class <RZImportable> thisClass = self;
         object = [thisClass rzi_existingObjectForDict:dict];
     }
     
     if ( object == nil ) {
+        didCreateNewObject = YES;
         object = [[self alloc] init];
     }
-    
-    [object rzi_importValuesFromDict:dict withMappings:mappings];
+
+    BOOL shouldImportValues = YES;
+
+    if ( [object respondsToSelector:@selector( rzi_shouldImportValuesFromDict:withMappings: )] ) {
+        shouldImportValues = [object rzi_shouldImportValuesFromDict:dict withMappings:mappings];
+
+        if ( shouldImportValues ) {
+            [object rzi_importValuesFromDict:dict withMappings:mappings];
+        }
+        else {
+            object = didCreateNewObject ? nil : object;
+        }
+    }
+    else {
+        [object rzi_importValuesFromDict:dict withMappings:mappings];
+    }
+
+    if ( shouldImportValues && [object respondsToSelector:@selector( rzi_didImportValuesFromDict:withMappings: )] ) {
+        [object rzi_didImportValuesFromDict:dict withMappings:mappings];
+    }
     
     return object;
 }
