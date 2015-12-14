@@ -282,19 +282,35 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
     NSParameterAssert(dict);
-    
+
     id object = nil;
-    
-    if ( [self respondsToSelector:@selector( rzi_existingObjectForDict: )] ) {
+
+    BOOL shouldImportValues = YES;
+    if ( [self respondsToSelector:@selector( rzi_shouldImportValuesFromDict:withMappings: )] ) {
         Class <RZImportable> thisClass = self;
-        object = [thisClass rzi_existingObjectForDict:dict];
+        shouldImportValues = [thisClass rzi_shouldImportValuesFromDict:dict withMappings:mappings];
     }
-    
-    if ( object == nil ) {
-        object = [[self alloc] init];
+
+    if (shouldImportValues) {
+        if ( [self respondsToSelector:@selector( rzi_existingObjectForDict: )] ) {
+            Class <RZImportable> thisClass = self;
+            object = [thisClass rzi_existingObjectForDict:dict];
+        }
+        
+        if ( object == nil ) {
+            object = [[self alloc] init];
+        }
+
+        if ( [object respondsToSelector:@selector( rzi_willImportValuesFromDict:withMappings: )] ) {
+            [object rzi_willImportValuesFromDict:dict withMappings:mappings];
+        }
+
+        [object rzi_importValuesFromDict:dict withMappings:mappings];
+
+        if ( [object respondsToSelector:@selector( rzi_didImportValuesFromDict:withMappings: )] ) {
+            [object rzi_didImportValuesFromDict:dict withMappings:mappings];
+        }
     }
-    
-    [object rzi_importValuesFromDict:dict withMappings:mappings];
     
     return object;
 }

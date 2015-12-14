@@ -13,6 +13,7 @@
 #import "BigObject.h"
 #import "Address.h"
 #import "Job.h"
+#import "Book.h"
 #import "TestDataStore.h"
 
 extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
@@ -379,6 +380,23 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertEqualObjects(guysJob.companyName, companyName, @"Failed to import Company Name");
     XCTAssertEqualObjects(guysJob.title, title, @"Failed to import title");
 }
-    
+
+- (void)test_shouldWillDidImportValues {
+    NSError *error = nil;
+    NSArray *array = [self loadTestJson:@"test_books" error:&error];
+
+    XCTAssertNil(error, @"Error reading json: %@", error);
+    XCTAssertNotNil(array, @"Could not deserialize json");
+
+    NSArray *books = [Book rzi_objectsFromArray:array];
+
+    XCTAssertNotNil(books, @"Failed to import any books");
+    XCTAssertEqual(books.count, 3, @"Failed to import correct number of books");
+
+    for (Book *book in books) {
+        XCTAssertEqualObjects(book.title, book.subtitle);
+        XCTAssertEqualObjects(book.title, book.altTitle);
+    }
+}
 
 @end

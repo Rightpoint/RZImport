@@ -94,6 +94,33 @@
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict;
 
 /**
+ * Implement to optionally prevent import for particular dictionaries.
+ *
+ * @param dict Dictionary representation of object being imported
+ * @param mappings Custom mappings from dictionary keys/keypaths to properties
+ *
+ * @return YES if RZImport should proceed with automatic import for the dict
+ *         NO if the dict should not be imported
+ */
++ (BOOL)rzi_shouldImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
+
+/**
+ * Implement to validate dictionaries or do any pre-import manipulation on the created object
+ *
+ * @param dict Dictionary representation of object being imported
+ * @param mappings Custom mappings from dictionary keys/keypaths to properties
+ */
+- (void)rzi_willImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
+
+/**
+ * Implement to provide post-import customization of object that will be returned.
+ *
+ * @param dict Dictionary representation of object that was imported
+ * @param mappings Custom mappings from dictionary keys/keypaths to properties that were mapped
+ */
+- (void)rzi_didImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings;
+
+/**
  *  Implement to optionally prevent import for particular key/value pairs.
  *  Can be used to validate imported value or override automatic import to perform custom logic.
  *  In order to support custom import logic for certain attributes, his is called by @p RZImport

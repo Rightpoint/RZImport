@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06896C981C18D2F400C776BE /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 06896C971C18D2F400C776BE /* Book.m */; };
+		06896C9A1C18D3FE00C776BE /* test_books.json in Resources */ = {isa = PBXBuildFile; fileRef = 06896C991C18D3FE00C776BE /* test_books.json */; };
+		06896C9B1C19E0EF00C776BE /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 06896C971C18D2F400C776BE /* Book.m */; };
+		06896C9C1C19E0F500C776BE /* test_books.json in Resources */ = {isa = PBXBuildFile; fileRef = 06896C991C18D3FE00C776BE /* test_books.json */; };
 		98B298691981444F001C41CC /* Job.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B298681981444F001C41CC /* Job.m */; };
 		98B2986A1981444F001C41CC /* Job.m in Sources */ = {isa = PBXBuildFile; fileRef = 98B298681981444F001C41CC /* Job.m */; };
 		98B2986C198144BB001C41CC /* test_person_job.json in Resources */ = {isa = PBXBuildFile; fileRef = 98B2986B198144BB001C41CC /* test_person_job.json */; };
@@ -35,6 +39,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06896C961C18D2F400C776BE /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		06896C971C18D2F400C776BE /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		06896C991C18D3FE00C776BE /* test_books.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_books.json; sourceTree = "<group>"; };
 		98B298671981444F001C41CC /* Job.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Job.h; sourceTree = "<group>"; };
 		98B298681981444F001C41CC /* Job.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Job.m; sourceTree = "<group>"; };
 		98B2986B198144BB001C41CC /* test_person_job.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_person_job.json; sourceTree = "<group>"; };
@@ -168,6 +175,7 @@
 				9AF9EF071937946A00F659E2 /* test_person.json */,
 				9AF9EF081937946A00F659E2 /* test_person_address.json */,
 				98B2986B198144BB001C41CC /* test_person_job.json */,
+				06896C991C18D3FE00C776BE /* test_books.json */,
 			);
 			path = json;
 			sourceTree = "<group>";
@@ -185,6 +193,8 @@
 				9AF9EF111937946A00F659E2 /* Person.m */,
 				98B298671981444F001C41CC /* Job.h */,
 				98B298681981444F001C41CC /* Job.m */,
+				06896C961C18D2F400C776BE /* Book.h */,
+				06896C971C18D2F400C776BE /* Book.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -269,6 +279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06896C9A1C18D3FE00C776BE /* test_books.json in Resources */,
 				9AF9EF141937946A00F659E2 /* test_person.json in Resources */,
 				9AF9EF151937946A00F659E2 /* test_person_address.json in Resources */,
 				98B2986C198144BB001C41CC /* test_person_job.json in Resources */,
@@ -279,6 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06896C9C1C19E0F500C776BE /* test_books.json in Resources */,
 				9AF9EF32193794E000F659E2 /* test_person.json in Resources */,
 				9AF9EF33193794E000F659E2 /* test_person_address.json in Resources */,
 				98B2986D198144BB001C41CC /* test_person_job.json in Resources */,
@@ -293,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AF9EF191937946A00F659E2 /* Person.m in Sources */,
+				06896C981C18D2F400C776BE /* Book.m in Sources */,
 				9AF9EF161937946A00F659E2 /* Address.m in Sources */,
 				F207C52A19356F98005CDA77 /* NSObject+RZImport.m in Sources */,
 				98B298691981444F001C41CC /* Job.m in Sources */,
@@ -308,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AF9EF391937954600F659E2 /* NSObject+RZImport.m in Sources */,
+				06896C9B1C19E0EF00C776BE /* Book.m in Sources */,
 				9AF9EF37193794E700F659E2 /* Person.m in Sources */,
 				9AF9EF34193794E700F659E2 /* Address.m in Sources */,
 				98B2986A1981444F001C41CC /* Job.m in Sources */,
