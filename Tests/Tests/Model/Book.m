@@ -10,26 +10,20 @@
 
 @implementation Book
 
-+ (id)rzi_existingObjectForDict:(NSDictionary *)dict
-{
-    NSString *title = dict[@"title"];
-    Book *book = nil;
-
-    if ([title isEqualToString:@"Title 1"]) {
-        book = [[Book alloc] initWithID:@(12345)];
-    }
-
-    return book;
-}
-
-- (BOOL)rzi_shouldImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
++ (BOOL)rzi_shouldImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
     NSString *category = dict[@"category"];
 
     return [category isEqualToString:@"mystery"];
 }
 
-- (void)rzi_didImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings {
+- (void)rzi_willImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
+{
+    self.altTitle = dict[@"title"];
+}
+
+- (void)rzi_didImportValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
+{
     self.subtitle = self.title;
 }
 

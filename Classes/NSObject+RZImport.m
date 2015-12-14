@@ -282,38 +282,34 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
     NSParameterAssert(dict);
-    
-    id object = nil;
-    BOOL didCreateNewObject = NO;
 
-    if ( [self respondsToSelector:@selector( rzi_existingObjectForDict: )] ) {
-        Class <RZImportable> thisClass = self;
-        object = [thisClass rzi_existingObjectForDict:dict];
-    }
-    
-    if ( object == nil ) {
-        didCreateNewObject = YES;
-        object = [[self alloc] init];
-    }
+    id object = nil;
 
     BOOL shouldImportValues = YES;
-
-    if ( [object respondsToSelector:@selector( rzi_shouldImportValuesFromDict:withMappings: )] ) {
-        shouldImportValues = [object rzi_shouldImportValuesFromDict:dict withMappings:mappings];
-
-        if ( shouldImportValues ) {
-            [object rzi_importValuesFromDict:dict withMappings:mappings];
-        }
-        else {
-            object = didCreateNewObject ? nil : object;
-        }
+    if ( [self respondsToSelector:@selector( rzi_shouldImportValuesFromDict:withMappings: )] ) {
+        Class <RZImportable> thisClass = self;
+        shouldImportValues = [thisClass rzi_shouldImportValuesFromDict:dict withMappings:mappings];
     }
-    else {
+
+    if (shouldImportValues) {
+        if ( [self respondsToSelector:@selector( rzi_existingObjectForDict: )] ) {
+            Class <RZImportable> thisClass = self;
+            object = [thisClass rzi_existingObjectForDict:dict];
+        }
+        
+        if ( object == nil ) {
+            object = [[self alloc] init];
+        }
+
+        if ( [object respondsToSelector:@selector( rzi_willImportValuesFromDict:withMappings: )] ) {
+            [object rzi_willImportValuesFromDict:dict withMappings:mappings];
+        }
+
         [object rzi_importValuesFromDict:dict withMappings:mappings];
-    }
 
-    if ( shouldImportValues && [object respondsToSelector:@selector( rzi_didImportValuesFromDict:withMappings: )] ) {
-        [object rzi_didImportValuesFromDict:dict withMappings:mappings];
+        if ( [object respondsToSelector:@selector( rzi_didImportValuesFromDict:withMappings: )] ) {
+            [object rzi_didImportValuesFromDict:dict withMappings:mappings];
+        }
     }
     
     return object;

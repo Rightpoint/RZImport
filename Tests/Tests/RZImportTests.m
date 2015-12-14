@@ -381,16 +381,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertEqualObjects(guysJob.title, title, @"Failed to import title");
 }
 
-- (void)test_shouldImportValues {
-    //
-    // Testing that it correctly does not import when told not to.
-    //
-    // Testing that if an existing object is supplied, it will still
-    // return that object even if it does not import in values.
-    //
-    // Testing that the didImport method is run on each object
-    //
-    
+- (void)test_shouldWillDidImportValues {
     NSError *error = nil;
     NSArray *array = [self loadTestJson:@"test_books" error:&error];
 
@@ -400,10 +391,11 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     NSArray *books = [Book rzi_objectsFromArray:array];
 
     XCTAssertNotNil(books, @"Failed to import any books");
-    XCTAssertEqual(books.count, 4, @"Failed to import correct number of books");
+    XCTAssertEqual(books.count, 3, @"Failed to import correct number of books");
 
     for (Book *book in books) {
         XCTAssertEqualObjects(book.title, book.subtitle);
+        XCTAssertEqualObjects(book.title, book.altTitle);
     }
 }
 
