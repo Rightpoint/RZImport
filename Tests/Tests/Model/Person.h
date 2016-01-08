@@ -21,3 +21,7 @@
 @property (nonatomic, assign) bool deceased;
 
 @end
+
+@interface PersonCustomProps : Person
+@end
+

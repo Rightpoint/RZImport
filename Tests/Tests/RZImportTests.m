@@ -381,6 +381,22 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
     XCTAssertEqualObjects(guysJob.companyName, companyName, @"Failed to import Company Name");
     XCTAssertEqualObjects(guysJob.title, title, @"Failed to import title");
 }
+    
+- (void)test_overriddenPropertyNames
+{
+    NSError      *err = nil;
+    NSDictionary *d   = [self loadTestJson:@"test_person" error:&err];
+    XCTAssertNil( err, @"Error reading json: %@", err );
+    XCTAssertNotNil( d, @"Could not deserialize json" );
+
+    PersonCustomProps *johndoe = nil;
+    XCTAssertNoThrow( johndoe = [PersonCustomProps rzi_objectFromDictionary:d], @"Import should not throw exception" );
+    XCTAssertNotNil( johndoe, @"Failed to create object" );
+    XCTAssert( [johndoe.lastUpdated isKindOfClass:[NSDate class]], @"Failed to import last updated" ); // accuracy of date import verified in another test
+    XCTAssertEqualObjects( johndoe.ID, @12345, @"Failed to import ID" );
+    XCTAssertEqualObjects( johndoe.firstName, @"John", @"Failed to import first name" );
+    XCTAssertEqualObjects( johndoe.lastName, @"Doe", @"Failed to import last name" );
+}
 
 - (BOOL)test_oneBool:(id)value
 {

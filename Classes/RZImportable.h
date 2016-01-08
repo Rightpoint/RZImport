@@ -37,6 +37,15 @@
 @optional
 
 /**
+ * Implement this method to completely override the property names used for importing instances of this class.
+ * By default, RZImport uses ObjC runtime to determine property names, however the usage of this override
+ * may be handy in situations where that approach does not work (e.g. Swift + NSManagedObject).
+ *
+ *  @return The property names to be used for importing.
+ */
++ (NSArray *)rzi_propertyNames;
+
+/**
  *  Implement to provide dictionary of custom mappings from dictionary keys/keypaths to properties.
  *
  *  @note Keypaths are supported in custom mappings for access to values within nested dictionaries.

@@ -408,7 +408,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
         [self rzi_importValuesFromNestedDict:value withKeyPathPrefix:key mappings:mappings ignoredKeys:ignoredKeys];
     }
     else {
-        [[self class] rzi_logUnknownKeyWarningForKey:key];
+        [self rzi_foundUnhandledValue:value forKey:key];
     }
 }
 
@@ -421,6 +421,11 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
         NSString *keyPath = [NSString stringWithFormat:@"%@.%@", keypathPrefix, key];
         [self rzi_importValue:value forKey:keyPath withMappings:mappings ignoredKeys:ignoredKeys];
     }];
+}
+
+- (void)rzi_foundUnhandledValue:(id)value forKey:(NSString *)key
+{
+    [[self class] rzi_logUnknownKeyWarningForKey:key];
 }
 
 + (void)rzi_performBlockAtomicallyAndWait:(BOOL)wait block:(void(^)())block
@@ -542,25 +547,38 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
 + (NSDictionary *)rzi_normalizedPropertyMappings
 {
     NSMutableDictionary *mappings = [NSMutableDictionary dictionary];
-    
-    Class currentClass = self;
-    while ( currentClass != Nil ) {
-        
-        NSString *className = NSStringFromClass(currentClass);
-        
-        if ( ![[self s_rzi_ignoredClasses] containsObject:className] ) {
-            NSArray *classPropNames = rzi_propertyNamesForClass(currentClass);
-            [classPropNames enumerateObjectsUsingBlock:^(NSString *classPropName, NSUInteger idx, BOOL *stop) {
-                RZIPropertyInfo *propInfo = [self rzi_cachedPropertyInfoForPropertyName:classPropName];
-                if ( propInfo != nil ) {
-                    [mappings setObject:propInfo forKey:rzi_normalizedKey(classPropName)];
-                }
-            }];
-        }
-        
-        currentClass = class_getSuperclass( currentClass );
+    NSArray *propertyNames = [NSMutableArray array];
+
+    if ( [self respondsToSelector:@selector(rzi_propertyNames)] ) {
+        RZILogDebug(@"Using property name overrides for class: %@", [self class]);
+        Class <RZImportable> thisClass = self;
+        propertyNames = [thisClass rzi_propertyNames];
     }
-    
+    else {
+        Class currentClass = self;
+        NSMutableArray *names = [NSMutableArray array];
+        while ( currentClass != Nil ) {
+
+            NSString *className = NSStringFromClass(currentClass);
+
+            if ( ![[self s_rzi_ignoredClasses] containsObject:className] ) {
+                NSArray *classPropNames = rzi_propertyNamesForClass(currentClass);
+                [names addObjectsFromArray:classPropNames];
+            }
+
+            currentClass = class_getSuperclass( currentClass );
+        }
+
+        propertyNames = [names copy];
+    }
+
+    [propertyNames enumerateObjectsUsingBlock:^(NSString *classPropName, NSUInteger idx, BOOL *stop) {
+        RZIPropertyInfo *propInfo = [self rzi_cachedPropertyInfoForPropertyName:classPropName];
+        if ( propInfo != nil ) {
+            [mappings setObject:propInfo forKey:rzi_normalizedKey(classPropName)];
+        }
+    }];
+
     return [NSDictionary dictionaryWithDictionary:mappings];
 }
 
