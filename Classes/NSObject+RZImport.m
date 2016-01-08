@@ -28,8 +28,7 @@
 
 #import "NSObject+RZImport.h"
 #import "NSObject+RZImport_Private.h"
-#import <objc/runtime.h>
-
+@import ObjectiveC.runtime;
 
 static NSString* const kRZImportISO8601DateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 
