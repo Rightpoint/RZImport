@@ -50,6 +50,7 @@ typedef NS_ENUM(NSInteger, RZImportDataType)
     RZImportDataTypeNSDictionary,
     RZImportDataTypeNSArray,
     RZImportDataTypeNSSet,
+    RZImportDataTypeBoolean,
     RZImportDataTypeOtherObject
 };
 

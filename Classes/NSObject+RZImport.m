@@ -100,7 +100,11 @@ static RZIPropertyInfo *rzi_propertyInfoForProperty( NSString *propertyName, Cla
             }
         }
             break;
-            
+
+        case _C_BOOL:
+            propertyInfo.dataType = RZImportDataTypeBoolean;
+            break;
+
             // Primitive type
         case _C_CHR:
         case _C_UCHR:
@@ -114,7 +118,6 @@ static RZIPropertyInfo *rzi_propertyInfoForProperty( NSString *propertyName, Cla
         case _C_ULNG_LNG:
         case _C_FLT:
         case _C_DBL:
-        case _C_BOOL:
             propertyInfo.dataType = RZImportDataTypePrimitive;
             break;
             
@@ -653,6 +656,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                 switch (propDescriptor.dataType) {
                         
                     case RZImportDataTypeNSNumber:
+                    case RZImportDataTypeBoolean:
                     case RZImportDataTypePrimitive:
                         convertedValue = value;
                         break;
@@ -690,6 +694,10 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                         convertedValue = value;
                         break;
                         
+                    case RZImportDataTypeBoolean:
+                        convertedValue = @([value boolValue]);
+                        break;
+
                     case RZImportDataTypeNSDate: {
                         // Check for a date format from the object. If not provided, use ISO-8601.
                         __block NSDate *date = nil;
@@ -714,7 +722,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                         
                     }
                         break;
-                        
+
                     default:
                         break;
                 }
