@@ -57,3 +57,20 @@
 
 
 @end
+
+@implementation PersonCustomProps
+
++ (NSArray *)rzi_propertyNames
+{
+    return @[
+             @"ID",
+             @"lastUpdated",
+             @"firstName",
+             @"lastName",
+             @"colorPref",
+             @"address",
+             @"job"
+             ];
+}
+
+@end
