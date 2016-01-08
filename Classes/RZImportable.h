@@ -27,6 +27,7 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
+#import "RZCompatibility.h"
 
 /**
  *  Optional protocol for model objects to import in order to customize
@@ -43,7 +44,7 @@
  *
  *  @return A dictionary containing mappings from dictionary keys/keypaths to property names.
  */
-+ (NSDictionary *)rzi_customMappings;
++ (RZNonnull NSDictionary *)rzi_customMappings;
 
 /**
  *  Implement to ignore a specific set of keys or keypaths.
@@ -53,7 +54,7 @@
  *
  *  @return An array of NSString objects representing keys to ignore during import.
  */
-+ (NSArray *)rzi_ignoredKeys;
++ (RZNonnull NSArray *)rzi_ignoredKeys;
 
 /**
  *  Implement to provide a list of keys in dictionaries being imported whose values should be imported as nested objects.
@@ -62,7 +63,7 @@
  *
  *  @return An array of NSString objects representing keys whose values should be imported as other model objects.
  */
-+ (NSArray *)rzi_nestedObjectKeys;
++ (RZNonnull NSArray *)rzi_nestedObjectKeys;
 
 /**
  *  Implement to provide the order in which keys should be imported.
@@ -71,7 +72,7 @@
  *
  *  @return An array of NSString objects representing keys in the order in which they should be imported.
  */
-+ (NSArray *)rzi_orderedKeys;
++ (RZNonnull NSArray *)rzi_orderedKeys;
 
 /**
  *  Implement to provide a custom date format string for a particular key or keys.
@@ -81,7 +82,7 @@
  *
  *  @return A date format to use for importing this key, otherwise nil to use the default (ISO-8601).
  */
-+ (NSString *)rzi_dateFormatForKey:(NSString *)key;
++ (RZNonnull NSString *)rzi_dateFormatForKey:(RZNonnull NSString *)key;
 
 /**
  *  Implement to return an existing object for the provided dictionary representation. 
@@ -91,7 +92,7 @@
  *
  *  @return An existing object instance represented by the dict, or nil if one does not exist.
  */
-+ (id)rzi_existingObjectForDict:(NSDictionary *)dict;
++ (RZNonnull instancetype)rzi_existingObjectForDict:(RZNonnull NSDictionary *)dict;
 
 /**
  *  Implement to optionally prevent import for particular key/value pairs.
@@ -106,6 +107,6 @@
  *  @return YES if RZImport should proceed with automatic import for the key/value pair
  *          NO if the key/value pair should not be imported or will be handled within this method.
  */
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key;
+- (BOOL)rzi_shouldImportValue:(RZNonnull id)value forKey:(RZNonnull NSString *)key;
 
 @end
