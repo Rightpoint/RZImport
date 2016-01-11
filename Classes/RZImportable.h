@@ -44,7 +44,7 @@
  *
  *  @return The property names to be used for importing.
  */
-+ (NSArray *)rzi_propertyNames;
++ (RZNonnull NSArray *)rzi_propertyNames;
 
 /**
  *  Implement to provide dictionary of custom mappings from dictionary keys/keypaths to properties.
