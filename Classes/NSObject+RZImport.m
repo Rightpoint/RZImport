@@ -743,7 +743,12 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
                     convertedValue = [propDescriptor.propertyClass rzi_objectFromDictionary:value];
                 }
             }
-            
+
+            // If the value can fall through without conversion, allow it.
+            if ( [value isKindOfClass:propDescriptor.propertyClass] && convertedValue == nil ) {
+                convertedValue = value;
+            }
+
             if ( convertedValue ) {
                 NSObject *currentValue = [self valueForKey:propDescriptor.propertyName];
                 if ( [currentValue isEqual:convertedValue] == NO ) {

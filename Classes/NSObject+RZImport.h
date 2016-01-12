@@ -86,7 +86,7 @@
  *
  *  @return An object instance initialized with the values in the dictionary.
  */
-+ (RZNonnull instancetype)rzi_objectFromDictionary:(RZNonnull NSDictionary *)dict withMappings:(RZNullable NSDictionary *)mappings;
++ (RZNonnull instancetype)rzi_objectFromDictionary:(RZNonnull NSDictionary *)dict withMappings:(RZNullable RZIKeyMap *)mappings;
 
 /**
  *  Return an array of instances of the calling class initialized with the
@@ -121,7 +121,7 @@
  *
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
-+ (RZNonnull NSArray *)rzi_objectsFromArray:(RZNonnull NSArray *)array withMappings:(RZNullable NSDictionary *)mappings;
++ (RZNonnull NSArray *)rzi_objectsFromArray:(RZNonnull NSArray *)array withMappings:(RZNullable RZIKeyMap *)mappings;
  
 /**
  *  Import the values from the provided dictionary into this object.
@@ -141,7 +141,7 @@
  *                  use in the import. These will override/supplement implicit mappings and mappings
  *                  provided by @p RZImportable.
  */
-- (void)rzi_importValuesFromDict:(RZNonnull NSDictionary *)dict withMappings:(RZNullable NSDictionary *)mappings;
+- (void)rzi_importValuesFromDict:(RZNonnull NSDictionary *)dict withMappings:(RZNullable RZIKeyMap *)mappings;
 
 @end
 
