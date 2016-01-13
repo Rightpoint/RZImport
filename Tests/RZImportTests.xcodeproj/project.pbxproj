@@ -60,6 +60,7 @@
 		9AF9EF111937946A00F659E2 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		9AF9EF121937946A00F659E2 /* RZImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZImportTests.m; sourceTree = "<group>"; };
 		9AF9EF23193794D000F659E2 /* RZImportTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RZImportTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABE3AEF21C40326100334B31 /* RZCompatibility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZCompatibility.h; sourceTree = "<group>"; };
 		F207C52719356F98005CDA77 /* NSObject+RZImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RZImport.h"; sourceTree = "<group>"; };
 		F207C52819356F98005CDA77 /* NSObject+RZImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RZImport.m"; sourceTree = "<group>"; };
 		F207C52919356F98005CDA77 /* RZImportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZImportable.h; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 				F207C52719356F98005CDA77 /* NSObject+RZImport.h */,
 				F207C52819356F98005CDA77 /* NSObject+RZImport.m */,
 				F207C52919356F98005CDA77 /* RZImportable.h */,
+				ABE3AEF21C40326100334B31 /* RZCompatibility.h */,
 			);
 			name = Classes;
 			path = ../Classes;
