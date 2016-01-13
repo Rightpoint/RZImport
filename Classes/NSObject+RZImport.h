@@ -69,7 +69,7 @@
  *
  *  @return An object instance initialized with the values in the dictionary.
  */
-+ (RZNonnull instancetype)rzi_objectFromDictionary:(RZNonnull NSDictionary *)dict;
++ (RZNonnull instancetype)rzi_objectFromDictionary:(RZNonnull RZIStringDict *)dict;
 
 /**
  *  Return an instance of the calling class initialized with the values in the dictionary,
@@ -86,7 +86,7 @@
  *
  *  @return An object instance initialized with the values in the dictionary.
  */
-+ (RZNonnull instancetype)rzi_objectFromDictionary:(RZNonnull NSDictionary *)dict withMappings:(RZNullable RZIKeyMap *)mappings;
++ (RZNonnull instancetype)rzi_objectFromDictionary:(RZNonnull RZIStringDict *)dict withMappings:(RZNullable RZIKeyMap *)mappings;
 
 /**
  *  Return an array of instances of the calling class initialized with the
@@ -102,7 +102,7 @@
  *
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
-+ (RZNonnull NSArray *)rzi_objectsFromArray:(RZNonnull NSArray *)array;
++ (RZNonnull NSArray *)rzi_objectsFromArray:(RZNonnull RZIArrayOfStringDict *)array;
 
 /**
  *  Return an array of instances of the calling class initialized with the
@@ -121,7 +121,7 @@
  *
  *  @return An array of objects initiailized with the respective values in each dictionary in the array.
  */
-+ (RZNonnull NSArray *)rzi_objectsFromArray:(RZNonnull NSArray *)array withMappings:(RZNullable RZIKeyMap *)mappings;
++ (RZNonnull NSArray *)rzi_objectsFromArray:(RZNonnull RZIArrayOfStringDict *)array withMappings:(RZNullable RZIKeyMap *)mappings;
  
 /**
  *  Import the values from the provided dictionary into this object.
@@ -130,7 +130,7 @@
  *
  *  @param dict Dictionary of values to import.
  */
-- (void)rzi_importValuesFromDict:(RZNonnull NSDictionary *)dict;
+- (void)rzi_importValuesFromDict:(RZNonnull RZIStringDict *)dict;
 
 /**
  *  Import the values from the provided dictionary into this object with optional extra
@@ -141,7 +141,7 @@
  *                  use in the import. These will override/supplement implicit mappings and mappings
  *                  provided by @p RZImportable.
  */
-- (void)rzi_importValuesFromDict:(RZNonnull NSDictionary *)dict withMappings:(RZNullable RZIKeyMap *)mappings;
+- (void)rzi_importValuesFromDict:(RZNonnull RZIStringDict *)dict withMappings:(RZNullable RZIKeyMap *)mappings;
 
 @end
 

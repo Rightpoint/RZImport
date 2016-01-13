@@ -57,4 +57,6 @@
 
 
 #define RZIKeyMap RZGeneric(NSDictionary, NSString *, NSString *)
+#define RZIStringDict RZGeneric(NSDictionary, NSString *, NSObject *)
+#define RZIArrayOfStringDict RZGeneric(NSArray, RZIStringDict *)
 #define RZIStringArray RZGeneric(NSArray, NSString *)
