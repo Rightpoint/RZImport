@@ -44,7 +44,7 @@
  *
  *  @return The property names to be used for importing.
  */
-+ (RZNonnull NSArray *)rzi_propertyNames;
++ (RZNonnull RZIStringArray *)rzi_propertyNames;
 
 /**
  *  Implement to provide dictionary of custom mappings from dictionary keys/keypaths to properties.
@@ -53,7 +53,7 @@
  *
  *  @return A dictionary containing mappings from dictionary keys/keypaths to property names.
  */
-+ (RZNonnull NSDictionary *)rzi_customMappings;
++ (RZNonnull RZIKeyMap *)rzi_customMappings;
 
 /**
  *  Implement to ignore a specific set of keys or keypaths.
@@ -63,7 +63,7 @@
  *
  *  @return An array of NSString objects representing keys to ignore during import.
  */
-+ (RZNonnull NSArray *)rzi_ignoredKeys;
++ (RZNonnull RZIStringArray *)rzi_ignoredKeys;
 
 /**
  *  Implement to provide a list of keys in dictionaries being imported whose values should be imported as nested objects.
@@ -72,7 +72,7 @@
  *
  *  @return An array of NSString objects representing keys whose values should be imported as other model objects.
  */
-+ (RZNonnull NSArray *)rzi_nestedObjectKeys;
++ (RZNonnull RZIStringArray *)rzi_nestedObjectKeys;
 
 /**
  *  Implement to provide the order in which keys should be imported.
@@ -81,7 +81,7 @@
  *
  *  @return An array of NSString objects representing keys in the order in which they should be imported.
  */
-+ (RZNonnull NSArray *)rzi_orderedKeys;
++ (RZNonnull RZIStringArray *)rzi_orderedKeys;
 
 /**
  *  Implement to provide a custom date format string for a particular key or keys.

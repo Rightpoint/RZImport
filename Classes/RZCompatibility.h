@@ -1,6 +1,6 @@
 //
 //  RZCompatibility.h
-//  RZVinyl
+//  RZImport
 //
 //  Created by John Watson on 8/20/15.
 //
@@ -42,3 +42,21 @@
 #   define RZCNonnull
 #   define RZCNullable
 #endif
+
+//
+// Lightweight generics compatibility.
+//
+
+#if __has_feature(objc_generics)
+#   define RZGeneric(class, ...) class<__VA_ARGS__>
+#   define RZGenericType(type) type
+#else
+#   define RZGeneric(class, ...) class
+#   define RZGenericType(type) id
+#endif
+
+
+#define RZIKeyMap RZGeneric(NSDictionary, NSString *, NSString *)
+#define RZIStringDict RZGeneric(NSDictionary, NSString *, NSObject *)
+#define RZIArrayOfStringDict RZGeneric(NSArray, RZIStringDict *)
+#define RZIStringArray RZGeneric(NSArray, NSString *)
