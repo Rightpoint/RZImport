@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = "RZImport"
-  s.version               = "3.0.0"
+  s.version               = "3.0.1"
   s.summary               = "Automatic model object deserialization from NSDictionary"
 
   s.description           = <<-DESC
