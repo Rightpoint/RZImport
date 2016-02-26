@@ -546,7 +546,7 @@ RZImportDataType rzi_dataTypeFromClass(Class objClass)
 + (NSDictionary *)rzi_normalizedPropertyMappings
 {
     NSMutableDictionary *mappings = [NSMutableDictionary dictionary];
-    NSArray *propertyNames = [NSMutableArray array];
+    NSArray *propertyNames = nil;
 
     if ( [self respondsToSelector:@selector(rzi_propertyNames)] ) {
         RZILogDebug(@"Using property name overrides for class: %@", [self class]);

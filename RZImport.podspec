@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = "RZImport"
-  s.version               = "3.0.0"
+  s.version               = "3.0.2"
   s.summary               = "Automatic model object deserialization from NSDictionary"
 
   s.description           = <<-DESC
@@ -25,8 +25,8 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.8"
   
   s.source                = { :git => "https://github.com/Raizlabs/RZImport.git", :tag => s.version.to_s }
-  s.source_files          = "Classes/*.{h,m}", "Classes/Private/*.{h,m}"
-  s.private_header_files  = "Classes/Private/*.h"
+  s.source_files          = "RZImport/RZImport/Classes/*.{h,m}", "RZImport/RZImport/Classes/Private/*.{h,m}"
+  s.private_header_files  = "RZImport/RZImport/Classes/Private/*.h"
   s.framework             = "Foundation"
   s.requires_arc          = true
 end
