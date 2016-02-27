@@ -18,14 +18,15 @@ Pod::Spec.new do |s|
                           
   s.homepage              = "https://github.com/raizlabs/RZImport"
   s.license               = { :type => "MIT", :file => "LICENSE" }
-  s.author                = { "Nick Donaldson" => "nick.donaldson@raizlabs.com" }
+  s.author                = { "Alex Rouse" => "alex.rouse@raizlabs.com" }
   s.social_media_url      = "http://twitter.com/raizlabs"
   
   s.ios.deployment_target = "6.1"
   s.osx.deployment_target = "10.8"
   
   s.source                = { :git => "https://github.com/Raizlabs/RZImport.git", :tag => s.version.to_s }
-  s.source_files          = "Classes/*.{h,m}", "Classes/Private/*.{h,m}"
+  s.source_files          = "Classes/**/*.{h,m}"
+  s.public_header_files   = "Classes/*.h"
   s.private_header_files  = "Classes/Private/*.h"
   s.framework             = "Foundation"
   s.requires_arc          = true
