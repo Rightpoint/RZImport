@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		C241BBCC1C81229000F59833 /* NSObject+RZImport.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BBC61C81229000F59833 /* NSObject+RZImport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C241BBCD1C81229000F59833 /* NSObject+RZImport.m in Sources */ = {isa = PBXBuildFile; fileRef = C241BBC71C81229000F59833 /* NSObject+RZImport.m */; };
-		C241BBCE1C81229000F59833 /* NSObject+RZImport_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BBC91C81229000F59833 /* NSObject+RZImport_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C241BBCE1C81229000F59833 /* NSObject+RZImport_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BBC91C81229000F59833 /* NSObject+RZImport_Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C241BBCF1C81229000F59833 /* RZCompatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BBCA1C81229000F59833 /* RZCompatibility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C241BBD01C81229000F59833 /* RZImportable.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BBCB1C81229000F59833 /* RZImportable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C241BBD21C81232000F59833 /* RZImport.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BBD11C81232000F59833 /* RZImport.h */; settings = {ATTRIBUTES = (Public, ); }; };
